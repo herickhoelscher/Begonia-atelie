@@ -331,9 +331,48 @@ async function consultar(referencia) {
 function agendarProxima(referencia) {
   const espera = ESPERAS[Math.min(tentativa, ESPERAS.length - 1)];
   tentativa += 1;
+
+  // Passados uns dois minutos sem confirmação, avisamos em vez de deixar a
+  // pessoa olhando uma bolinha piscando. O pagamento pode ter dado certo e o
+  // aviso do banco estar atrasado — dizer isso é melhor que o silêncio.
+  if (tentativa === 20) mostrarDemora(referencia);
+
   // Depois de uns 20 minutos de aba aberta, paramos de consultar.
-  if (tentativa > 120) return;
+  if (tentativa > 120) return mostrarDesistencia(referencia);
+
   setTimeout(() => consultar(referencia), espera * 1000);
+}
+
+/* Aviso discreto, encaixado na tela que já está aberta. */
+function mostrarDemora(referencia) {
+  if (document.getElementById("aviso-demora")) return;
+  const alvo = raiz().querySelector("[data-aguardando-cartao], .qr-moldura")
+    ? raiz().firstElementChild
+    : raiz();
+  const bloco = document.createElement("p");
+  bloco.id = "aviso-demora";
+  bloco.className =
+    "flex items-start gap-3 max-w-lg mx-auto mt-8 p-4 rounded-md bg-surface-container text-body-md text-on-surface-variant text-left";
+  bloco.innerHTML = `
+    ${icone("relogio", "w-5 h-5 shrink-0 mt-0.5 text-secondary")}
+    <span>Já pagou? A confirmação do banco às vezes demora alguns minutos. Pode fechar
+    esta página: assim que cair, mandamos o comprovante no seu e-mail. Guarde a referência
+    <strong class="text-on-surface">${referencia}</strong>.</span>`;
+  alvo.appendChild(bloco);
+}
+
+/* Depois de muito tempo, para de consultar e oferece o caminho humano. */
+function mostrarDesistencia(referencia) {
+  const bloco = document.getElementById("aviso-demora");
+  if (!bloco) return;
+  bloco.innerHTML = `
+    ${icone("whatsapp", "w-5 h-5 shrink-0 mt-0.5 text-secondary")}
+    <span>Paramos de conferir por aqui para não deixar a página girando à toa. Se você pagou
+    e não recebeu nada, chame a gente no WhatsApp com a referência
+    <strong class="text-on-surface">${referencia}</strong> —
+    <a class="js-whatsapp text-primary underline underline-offset-4" href="#" target="_blank" rel="noopener"
+       data-mensagem="Olá! Paguei o pedido ${referencia} e não recebi a confirmação.">falar agora</a>.</span>`;
+  ligarLinksDeContato();
 }
 
 document.addEventListener("DOMContentLoaded", () => {

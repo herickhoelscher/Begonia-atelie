@@ -116,7 +116,7 @@ function slugDaUrl(url) {
    Um link só, que abre Pix e crédito. Como não dá para separar, as duas
    funções da interface caem aqui.
    ------------------------------------------------------------------------- */
-async function criarPagamentoUnico({ referencia, pedido, cliente, urlSite }) {
+async function criarPagamentoUnico({ referencia, pedido, cliente, entrega, urlSite }) {
   // Preços já com o desconto embutido: o que é cobrado tem de ser exatamente
   // o que a tela mostrou.
   const itens = itensParaCobranca(pedido).map((i) => ({
@@ -141,6 +141,21 @@ async function criarPagamentoUnico({ referencia, pedido, cliente, urlSite }) {
       email: cliente.email,
       phone_number: cliente.whatsapp,
     },
+    // Endereço é campo opcional na API deles, mas gateway usa endereço para
+    // antifraude — mandar aumenta a chance de o cartão passar.
+    ...(entrega
+      ? {
+          address: {
+            postal_code: entrega.cep,
+            street: entrega.rua,
+            number: entrega.numero,
+            complement: entrega.complemento || undefined,
+            neighborhood: entrega.bairro,
+            city: entrega.cidade,
+            state: entrega.estado,
+          },
+        }
+      : {}),
   });
 
   const url = resposta && resposta.url;

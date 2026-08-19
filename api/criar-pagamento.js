@@ -124,7 +124,7 @@ module.exports = rota(["POST"], async (req, res) => {
     // Gateway de link único (InfinitePay): uma chamada só, e o cliente
     // escolhe Pix ou cartão na página dele.
     if (capacidades.escolhaNoGateway && g.criarPagamentoUnico) {
-      resultado = await g.criarPagamentoUnico({ referencia, pedido, cliente, urlSite });
+      resultado = await g.criarPagamentoUnico({ referencia, pedido, cliente, entrega, urlSite });
     } else if (metodo === "pix") {
       resultado = await g.criarPagamentoPix({ referencia, pedido, cliente, urlSite });
     } else {
