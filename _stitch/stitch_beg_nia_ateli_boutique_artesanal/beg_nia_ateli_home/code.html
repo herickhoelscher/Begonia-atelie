@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Begônia Ateliê - Feito à mão, com calma e carinho</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&amp;family=Playfair+Display:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#efeeeb",
+                        "primary": "#a03f28",
+                        "surface-container-low": "#f4f3f1",
+                        "secondary-fixed": "#dde8b2",
+                        "error-container": "#ffdad6",
+                        "inverse-primary": "#ffb4a3",
+                        "tertiary-container": "#9b6b14",
+                        "on-primary-container": "#120100",
+                        "tertiary": "#7d5400",
+                        "on-secondary-container": "#5f693d",
+                        "on-primary-fixed-variant": "#812914",
+                        "on-tertiary-fixed-variant": "#614000",
+                        "secondary-container": "#dde8b2",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#ffb4a3",
+                        "primary-fixed": "#ffdad2",
+                        "surface-container-high": "#e9e8e5",
+                        "tertiary-fixed": "#ffddb0",
+                        "surface": "#faf9f6",
+                        "secondary": "#596338",
+                        "secondary-fixed-dim": "#c1cc98",
+                        "on-tertiary-container": "#fffbff",
+                        "on-background": "#1a1c1a",
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#faf9f6",
+                        "on-secondary": "#ffffff",
+                        "on-surface": "#1a1c1a",
+                        "surface-tint": "#a03f29",
+                        "surface-dim": "#dbdad7",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e3e2e0",
+                        "inverse-surface": "#2f312f",
+                        "on-tertiary-fixed": "#281800",
+                        "error": "#ba1a1a",
+                        "primary-container": "#c0573e",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#8a726c",
+                        "on-error": "#ffffff",
+                        "on-surface-variant": "#56423d",
+                        "background": "#faf9f6",
+                        "tertiary-fixed-dim": "#f7bc60",
+                        "on-secondary-fixed-variant": "#424b23",
+                        "surface-container-highest": "#e3e2e0",
+                        "outline-variant": "#ddc0ba",
+                        "on-secondary-fixed": "#171e00",
+                        "on-primary-fixed": "#3d0700",
+                        "inverse-on-surface": "#f2f1ee"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1200px",
+                        "margin-desktop": "64px",
+                        "gutter": "24px",
+                        "unit": "8px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Playfair Display"],
+                        "label-sm": ["Montserrat"],
+                        "headline-lg": ["Playfair Display"],
+                        "body-md": ["Montserrat"],
+                        "body-lg": ["Montserrat"],
+                        "headline-xl": ["Playfair Display"],
+                        "headline-lg-mobile": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-xl": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.3", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .macrame-stitch {
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='20' viewBox='0 0 40 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10c10 0 10 10 20 10s10-10 20-10' stroke='%23DCAE96' stroke-width='1' fill='none' opacity='0.4'/%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+            height: 20px;
+            width: 100%;
+        }
+        .soft-shadow {
+            box-shadow: 0 8px 30px rgba(93, 64, 55, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md antialiased">
+<!-- TopNavBar -->
+<header class="sticky top-0 z-50 bg-surface dark:bg-surface w-full shadow-sm transition-shadow duration-300" id="main-header">
+<div class="flex flex-col w-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto py-unit">
+<div class="flex items-center justify-between py-4">
+<a class="text-headline-md font-headline-md text-primary dark:text-primary-fixed-dim" href="#">
+                    Begônia Ateliê
+                </a>
+<nav class="hidden md:flex gap-8 items-center font-label-sm text-label-sm">
+<a class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary dark:border-primary-fixed-dim pb-1 hover:opacity-80 transition-opacity duration-300 active:scale-95 transition-transform" href="#">Início</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:opacity-80 transition-opacity duration-300 active:scale-95 transition-transform" href="#">Loja</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:opacity-80 transition-opacity duration-300 active:scale-95 transition-transform" href="#">Sob Encomenda</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:opacity-80 transition-opacity duration-300 active:scale-95 transition-transform" href="#">Sobre</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:opacity-80 transition-opacity duration-300 active:scale-95 transition-transform" href="#">Contato</a>
+</nav>
+<div class="flex items-center gap-4 text-primary dark:text-primary-fixed-dim">
+<button class="hover:opacity-80 transition-opacity duration-300 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="hover:opacity-80 transition-opacity duration-300 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">shopping_cart</span>
+</button>
+<button class="md:hidden hover:opacity-80 transition-opacity duration-300 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</div>
+<!-- TopAppBar (Categories) - Desktop Only -->
+<div class="hidden md:flex bg-surface-container-low dark:bg-surface-container-low justify-center items-center gap-gutter py-2 w-full border-t border-outline-variant/40 font-label-sm text-label-sm text-secondary dark:text-secondary-fixed-dim transition-colors duration-200">
+<span class="font-bold text-on-secondary-container dark:text-on-secondary-fixed flex items-center gap-2">
+                Categorias
+            </span>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim" href="#">Cardigans</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim" href="#">Decoração</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim" href="#">Suportes de Planta</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim" href="#">Pronta Entrega</a>
+</div>
+</header>
+<main>
+<!-- Hero Section -->
+<section class="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<div class="bg-cover bg-center w-full h-full object-cover" data-alt="A brightly lit, sun-drenched room featuring a beautiful, handmade granny square cardigan draped over a vintage wooden chair. Warm sunlight streams through a large window, highlighting the rich textures of the yarn and creating soft, ambient shadows. The overall aesthetic is cozy, artisanal, and grounded in a warm white and earthy terracotta palette." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBfyn2ooMSL4O2j6NtYG7cDZK0Oolg_iWMobucaRk8rmzNaBr8MuP4QvI8Tih06QQcviYfshnCiAt4XkYFWHglWhbnIYu0zMin-rbcPptBtFpR0BMLRBv4DdfEjaQEAGvvbY_iIYZWwL76iGYsXimX6diAeyhqceBaMwEeqQYvGcDY7HbH7a-imwTdY_L3vVGfB3-Pm0vRptWjhv73omqyrzpHefMUW4nQF0iho5dGMmrUYw3SEKJqQ')"></div>
+<div class="absolute inset-0 bg-surface/40 backdrop-blur-[2px]"></div>
+</div>
+<div class="relative z-10 text-center px-margin-mobile md:px-margin-desktop max-w-3xl mx-auto flex flex-col items-center gap-6">
+<h1 class="font-headline-xl text-headline-xl text-on-surface">Feito à mão, com calma e carinho</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">Peças artesanais que contam histórias e trazem aconchego para você e seu lar.</p>
+<button class="mt-4 px-8 py-4 bg-primary-container text-white rounded-full font-label-sm text-label-sm uppercase tracking-wider hover:bg-primary transition-colors duration-300 shadow-md flex items-center gap-2">
+                    Ver coleção
+                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- Stitch Divider -->
+<div class="macrame-stitch my-12 opacity-50"></div>
+<!-- Content Placeholder to satisfy effort level -->
+<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto py-16">
+<h2 class="font-headline-lg text-headline-lg text-center mb-12 text-primary">Nossas Criações</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+<div class="aspect-square bg-surface-container rounded-lg soft-shadow overflow-hidden group">
+<div class="bg-cover bg-center w-full h-full group-hover:scale-105 transition-transform duration-500" data-alt="A close-up shot of a beautifully textured macramé plant hanger holding a lush green pothos plant. The hanger is made of natural, undyed cotton cord, set against a warm white wall. Soft, diffused lighting enhances the cozy, tactile minimalism aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuALdlOFu1qnylBy00A-TyhM1T1UJ5K6ZXUfF5q-FN8qROO1d7CsuqGukxJGn3T-7LjyRpVeC63LW0bT1oz93mLHTtsqpWYESZwctGUuPuiyxiJF6WsfjDZ-kw60QPawbE5Dvz7ptOG5nM6Byiq0-5FrAQsD4Mv8ozAq4ug0eHrWlUZcZKra93rlpYVCfBfR0R3IleCMca8CCcS7ZM2P6_yJJXAuanMgJv1q0ISMogdQDLitrF9R6tUn')"></div>
+</div>
+<div class="aspect-square bg-surface-container rounded-lg soft-shadow overflow-hidden group">
+<div class="bg-cover bg-center w-full h-full group-hover:scale-105 transition-transform duration-500" data-alt="A folded stack of chunky knit cardigans in earthy tones like mustard, terracotta, and olive green, resting on a rustic wooden table. The lighting is soft and maternal, highlighting the organic texture of the wool. The scene exudes warmth and slow-made craftsmanship." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA4uiZbGBOSu_yXqX02D8wtPqRqh4btYCbgKb79EGwCOBRJnHxFnNqAiR3c5QLzBbp4RmFbh18kvYt62zmUWe2n2gi3kxt_CZrR4gks5R46f0q4hOmpTvakkioU6RIgAeEXtdqvNScUixJq22I6aDO2LCdRAEHTklJR7AJ80PLTWDTnJ2lvnWQkfrugWCCGe41u30_dtz9QBf9QHJPjGsnPGttERLyl4vCHDvu85oRKnRIYgGDxkcvw')"></div>
+</div>
+<div class="aspect-square bg-surface-container rounded-lg soft-shadow overflow-hidden group">
+<div class="bg-cover bg-center w-full h-full group-hover:scale-105 transition-transform duration-500" data-alt="A cozy living room corner featuring a handwoven decorative pillow with textured fringe details, placed on a light-colored linen sofa. The room is softly lit with warm, inviting light, reflecting a modern craft style with natural materials." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBdFMo2xmK5pIUrkH9k1wJzqR6Hft4LKytJ9dj7emDVfEW69p1JxPRTFAMF-HzRzeC2kjsBIledtOGUo_1FmrbbXL7nZ5RFsqg9aOrWAKfSTbUscpop1CWetFp020xotW6uLaf0Dyc0j2gyCr5qf4236SocUJ-HYtQ-puNcxgz8urY7LESu53cetiRxXwRwjPd_Guwr0Zq00R-fZFFJVA0JO5QBjKJ5z5BpLdjyJOlITCXB5IANtZij')"></div>
+</div>
+<div class="aspect-square bg-surface-container rounded-lg soft-shadow overflow-hidden group">
+<div class="bg-cover bg-center w-full h-full group-hover:scale-105 transition-transform duration-500" data-alt="A collection of handmade crochet baskets in dusty rose and warm beige, used for organizing small items on a clean white shelf. The composition is minimal and tactile, emphasizing the intentionality of artisanal slow-living." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA8Hn23z7I-Adndc53WuNPjZTR4LOZrc0upG3BzIdeB5qj26mU1BHGGH_crXPxe00Hf82i6IO2VaN0Fs_DUp8JCaEjbI_6-wvz1gsgiR9wKeFwODhS5iJtL3FZ3YhGlIN7kl0qyTzdiUQWL2Pg50WLwjKokyrOaZoQ66QpGrFpghLJmGpiu8nNszbxwlWPhSQUVWj2z233AMg-f6cOva3Z293sRfIlQowswKAd01Dw1xQPICerbuvYZ')"></div>
+</div>
+</div>
+</section>
+<section class="bg-surface-container-low py-20 px-margin-mobile md:px-margin-desktop text-center">
+<h2 class="font-headline-lg text-headline-lg mb-6 text-primary">Sob Encomenda</h2>
+<p class="font-body-md text-on-surface-variant max-w-2xl mx-auto mb-8">Sua peça, suas cores. Escolha os fios e o tamanho ideal para o seu espaço.</p>
+<button class="px-8 py-4 bg-transparent border-2 border-secondary text-secondary rounded-full font-label-sm text-label-sm uppercase tracking-wider hover:bg-secondary hover:text-on-secondary transition-colors duration-300">
+                Encomendar peça personalizada
+            </button>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container dark:bg-surface-container-high w-full rounded-t-xl mt-20">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-mobile md:px-margin-desktop py-12 max-w-container-max mx-auto">
+<div class="col-span-1 md:col-span-1">
+<div class="text-headline-md font-headline-md text-primary dark:text-primary-fixed-dim mb-4">
+                    Begônia Ateliê
+                </div>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant">
+                    Begônia Ateliê © 2024. Feito com amor à mão.
+                </p>
+</div>
+<div class="col-span-1 md:col-span-3 flex flex-col md:flex-row gap-8 md:gap-16 md:justify-end">
+<div class="flex flex-col gap-4">
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-on-surface-variant hover:text-tertiary dark:hover:text-tertiary-fixed-dim transition-colors active:opacity-70" href="#">Instagram</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-on-surface-variant hover:text-tertiary dark:hover:text-tertiary-fixed-dim transition-colors active:opacity-70" href="#">WhatsApp</a>
+</div>
+<div class="flex flex-col gap-4">
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-on-surface-variant hover:text-tertiary dark:hover:text-tertiary-fixed-dim transition-colors active:opacity-70" href="#">Políticas de Envio</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-on-surface-variant hover:text-tertiary dark:hover:text-tertiary-fixed-dim transition-colors active:opacity-70" href="#">Meios de Pagamento</a>
+</div>
+</div>
+</div>
+</footer>
+<script>
+        // Simple script to add a shadow to the header on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 10) {
+                header.classList.add('shadow-md');
+            } else {
+                header.classList.remove('shadow-md');
+            }
+        });
+    </script>
+</body></html>

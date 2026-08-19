@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Loja | Begônia Ateliê</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Playfair+Display:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#efeeeb",
+                        "primary": "#a03f28",
+                        "surface-container-low": "#f4f3f1",
+                        "secondary-fixed": "#dde8b2",
+                        "error-container": "#ffdad6",
+                        "inverse-primary": "#ffb4a3",
+                        "tertiary-container": "#9b6b14",
+                        "on-primary-container": "#120100",
+                        "tertiary": "#7d5400",
+                        "on-secondary-container": "#5f693d",
+                        "on-primary-fixed-variant": "#812914",
+                        "on-tertiary-fixed-variant": "#614000",
+                        "secondary-container": "#dde8b2",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#ffb4a3",
+                        "primary-fixed": "#ffdad2",
+                        "surface-container-high": "#e9e8e5",
+                        "tertiary-fixed": "#ffddb0",
+                        "surface": "#faf9f6",
+                        "secondary": "#596338",
+                        "secondary-fixed-dim": "#c1cc98",
+                        "on-tertiary-container": "#fffbff",
+                        "on-background": "#1a1c1a",
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#faf9f6",
+                        "on-secondary": "#ffffff",
+                        "on-surface": "#1a1c1a",
+                        "surface-tint": "#a03f29",
+                        "surface-dim": "#dbdad7",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e3e2e0",
+                        "inverse-surface": "#2f312f",
+                        "on-tertiary-fixed": "#281800",
+                        "error": "#ba1a1a",
+                        "primary-container": "#c0573e",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#8a726c",
+                        "on-error": "#ffffff",
+                        "on-surface-variant": "#56423d",
+                        "background": "#faf9f6",
+                        "tertiary-fixed-dim": "#f7bc60",
+                        "on-secondary-fixed-variant": "#424b23",
+                        "surface-container-highest": "#e3e2e0",
+                        "outline-variant": "#ddc0ba",
+                        "on-secondary-fixed": "#171e00",
+                        "on-primary-fixed": "#3d0700",
+                        "inverse-on-surface": "#f2f1ee"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1200px",
+                        "margin-desktop": "64px",
+                        "gutter": "24px",
+                        "unit": "8px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Playfair Display"],
+                        "label-sm": ["Montserrat"],
+                        "headline-lg": ["Playfair Display"],
+                        "body-md": ["Montserrat"],
+                        "body-lg": ["Montserrat"],
+                        "headline-xl": ["Playfair Display"],
+                        "headline-lg-mobile": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-xl": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.3", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .shadow-soft {
+            box-shadow: 0 8px 30px rgba(93, 64, 55, 0.08);
+        }
+        .stitch-divider {
+            height: 4px;
+            background-image: radial-gradient(circle, #DCAE96 20%, transparent 20%);
+            background-size: 10px 10px;
+            background-position: center;
+            background-repeat: repeat-x;
+            opacity: 0.4;
+        }
+        body {
+            background-color: #faf9f6;
+            color: #1a1c1a;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md antialiased bg-background">
+<!-- TopNavBar -->
+<nav class="bg-surface dark:bg-surface sticky top-0 z-50 w-full flat no shadows">
+<div class="flex flex-col w-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto py-unit">
+<div class="flex items-center justify-between w-full pb-4">
+<a class="text-headline-md font-headline-md text-primary dark:text-primary-fixed-dim" href="#">
+                    Begônia Ateliê
+                </a>
+<!-- Desktop Navigation -->
+<div class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:opacity-80 transition-opacity duration-300 font-label-sm text-label-sm" href="#">Início</a>
+<a class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary dark:border-primary-fixed-dim pb-1 hover:opacity-80 transition-opacity duration-300 font-label-sm text-label-sm" href="#">Loja</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:opacity-80 transition-opacity duration-300 font-label-sm text-label-sm" href="#">Sob Encomenda</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:opacity-80 transition-opacity duration-300 font-label-sm text-label-sm" href="#">Sobre</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:opacity-80 transition-opacity duration-300 font-label-sm text-label-sm" href="#">Contato</a>
+</div>
+<div class="flex items-center gap-4 text-primary dark:text-primary-fixed-dim">
+<button aria-label="search" class="hover:opacity-80 transition-opacity duration-300">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button aria-label="shopping_cart" class="hover:opacity-80 transition-opacity duration-300">
+<span class="material-symbols-outlined">shopping_cart</span>
+</button>
+<!-- Mobile Menu Toggle -->
+<button aria-label="menu" class="md:hidden hover:opacity-80 transition-opacity duration-300">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- TopAppBar (Categories Subnav) -->
+<div class="bg-surface-container-low dark:bg-surface-container-low full-width flat no shadows">
+<div class="flex justify-center items-center gap-gutter py-2 w-full border-t border-outline-variant/40 px-margin-mobile md:px-margin-desktop overflow-x-auto whitespace-nowrap">
+<span class="font-label-sm text-label-sm text-on-surface-variant dark:text-on-surface-variant mr-4 hidden md:inline-block">Categorias:</span>
+<a class="flex items-center gap-2 font-label-sm text-label-sm text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[16px]">eco</span>
+                Macramê
+            </a>
+<a class="flex items-center gap-2 font-label-sm text-label-sm text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[16px]">local_shipping</span>
+                Cardigans
+            </a>
+<a class="flex items-center gap-2 font-label-sm text-label-sm text-on-secondary-container dark:text-on-secondary-fixed font-bold transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">tap_and_play</span>
+                Decoração
+            </a>
+</div>
+</div>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-16">
+<!-- Breadcrumbs & Header -->
+<div class="mb-12 text-center md:text-left">
+<nav aria-label="Breadcrumb" class="flex text-on-surface-variant text-label-sm font-label-sm mb-6 justify-center md:justify-start">
+<ol class="inline-flex items-center space-x-1 md:space-x-2">
+<li class="inline-flex items-center">
+<a class="hover:text-primary transition-colors" href="#">Início</a>
+</li>
+<li>
+<div class="flex items-center">
+<span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+<span class="text-primary">Loja</span>
+</div>
+</li>
+</ol>
+</nav>
+<h1 class="font-headline-xl text-headline-lg-mobile md:text-headline-xl text-primary mb-4">Nossa Loja</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto md:mx-0">Peças únicas feitas à mão para você e seu lar. Explore nossa coleção de texturas, cores terrosas e conforto artesanal.</p>
+</div>
+<div class="flex flex-col md:flex-row gap-8 lg:gap-16">
+<!-- Sidebar Filters -->
+<aside class="w-full md:w-64 flex-shrink-0">
+<div class="sticky top-32 space-y-8">
+<!-- Categorias -->
+<div>
+<h3 class="font-headline-md text-body-lg text-on-surface mb-4 border-b border-outline-variant/40 pb-2">Categorias</h3>
+<ul class="space-y-3 font-body-md text-on-surface-variant">
+<li>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="form-checkbox h-4 w-4 text-primary border-outline-variant rounded focus:ring-primary focus:ring-opacity-50 transition duration-150 ease-in-out" type="checkbox"/>
+<span class="group-hover:text-primary transition-colors">Todos os Produtos</span>
+</label>
+</li>
+<li>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox h-4 w-4 text-primary border-outline-variant rounded focus:ring-primary focus:ring-opacity-50 transition duration-150 ease-in-out" type="checkbox"/>
+<span class="group-hover:text-primary transition-colors">Cardigans</span>
+</label>
+</li>
+<li>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox h-4 w-4 text-primary border-outline-variant rounded focus:ring-primary focus:ring-opacity-50 transition duration-150 ease-in-out" type="checkbox"/>
+<span class="group-hover:text-primary transition-colors">Decoração</span>
+</label>
+</li>
+<li>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox h-4 w-4 text-primary border-outline-variant rounded focus:ring-primary focus:ring-opacity-50 transition duration-150 ease-in-out" type="checkbox"/>
+<span class="group-hover:text-primary transition-colors">Acessórios</span>
+</label>
+</li>
+</ul>
+</div>
+<!-- Disponibilidade -->
+<div>
+<h3 class="font-headline-md text-body-lg text-on-surface mb-4 border-b border-outline-variant/40 pb-2">Disponibilidade</h3>
+<div class="flex flex-wrap gap-2">
+<button class="px-4 py-2 rounded-full border border-outline-variant text-label-sm font-label-sm text-on-surface-variant hover:bg-surface-container transition-colors">Pronta Entrega</button>
+<button class="px-4 py-2 rounded-full bg-[#D49D44]/20 text-[#7d5400] border border-transparent text-label-sm font-label-sm transition-colors">Sob Encomenda</button>
+</div>
+</div>
+<!-- Faixa de Preço -->
+<div>
+<h3 class="font-headline-md text-body-lg text-on-surface mb-4 border-b border-outline-variant/40 pb-2">Preço</h3>
+<div class="space-y-4">
+<input class="w-full h-1 bg-surface-variant rounded-lg appearance-none cursor-pointer accent-primary" max="1000" min="0" type="range" value="1000"/>
+<div class="flex justify-between text-label-sm font-label-sm text-on-surface-variant">
+<span>R$ 0</span>
+<span>R$ 1.000+</span>
+</div>
+</div>
+</div>
+<button class="w-full py-3 bg-surface-container border border-outline-variant rounded-full text-primary font-label-sm text-label-sm hover:bg-surface-container-high transition-colors">
+                        Limpar Filtros
+                    </button>
+</div>
+</aside>
+<!-- Product Grid -->
+<div class="flex-1">
+<div class="flex justify-between items-center mb-6">
+<span class="text-body-md text-on-surface-variant">Exibindo 8 de 24 produtos</span>
+<div class="flex items-center gap-2">
+<label class="text-label-sm font-label-sm text-on-surface-variant hidden sm:block" for="sort">Ordenar por:</label>
+<select class="form-select block w-full sm:w-auto pl-3 pr-10 py-2 text-body-md border-outline-variant/50 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md bg-surface" id="sort">
+<option>Relevância</option>
+<option>Menor Preço</option>
+<option>Maior Preço</option>
+<option>Novidades</option>
+</select>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
+<!-- Product Card 1 -->
+<div class="group cursor-pointer">
+<div class="relative bg-surface-container-lowest rounded-xl overflow-hidden aspect-[4/5] mb-4 shadow-soft transition-transform duration-500 group-hover:-translate-y-1">
+<img class="w-full h-full object-cover" data-alt="A beautifully crafted, thick knit cardigan in a warm terracotta color, hanging on a simple wooden hanger against a clean, warm white wall. The texture of the yarn is prominent, illuminated by soft, natural daylight entering from a nearby window, creating a cozy, artisanal, and slow-living aesthetic. The lighting is bright and modern, highlighting the handmade quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZJOW95v8K74xd-J_EMzgLqrRrYa7DIpEXg0D7hNEweysgrv3VBFzZBE71wNZUqebERuHPD1sJLb7HjoaW7gKsNL8Y1KBEmsxjjUI55iAenJiNxSK7qXRlwaR_dxIOuVWruBBi5kiO1REpNCnxft1FEowm0_6_t9VqKxj8jLeaD0EdkzTqJ4iArsKMnn8y8aijiXVtUnRIhAn95R17McvY1NfRS-B_lnW1G36VVaeY5TL8BaIOjFRg"/>
+<div class="absolute top-3 left-3 flex flex-col gap-2">
+<span class="bg-[#DCAE96] text-[#614000] px-3 py-1 rounded-full text-[10px] font-label-sm uppercase tracking-wider">Novo</span>
+<span class="bg-surface text-primary px-3 py-1 rounded-full text-[10px] font-label-sm uppercase tracking-wider shadow-sm">Pronta Entrega</span>
+</div>
+<button class="absolute bottom-3 right-3 bg-surface/90 hover:bg-surface p-2 rounded-full text-primary shadow-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+<h3 class="font-headline-md text-body-lg text-on-surface group-hover:text-primary transition-colors">Cardigan Outono</h3>
+<p class="font-body-md text-on-surface-variant mt-1">R$ 389,00</p>
+</div>
+<!-- Product Card 2 -->
+<div class="group cursor-pointer">
+<div class="relative bg-surface-container-lowest rounded-xl overflow-hidden aspect-[4/5] mb-4 shadow-soft transition-transform duration-500 group-hover:-translate-y-1">
+<img class="w-full h-full object-cover" data-alt="An intricate macrame wall hanging featuring complex knots and long fringe, displayed on a minimalist, earthy-toned wall. The piece uses natural, unbleached cotton cord. Soft, diffused lighting casts gentle shadows, emphasizing the 3D texture and geometric patterns of the craft. The setting is a cozy, modern living space, evoking a sense of grounded, maternal warmth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9ZDXuyaihw9be-fn5vZNT0HKEQrhgGJ-l5pWP_m0UXDRGI4y98F3YdNfyguXXdlw37P_EOjWTE65tS5UrFzac8sIJWQgIED8p05DN7dw9I_6Y_WgIUdszDQvjM76FntchoHAHFx3h2Pv2nQcgvHjQQZ_jlFfkRgJwRH7fhUIA2m23SS-fBkGd8_Y59OAoof0wJgloBbEOpbahVvL45eoiCFLuakhkzVtA47dHjtYxKqwclqh5I2ao"/>
+<div class="absolute top-3 left-3 flex flex-col gap-2">
+<span class="bg-[#D49D44]/30 text-[#7d5400] px-3 py-1 rounded-full text-[10px] font-label-sm uppercase tracking-wider">Sob Encomenda</span>
+</div>
+</div>
+<h3 class="font-headline-md text-body-lg text-on-surface group-hover:text-primary transition-colors">Painel Macramê 'Raízes'</h3>
+<p class="font-body-md text-on-surface-variant mt-1">R$ 450,00</p>
+</div>
+<!-- Product Card 3 -->
+<div class="group cursor-pointer">
+<div class="relative bg-surface-container-lowest rounded-xl overflow-hidden aspect-[4/5] mb-4 shadow-soft transition-transform duration-500 group-hover:-translate-y-1">
+<img class="w-full h-full object-cover" data-alt="A set of two hand-woven cushion covers resting on a comfortable linen sofa. One cover is a muted olive green, the other a dusty rose, both featuring subtle stitched patterns. The scene is lit by warm, ambient room light, creating a tactile, minimalist, and inviting atmosphere typical of high-end, slow-living home decor." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCpK32zk5-wNh5fSL_6moqq3kBTz8awZyr-aHLeNDcGx1sxF8tuREFnKcMq-9n9-oHm9_2eSqpmgE21XPtTZUZWLb7H2aOLJMWGJCXG-dieVyZ8dOAfYE5Ex50TXmE3BbJlSHsdDZJFtrVoikh5idQa5T1lxkXdnDjD4_uwZIdq3zLemBBiyhdNvsmWMJIE2BmYFnSCDGTzhYGbGUEQn0Vp5bJZr2W4ZDf3lw_lcHq_MvAcOISSrtU"/>
+<div class="absolute top-3 left-3 flex flex-col gap-2">
+<span class="bg-surface text-primary px-3 py-1 rounded-full text-[10px] font-label-sm uppercase tracking-wider shadow-sm">Pronta Entrega</span>
+</div>
+</div>
+<h3 class="font-headline-md text-body-lg text-on-surface group-hover:text-primary transition-colors">Capa de Almofada Trama</h3>
+<p class="font-body-md text-on-surface-variant mt-1">R$ 120,00</p>
+</div>
+<!-- Product Card 4 -->
+<div class="group cursor-pointer">
+<div class="relative bg-surface-container-lowest rounded-xl overflow-hidden aspect-[4/5] mb-4 shadow-soft transition-transform duration-500 group-hover:-translate-y-1">
+<img class="w-full h-full object-cover" data-alt="A chunky, oversized knit sweater in an earthy mustard yellow hue, folded neatly on a light oak wooden stool. The background is a soft, out-of-focus studio setting with light walls. The detailed texture of the heavy yarn is the focal point, captured in crisp, natural light that conveys warmth, craftsmanship, and a boutique editorial feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcq6O2Hq3zhYSWBH-KKZuu2KSV526F1z5el6k1SJMIo6hyj44GIrnRhcxcOP8cKhBFSMUIZJXkGTdrgPfbcpIH0FftVG1FYmrCVPJwjJJkKYkcBYAq5F5mLF1fN1Id11mZDDugzi4oQyJoTqlOyfRUVp0w2BnLvCaluWd8ggsefOM-W2cGpaYd5Qk9Bd6p8Ih2TxFVf8nCWEUeBP6NRpu3Fo5KF68e0Xep_xohCmTkkILLRWk0OXn-"/>
+<div class="absolute top-3 left-3 flex flex-col gap-2">
+<span class="bg-[#DCAE96] text-[#614000] px-3 py-1 rounded-full text-[10px] font-label-sm uppercase tracking-wider">Últimas Peças</span>
+</div>
+</div>
+<h3 class="font-headline-md text-body-lg text-on-surface group-hover:text-primary transition-colors">Suéter Mostarda</h3>
+<p class="font-body-md text-on-surface-variant mt-1">R$ 410,00</p>
+</div>
+<!-- Product Card 5 -->
+<div class="group cursor-pointer">
+<div class="relative bg-surface-container-lowest rounded-xl overflow-hidden aspect-[4/5] mb-4 shadow-soft transition-transform duration-500 group-hover:-translate-y-1">
+<img class="w-full h-full object-cover" data-alt="A handmade ceramic mug with a matte, speckled warm-white glaze, resting on a textured linen placemat next to a small macrame coaster. Steam gently rises from the mug. The lighting is soft morning light, creating a serene, slow-morning vibe. The aesthetic is tactile minimalism, focusing on organic shapes and earthy materials." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDda_fTJ2Stjh02AJ7GsupIDeiTSZYy7d4yZ2-o58PyUrshV2oIkmL3e5Lbri0e1GR7jkNKDJ5ChgjZy7UGDH-aZSoS4KCJx_l_lAKeV95PsVzUOxwLOPwKRgyaTVB-jkPVMHR6SXuHwolahnjtkL3P_AQPPXPYwFAmP7nF1jQaODJN2X5IYYI4-F1VXbJYZ_sBvEBtdBpnFkXJpbzBgGiCIYS8fFNGqT-927OXAMFQFN-cpGn87sxs"/>
+<div class="absolute top-3 left-3 flex flex-col gap-2">
+<span class="bg-surface text-primary px-3 py-1 rounded-full text-[10px] font-label-sm uppercase tracking-wider shadow-sm">Pronta Entrega</span>
+</div>
+</div>
+<h3 class="font-headline-md text-body-lg text-on-surface group-hover:text-primary transition-colors">Caneca Rústica</h3>
+<p class="font-body-md text-on-surface-variant mt-1">R$ 85,00</p>
+</div>
+<!-- Product Card 6 -->
+<div class="group cursor-pointer">
+<div class="relative bg-surface-container-lowest rounded-xl overflow-hidden aspect-[4/5] mb-4 shadow-soft transition-transform duration-500 group-hover:-translate-y-1">
+<img class="w-full h-full object-cover" data-alt="A large, cozy woven blanket draped effortlessly over the arm of a mid-century modern armchair. The blanket features a blend of warm white, terracotta, and olive green yarns. The room has generous whitespace, allowing the textures to breathe. Soft, ambient shadows enhance the depth and high-quality craftsmanship of the textile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAt5uJZdGPUqqfQQ0YoZX432OyELVlIc5crAdkBHDCfmlAgpeHiXuhPFl_ZzuRjo87tYy531nvRErjeh41PvQL6FS0tVe8XiCBCDGEQoaHwBXUOq9D56ucJyzaaK0mhQL7fO1ShqmcUkalVG_G-F1Ow808jBIlwkz0WzibZBkVIQOpyHc-RGslDXq-deOfgiR6sWWVn37EC6KpqeTA2Vc8M-unazLC4EOa3JbKSdAKxNg-cwcy1jBZ"/>
+<div class="absolute top-3 left-3 flex flex-col gap-2">
+<span class="bg-[#D49D44]/30 text-[#7d5400] px-3 py-1 rounded-full text-[10px] font-label-sm uppercase tracking-wider">Sob Encomenda</span>
+</div>
+</div>
+<h3 class="font-headline-md text-body-lg text-on-surface group-hover:text-primary transition-colors">Manta Tricolor</h3>
+<p class="font-body-md text-on-surface-variant mt-1">R$ 520,00</p>
+</div>
+<!-- Product Card 7 -->
+<div class="group cursor-pointer">
+<div class="relative bg-surface-container-lowest rounded-xl overflow-hidden aspect-[4/5] mb-4 shadow-soft transition-transform duration-500 group-hover:-translate-y-1">
+<img class="w-full h-full object-cover" data-alt="A detailed close-up of a macrame plant hanger holding a trailing pothos plant in a terracotta pot. The background is a clean, bright warm white. The complex knots of the natural cotton cord are sharply in focus. The aesthetic is clean, organic, and grounded, fitting perfectly into a modern craft home decor theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBb3psgIQXRcoKb4ZPDyzwBkTJ0Gv7JPVl6IJCzkQsbB9NgDGjJdrSSK6AR6z9irN6Mk5pInPiXYqRQ5_Y5uTMtTWazqLwauFCEA1xslEzb5Gc3ReFoUk0RBOiePYDuUw3-sDZMbx5q9nW10sITCFGTC3CmG2DIFQuebA9gyu6Y58g_CLTpdsNQ7IbwPUNkWtbj7WQarVIRbfdxzi0wKcu0eG9GLXp-IqBR2jp_7zeStAMCddFZF1Eh"/>
+<div class="absolute top-3 left-3 flex flex-col gap-2">
+<span class="bg-[#DCAE96] text-[#614000] px-3 py-1 rounded-full text-[10px] font-label-sm uppercase tracking-wider">Mais Vendido</span>
+</div>
+</div>
+<h3 class="font-headline-md text-body-lg text-on-surface group-hover:text-primary transition-colors">Hanger para Plantas</h3>
+<p class="font-body-md text-on-surface-variant mt-1">R$ 95,00</p>
+</div>
+<!-- Product Card 8 -->
+<div class="group cursor-pointer">
+<div class="relative bg-surface-container-lowest rounded-xl overflow-hidden aspect-[4/5] mb-4 shadow-soft transition-transform duration-500 group-hover:-translate-y-1">
+<img class="w-full h-full object-cover" data-alt="A delicate, lightweight knit cardigan in a soft dusty rose color, styled on a minimalist wire mannequin against an earthy-toned background. The light is diffused, highlighting the fine gauge of the knit and the subtle drape of the garment. The overall mood is maternal, soft, and elegantly simple." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBo4tEOL-qbDdZUguC9LkdavUpz_cBbOJ7j7ERePZh3o4m50MrtTxIT7_jYyX5RUl5KVGiuvtQZP4OuTisYpUouuDkoU22GnDlHXO8ylbClhqIZjGk-p3OQid9a5RT_oZFNKcgzztU8QmSRc8uY_diDZepZrQPxn-vTTEjhusVxDMPVH3HT8W0iAY5nU2eKTw9NIbomYvHBM1WoHGm7h4xLKMpvDT-W1X3rRHtRKE--LNp0dDn6syFt"/>
+<div class="absolute top-3 left-3 flex flex-col gap-2">
+<span class="bg-surface text-primary px-3 py-1 rounded-full text-[10px] font-label-sm uppercase tracking-wider shadow-sm">Pronta Entrega</span>
+</div>
+</div>
+<h3 class="font-headline-md text-body-lg text-on-surface group-hover:text-primary transition-colors">Cardigan Leve Rosé</h3>
+<p class="font-body-md text-on-surface-variant mt-1">R$ 320,00</p>
+</div>
+</div>
+<!-- Pagination -->
+<div class="mt-16 flex justify-center items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-on-primary font-label-sm">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary font-label-sm transition-colors">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary font-label-sm transition-colors">3</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Stitch Divider -->
+<div class="stitch-divider w-full mt-24 mb-12"></div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container dark:bg-surface-container-high full-width rounded-t-xl flat no shadows mt-12">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-mobile md:px-margin-desktop py-12 max-w-container-max mx-auto">
+<div class="md:col-span-1 mb-8 md:mb-0">
+<div class="text-headline-md font-headline-md text-primary dark:text-primary-fixed-dim mb-4">
+                    Begônia Ateliê
+                </div>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant mb-6 max-w-xs">
+                    Begônia Ateliê © 2024. Feito com amor à mão.
+                </p>
+</div>
+<div class="md:col-span-1">
+<h4 class="font-label-sm text-label-sm text-on-surface dark:text-on-surface mb-4 uppercase tracking-wider">Links Úteis</h4>
+<ul class="space-y-3 font-body-md text-body-md">
+<li><a class="text-on-surface-variant dark:text-on-surface-variant hover:text-tertiary dark:hover:text-tertiary-fixed-dim transition-colors" href="#">Políticas de Envio</a></li>
+<li><a class="text-on-surface-variant dark:text-on-surface-variant hover:text-tertiary dark:hover:text-tertiary-fixed-dim transition-colors" href="#">Meios de Pagamento</a></li>
+<li><a class="text-on-surface-variant dark:text-on-surface-variant hover:text-tertiary dark:hover:text-tertiary-fixed-dim transition-colors" href="#">Trocas e Devoluções</a></li>
+</ul>
+</div>
+<div class="md:col-span-1">
+<h4 class="font-label-sm text-label-sm text-on-surface dark:text-on-surface mb-4 uppercase tracking-wider">Contato</h4>
+<ul class="space-y-3 font-body-md text-body-md">
+<li><a class="text-on-surface-variant dark:text-on-surface-variant hover:text-tertiary dark:hover:text-tertiary-fixed-dim transition-colors" href="#">Instagram</a></li>
+<li><a class="text-on-surface-variant dark:text-on-surface-variant hover:text-tertiary dark:hover:text-tertiary-fixed-dim transition-colors" href="#">WhatsApp</a></li>
+<li><a class="text-on-surface-variant dark:text-on-surface-variant hover:text-tertiary dark:hover:text-tertiary-fixed-dim transition-colors" href="#">contato@begoniaatelie.com.br</a></li>
+</ul>
+</div>
+<div class="md:col-span-1 flex items-start justify-start md:justify-end">
+<button class="bg-primary-container text-on-primary rounded-full px-6 py-3 font-label-sm text-label-sm hover:opacity-90 transition-opacity flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">mail</span>
+                    Assine nossa Newsletter
+                </button>
+</div>
+</div>
+</footer>
+</body></html>

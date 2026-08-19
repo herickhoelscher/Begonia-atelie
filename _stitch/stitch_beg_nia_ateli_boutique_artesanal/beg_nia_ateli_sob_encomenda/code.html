@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sob Encomenda - Begônia Ateliê</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&amp;family=Playfair+Display:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container": "#efeeeb",
+                      "primary": "#a03f28",
+                      "surface-container-low": "#f4f3f1",
+                      "secondary-fixed": "#dde8b2",
+                      "error-container": "#ffdad6",
+                      "inverse-primary": "#ffb4a3",
+                      "tertiary-container": "#9b6b14",
+                      "on-primary-container": "#120100",
+                      "tertiary": "#7d5400",
+                      "on-secondary-container": "#5f693d",
+                      "on-primary-fixed-variant": "#812914",
+                      "on-tertiary-fixed-variant": "#614000",
+                      "secondary-container": "#dde8b2",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-fixed-dim": "#ffb4a3",
+                      "primary-fixed": "#ffdad2",
+                      "surface-container-high": "#e9e8e5",
+                      "tertiary-fixed": "#ffddb0",
+                      "surface": "#faf9f6",
+                      "secondary": "#596338",
+                      "secondary-fixed-dim": "#c1cc98",
+                      "on-tertiary-container": "#fffbff",
+                      "on-background": "#1a1c1a",
+                      "on-error-container": "#93000a",
+                      "surface-bright": "#faf9f6",
+                      "on-secondary": "#ffffff",
+                      "on-surface": "#1a1c1a",
+                      "surface-tint": "#a03f29",
+                      "surface-dim": "#dbdad7",
+                      "on-primary": "#ffffff",
+                      "surface-variant": "#e3e2e0",
+                      "inverse-surface": "#2f312f",
+                      "on-tertiary-fixed": "#281800",
+                      "error": "#ba1a1a",
+                      "primary-container": "#c0573e",
+                      "on-tertiary": "#ffffff",
+                      "outline": "#8a726c",
+                      "on-error": "#ffffff",
+                      "on-surface-variant": "#56423d",
+                      "background": "#faf9f6",
+                      "tertiary-fixed-dim": "#f7bc60",
+                      "on-secondary-fixed-variant": "#424b23",
+                      "surface-container-highest": "#e3e2e0",
+                      "outline-variant": "#ddc0ba",
+                      "on-secondary-fixed": "#171e00",
+                      "on-primary-fixed": "#3d0700",
+                      "inverse-on-surface": "#f2f1ee"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "container-max": "1200px",
+                      "margin-desktop": "64px",
+                      "gutter": "24px",
+                      "unit": "8px",
+                      "margin-mobile": "20px"
+              },
+              "fontFamily": {
+                      "headline-md": [
+                              "Playfair Display"
+                      ],
+                      "label-sm": [
+                              "Montserrat"
+                      ],
+                      "headline-lg": [
+                              "Playfair Display"
+                      ],
+                      "body-md": [
+                              "Montserrat"
+                      ],
+                      "body-lg": [
+                              "Montserrat"
+                      ],
+                      "headline-xl": [
+                              "Playfair Display"
+                      ],
+                      "headline-lg-mobile": [
+                              "Playfair Display"
+                      ]
+              },
+              "fontSize": {
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-xl": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .custom-shadow {
+            box-shadow: 0 8px 30px rgba(93, 64, 55, 0.08);
+        }
+        .stitch-divider {
+            height: 1px;
+            background-image: linear-gradient(to right, transparent 50%, #ddc0ba 50%);
+            background-size: 8px 100%;
+            opacity: 0.4;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased selection:bg-primary-container selection:text-white">
+<!-- Header Navigation Shell -->
+<header class="sticky top-0 z-50 flex flex-col bg-surface shadow-sm">
+<!-- TopNavBar -->
+<div class="flex flex-col w-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto py-unit bg-surface">
+<div class="flex justify-between items-center w-full py-2">
+<a class="text-headline-md font-headline-md text-primary" href="#">Begônia Ateliê</a>
+<!-- Desktop Nav Links -->
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-on-surface-variant hover:text-primary transition-opacity duration-300 hover:opacity-80 font-label-sm text-label-sm" href="#">Início</a>
+<a class="text-on-surface-variant hover:text-primary transition-opacity duration-300 hover:opacity-80 font-label-sm text-label-sm" href="#">Loja</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-label-sm text-label-sm scale-95 transition-transform" href="#">Sob Encomenda</a>
+<a class="text-on-surface-variant hover:text-primary transition-opacity duration-300 hover:opacity-80 font-label-sm text-label-sm" href="#">Sobre</a>
+<a class="text-on-surface-variant hover:text-primary transition-opacity duration-300 hover:opacity-80 font-label-sm text-label-sm" href="#">Contato</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="text-on-surface hover:opacity-80 transition-opacity duration-300"><span class="material-symbols-outlined">search</span></button>
+<button class="text-on-surface hover:opacity-80 transition-opacity duration-300"><span class="material-symbols-outlined">shopping_cart</span></button>
+</div>
+</div>
+</div>
+<!-- TopAppBar -->
+<div class="flex justify-center items-center gap-gutter py-2 w-full bg-surface-container-low border-t border-outline-variant/40 hidden md:flex">
+<span class="font-label-sm text-label-sm text-secondary hidden">Categorias</span>
+<div class="flex gap-8 items-center">
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-sm text-label-sm flex items-center gap-2" href="#">
+                    Cardigans
+                </a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-sm text-label-sm flex items-center gap-2" href="#">
+                    Decoração
+                </a>
+<div class="flex items-center gap-4 ml-4 border-l border-outline-variant/40 pl-4">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">eco</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]" style="font-variation-settings: 'FILL' 1;">home_app_logo</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">local_shipping</span>
+</div>
+</div>
+</div>
+</header>
+<main>
+<!-- Hero Section -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-16 md:py-24">
+<div class="flex flex-col md:flex-row gap-12 items-center">
+<div class="flex-1 space-y-6">
+<h1 class="font-headline-xl text-headline-lg-mobile md:text-headline-xl text-on-background">Sua peça, do seu jeito.</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-md leading-relaxed">
+                        Acreditamos no poder do tempo, das mãos e das histórias. Encomende uma peça única, pensada nos detalhes e tecida exclusivamente para o seu lar.
+                    </p>
+<div class="pt-4">
+<button class="bg-primary-container text-white px-8 py-3 rounded-full font-label-sm text-label-sm uppercase tracking-wider hover:opacity-90 transition-opacity custom-shadow">
+                            Começar minha encomenda
+                        </button>
+</div>
+</div>
+<div class="flex-1 w-full">
+<div class="relative w-full aspect-square md:aspect-[4/3] rounded-2xl overflow-hidden custom-shadow">
+<img class="object-cover w-full h-full" data-alt="A highly detailed, extreme close-up photograph of thick, luxurious cotton yarn skeins in warm, earthy tones of terracotta, muted mustard, and soft olive green. The lighting is soft, natural, and diffused, emphasizing the tactile texture, twisted fibers, and matte finish of the handmade materials. The composition is organic and inviting, embodying a modern craft aesthetic with a cozy, warm, and grounded atmosphere, perfect for a high-end artisanal brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCP_pJUN1R2Tx9D8rBvEfnHpnMXJbQA7e_MrKPRCK6oIOkN0rgYsunlE2yELIJXdMTs1sK66Xbm_kD471BRhldR6-H_-tNlrK42VVTeIcDkKyjIsUT-EItVVo5isNKcgVS0UNiKrge5TvycsB5wKzw_GpH0BvNE8B3SVzGxp10T8UjqkEt4WoOURuPBVvv5eVwG7Ky1TNI6KtjUsqXkG4xMJt_lzYKXkad2JwEzX7VuG-udUXNFsmuM"/>
+</div>
+</div>
+</div>
+</section>
+<div class="stitch-divider w-full max-w-container-max mx-auto my-8"></div>
+<!-- How It Works Section -->
+<section class="bg-surface-container py-20 px-margin-mobile md:px-margin-desktop">
+<div class="max-w-container-max mx-auto">
+<div class="text-center mb-16">
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background mb-4">Como funciona</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Um processo calmo e intencional, do primeiro fio à sua casa.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+<!-- Step 1 -->
+<div class="flex flex-col items-center text-center p-6 bg-surface rounded-xl custom-shadow">
+<div class="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center mb-6 text-on-secondary-container">
+<span class="material-symbols-outlined text-[32px]">touch_app</span>
+</div>
+<h3 class="font-label-sm text-label-sm uppercase tracking-widest text-primary mb-3">1. Escolha a peça</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Defina o modelo base em nosso catálogo ou traga sua inspiração.</p>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-col items-center text-center p-6 bg-surface rounded-xl custom-shadow mt-0 md:mt-8">
+<div class="w-16 h-16 rounded-full bg-tertiary-fixed flex items-center justify-center mb-6 text-on-tertiary-fixed-variant">
+<span class="material-symbols-outlined text-[32px]">palette</span>
+</div>
+<h3 class="font-label-sm text-label-sm uppercase tracking-widest text-primary mb-3">2. Defina as cores</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Selecione as tonalidades que melhor abraçam o seu ambiente.</p>
+</div>
+<!-- Step 3 -->
+<div class="flex flex-col items-center text-center p-6 bg-surface rounded-xl custom-shadow mt-0 md:mt-16">
+<div class="w-16 h-16 rounded-full bg-error-container flex items-center justify-center mb-6 text-on-error-container">
+<span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">front_hand</span>
+</div>
+<h3 class="font-label-sm text-label-sm uppercase tracking-widest text-primary mb-3">3. Produção manual</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Com tempo e afeto, tecemos sua peça ponto a ponto em nosso ateliê.</p>
+</div>
+<!-- Step 4 -->
+<div class="flex flex-col items-center text-center p-6 bg-surface rounded-xl custom-shadow mt-0 md:mt-24">
+<div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center mb-6 text-primary">
+<span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+<h3 class="font-label-sm text-label-sm uppercase tracking-widest text-primary mb-3">4. Entrega com carinho</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Sua peça é cuidadosamente embalada e enviada para o seu abraço.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Color Palette Section -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-20">
+<div class="flex flex-col md:flex-row gap-16 items-start">
+<div class="md:w-1/3 sticky top-32">
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background mb-4">Nossa Cartela</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Tons terrosos e orgânicos, escolhidos a dedo para trazer a natureza e a tranquilidade do slow-living para dentro da sua casa.</p>
+<div class="flex items-center gap-2 text-secondary">
+<span class="material-symbols-outlined text-[16px]">info</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Fios 100% algodão ecológico</span>
+</div>
+</div>
+<div class="md:w-2/3 grid grid-cols-2 sm:grid-cols-3 gap-6">
+<!-- Swatch 1 -->
+<div class="flex flex-col items-center gap-3">
+<div class="w-24 h-24 rounded-full bg-primary-container custom-shadow border border-white/20"></div>
+<span class="font-label-sm text-label-sm text-on-background">Terracota</span>
+</div>
+<!-- Swatch 2 -->
+<div class="flex flex-col items-center gap-3">
+<div class="w-24 h-24 rounded-full bg-secondary custom-shadow border border-white/20"></div>
+<span class="font-label-sm text-label-sm text-on-background">Oliva Seca</span>
+</div>
+<!-- Swatch 3 -->
+<div class="flex flex-col items-center gap-3">
+<div class="w-24 h-24 rounded-full bg-tertiary-fixed-dim custom-shadow border border-white/20"></div>
+<span class="font-label-sm text-label-sm text-on-background">Mostarda</span>
+</div>
+<!-- Swatch 4 -->
+<div class="flex flex-col items-center gap-3">
+<div class="w-24 h-24 rounded-full bg-surface-variant custom-shadow border border-white/20"></div>
+<span class="font-label-sm text-label-sm text-on-background">Cru / Natural</span>
+</div>
+<!-- Swatch 5 -->
+<div class="flex flex-col items-center gap-3">
+<div class="w-24 h-24 rounded-full bg-outline custom-shadow border border-white/20"></div>
+<span class="font-label-sm text-label-sm text-on-background">Avelã</span>
+</div>
+<!-- Swatch 6 -->
+<div class="flex flex-col items-center gap-3">
+<div class="w-24 h-24 rounded-full bg-inverse-surface custom-shadow border border-white/20"></div>
+<span class="font-label-sm text-label-sm text-on-background">Carvão</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Gallery of Custom Pieces -->
+<section class="bg-surface-container-low py-20 px-margin-mobile md:px-margin-desktop">
+<div class="max-w-container-max mx-auto">
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-center text-on-background mb-12">Feito para eles</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[250px]">
+<div class="md:col-span-2 md:row-span-2 rounded-2xl overflow-hidden custom-shadow group">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A beautifully styled lifestyle photograph of a chunky, hand-knitted terracotta throw blanket draped casually over the arm of a minimalist light wood lounge chair. The scene is bathed in warm, gentle afternoon sunlight filtering through a sheer curtain, casting soft shadows on a warm white textured wall. The mood is serene, maternal, and slow-living, focusing on the organic drape and heavy texture of the artisanal textile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtiPvx4RAJvG0d2cqNjJfLuIfGpQwnZNcSFhkUJzD9sPloNxXIjlyHJisrhCw1zwtLfdiY8LnG52ZV9WUc2LpM6miXst6AKs1izIdlA59NzhHf2Sb1LDYseAiTA-ca_K9P-qciRanWEiem0meXGKyWYyGeFfJw0YR6txu-6OT-e6R8uVKhSpVi2zJCqkr38fl6oxlWqTPNzwgZMdhM9rtivabf8LvFsB4AvqgTwCCE87HD1cuxx_XA"/>
+</div>
+<div class="rounded-2xl overflow-hidden custom-shadow group bg-surface p-6 flex flex-col justify-end relative">
+<img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90" data-alt="A minimalist still life photograph featuring a set of handcrafted macrame coasters in a soft dusty rose color, resting on a smooth, pale stone surface. Beside them is a delicate ceramic mug filled with herbal tea. The lighting is bright yet soft, creating a high-key, airy atmosphere that highlights the intricate knotting techniques and the natural, unrefined beauty of the sustainable materials. The aesthetic is clean, intentional, and deeply tactile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1ZHjvCf5eBzE29BNXxm0IZzGHayjKN1hAYXFsOoyIM2UkQQXjAO86RpkoqIUojQPgmOlRuBcYfIXGMRYgTe2_amRJ6ZkFywfcSgQ3YjaWX3_pUzyZVS0EVoA4zUtkB6VL0OjnU2ZAM5WXpmfkKSXgPa0vJiH66pLcUwQ1OkbhBg-XD8VlYVo_vdF8TeMgN_ZtMA0fj0xChnZke1Z9OGqdtUctmIpvTN4mfPr5ve88RPixg74uXzZf"/>
+<div class="relative z-10 bg-surface/80 backdrop-blur-sm p-4 rounded-xl inline-block mt-auto w-max">
+<span class="font-label-sm text-label-sm text-primary">Macramê para Mesa</span>
+</div>
+</div>
+<div class="rounded-2xl overflow-hidden custom-shadow group">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="An artistic, top-down photograph of a partially finished hand-woven wall hanging on a simple wooden loom. The weaving incorporates rich textures and a palette of warm earthy colors including deep ochre, soft olive, and warm white. Scattered around the loom are small wooden crafting tools and loose strands of yarn. The lighting is natural and even, capturing the essence of the slow, intentional process of artisanal creation in a cozy studio setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAW3D9UGh0X8UDp2fjBTzvRbF3uEewQ1dwJ8NV0QODN22hkZPmMmaaEKGQ8tZtC2jU07Tlf6zfry_2TGUkfbnawG56gJLPErIpg6dWmGSBEhJYT6BT01D1yM41Cg3Y7i_p82yArOMwwEadmRfr0wCucmmAd65fCSa1s9qDWUHvqSBgRjEtHMh8rnpjkoMRz5nWhusYjhY715krxhave5TfxB1EJ3gFKZIpqLPtkPqSisT5IQl5Hnx87"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Contact CTA -->
+<section class="max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop py-24 text-center">
+<div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-surface-container-high mb-8 text-primary">
+<span class="material-symbols-outlined text-[40px]">forum</span>
+</div>
+<h2 class="font-headline-xl text-headline-lg-mobile md:text-headline-xl text-on-background mb-6">Vamos criar algo juntos?</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-10">
+                Nosso atendimento é tão pessoal quanto nossas peças. Me chame no WhatsApp para conversarmos sobre tamanhos, cores e prazos.
+            </p>
+<a class="inline-flex items-center gap-3 bg-primary-container text-white px-10 py-4 rounded-full font-label-sm text-label-sm uppercase tracking-widest hover:bg-primary transition-colors custom-shadow" href="#">
+<span class="material-symbols-outlined">chat</span>
+                Falar pelo WhatsApp
+            </a>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container text-on-surface rounded-t-xl mt-12 w-full">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-mobile md:px-margin-desktop py-12 max-w-container-max mx-auto">
+<div class="flex flex-col gap-4 col-span-1 md:col-span-2">
+<span class="text-headline-md font-headline-md text-primary mb-2">Begônia Ateliê</span>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xs">
+                    Begônia Ateliê © 2024. Feito com amor à mão.
+                </p>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-label-sm text-label-sm text-on-surface mb-2">Contato</span>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-tertiary transition-colors opacity-100 hover:opacity-70" href="#">Instagram</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-tertiary transition-colors opacity-100 hover:opacity-70" href="#">WhatsApp</a>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-label-sm text-label-sm text-on-surface mb-2">Informações</span>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-tertiary transition-colors opacity-100 hover:opacity-70" href="#">Políticas de Envio</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-tertiary transition-colors opacity-100 hover:opacity-70" href="#">Meios de Pagamento</a>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,341 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contato — Begônia Ateliê</title>
+<meta name="description" content="Fale com o Begônia Ateliê pelo WhatsApp, Instagram ou e-mail. Aqui também estão as políticas de envio, meios de pagamento e trocas.">
+<meta name="theme-color" content="#faf9f6">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap">
+<link rel="stylesheet" href="css/site.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+
+<a href="#conteudo" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[70] focus:btn focus:btn-primary">Pular para o conteúdo</a>
+
+<header id="cabecalho" class="sticky top-0 z-50 bg-surface transition-shadow duration-300">
+  <div class="shell">
+    <div class="flex items-center justify-between gap-4 py-4">
+      <a href="index.html" class="font-headline text-headline-md text-primary shrink-0">Begônia Ateliê</a>
+      <nav class="hidden md:flex items-center gap-8" aria-label="Navegação principal">
+        <a class="nav-link" href="index.html">Início</a>
+        <a class="nav-link" href="loja.html">Loja</a>
+        <a class="nav-link" href="sob-encomenda.html">Sob Encomenda</a>
+        <a class="nav-link" href="sobre.html">Sobre</a>
+        <a class="nav-link" href="contato.html" aria-current="page">Contato</a>
+      </nav>
+      <div class="flex items-center gap-1 text-primary">
+        <button type="button" data-abrir="painel-busca" aria-label="Buscar peças" class="grid place-items-center w-10 h-10 rounded-full hover:bg-surface-container transition-colors"><i data-icone="busca"></i></button>
+        <button type="button" data-abrir="painel-favoritos" aria-label="Abrir a sacola" class="relative grid place-items-center w-10 h-10 rounded-full hover:bg-surface-container transition-colors">
+          <i data-icone="sacola"></i>
+          <span class="js-contador-favoritos hidden absolute top-0.5 right-0.5 grid place-items-center min-w-5 h-5 px-1 rounded-full bg-primary text-on-primary text-[10px] font-semibold">0</span>
+        </button>
+        <button type="button" data-abrir="painel-menu" aria-label="Abrir menu" class="md:hidden grid place-items-center w-10 h-10 rounded-full hover:bg-surface-container transition-colors"><i data-icone="menu"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="hidden md:block bg-surface-container-low border-t border-outline-variant/40">
+    <div class="shell flex justify-center items-center gap-gutter py-2 text-label-sm">
+      <span class="uppercase tracking-wider font-semibold text-on-secondary-container">Categorias</span>
+      <a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?cat=cardigans">Cardigans</a>
+      <a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?cat=decoracao">Decoração</a>
+      <a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?cat=suportes">Suportes de Planta</a>
+      <a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?disp=pronta">Pronta Entrega</a>
+    </div>
+  </div>
+</header>
+
+<main id="conteudo" class="shell py-16 md:py-24">
+
+  <div class="text-center max-w-2xl mx-auto mb-16">
+    <p class="text-label-sm uppercase tracking-[0.2em] text-secondary mb-5">Contato</p>
+    <h1 class="font-headline text-headline-lg-mobile md:text-headline-xl text-primary mb-6">
+      A gente responde pessoalmente
+    </h1>
+    <p class="text-body-lg text-on-surface-variant">
+      Sem robô, sem atendimento automático. Escreva do jeito que preferir — o WhatsApp
+      costuma ser o mais rápido.
+    </p>
+  </div>
+
+  <!-- ===================== CANAIS ===================== -->
+  <ul class="grid md:grid-cols-3 gap-gutter mb-20 reveal">
+    <li class="bg-surface-container-lowest rounded-xl p-8 soft-shadow text-center">
+      <span class="inline-grid place-items-center w-14 h-14 rounded-full bg-secondary-container text-on-secondary-container mb-5">
+        <i data-icone="whatsapp" data-icone-classe="w-6 h-6"></i>
+      </span>
+      <h2 class="font-headline text-headline-md text-on-surface mb-2">WhatsApp</h2>
+      <p class="text-body-md text-on-surface-variant mb-6">O canal onde tiramos dúvidas de medida, cor e prazo.</p>
+      <a class="js-whatsapp btn btn-primary btn-sm" href="#" target="_blank" rel="noopener"
+         data-mensagem="Olá! Vim pela página de contato do site e tenho uma dúvida.">Chamar no WhatsApp</a>
+    </li>
+    <li class="bg-surface-container-lowest rounded-xl p-8 soft-shadow text-center">
+      <span class="inline-grid place-items-center w-14 h-14 rounded-full bg-primary-fixed text-on-primary-fixed mb-5">
+        <i data-icone="instagram" data-icone-classe="w-6 h-6"></i>
+      </span>
+      <h2 class="font-headline text-headline-md text-on-surface mb-2">Instagram</h2>
+      <p class="text-body-md text-on-surface-variant mb-6">Bastidores, peças saindo do tear e as encomendas da semana.</p>
+      <a class="js-instagram btn btn-soft btn-sm" href="#" target="_blank" rel="noopener">Ver o perfil</a>
+    </li>
+    <li class="bg-surface-container-lowest rounded-xl p-8 soft-shadow text-center">
+      <span class="inline-grid place-items-center w-14 h-14 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant mb-5">
+        <i data-icone="email" data-icone-classe="w-6 h-6"></i>
+      </span>
+      <h2 class="font-headline text-headline-md text-on-surface mb-2">E-mail</h2>
+      <p class="text-body-md text-on-surface-variant mb-6">Para orçamentos maiores, parcerias e revenda.</p>
+      <a class="js-email btn btn-soft btn-sm" href="#">Escrever um e-mail</a>
+    </li>
+  </ul>
+
+  <!-- ===================== FORMULÁRIO + INFO ===================== -->
+  <div class="grid lg:grid-cols-5 gap-12 lg:gap-16 mb-24">
+    <div class="lg:col-span-3">
+      <h2 class="font-headline text-headline-lg-mobile md:text-headline-lg text-on-background mb-3">Mande uma mensagem</h2>
+      <p class="text-body-md text-on-surface-variant mb-8">
+        Preencha aqui e a gente abre o WhatsApp com sua mensagem já escrita.
+      </p>
+
+      <form id="form-contato" class="bg-surface-container-lowest rounded-xl p-6 md:p-8 soft-shadow space-y-6" novalidate>
+        <div class="grid sm:grid-cols-2 gap-6">
+          <div>
+            <label class="field-label" for="contato-nome">Seu nome</label>
+            <input id="contato-nome" name="nome" type="text" class="field" required>
+          </div>
+          <div>
+            <label class="field-label" for="contato-email">Seu e-mail</label>
+            <input id="contato-email" name="email" type="email" class="field" placeholder="opcional">
+          </div>
+        </div>
+        <div>
+          <label class="field-label" for="contato-assunto">Assunto</label>
+          <select id="contato-assunto" name="assunto" class="field">
+            <option>Dúvida sobre uma peça</option>
+            <option>Encomenda sob medida</option>
+            <option>Prazo e frete</option>
+            <option>Troca ou conserto</option>
+            <option>Parceria ou revenda</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label" for="contato-mensagem">Mensagem</label>
+          <textarea id="contato-mensagem" name="mensagem" rows="5" class="field" required></textarea>
+        </div>
+
+        <p id="contato-erro" class="text-body-md text-error hidden" role="alert"></p>
+
+        <button type="submit" class="btn btn-primary w-full">
+          <i data-icone="whatsapp" data-icone-classe="w-4 h-4"></i> Enviar pelo WhatsApp
+        </button>
+
+        <p id="contato-ok" tabindex="-1" class="text-body-md text-secondary text-center hidden focus:outline-none" role="status">
+          Abrimos o WhatsApp com sua mensagem. Se não abriu, confira o bloqueador de pop-ups. 🌿
+        </p>
+      </form>
+    </div>
+
+    <aside class="lg:col-span-2 space-y-8">
+      <div class="bg-surface-container-low rounded-xl p-8">
+        <h2 class="font-headline text-headline-md text-on-surface mb-6">O ateliê</h2>
+        <ul class="space-y-5 text-body-md text-on-surface-variant">
+          <li class="flex gap-4">
+            <span class="text-secondary shrink-0 mt-0.5"><i data-icone="local"></i></span>
+            <span>Atendemos só com hora marcada, em <span class="js-cidade">São Paulo, SP</span>.</span>
+          </li>
+          <li class="flex gap-4">
+            <span class="text-secondary shrink-0 mt-0.5"><i data-icone="relogio"></i></span>
+            <span class="js-horario">Segunda a sexta, das 9h às 18h</span>
+          </li>
+          <li class="flex gap-4">
+            <span class="text-secondary shrink-0 mt-0.5"><i data-icone="email"></i></span>
+            <a class="js-email hover:text-primary transition-colors" data-texto="1" href="#">contato@begoniaatelie.com.br</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="bg-secondary-container rounded-xl p-8">
+        <h2 class="font-headline text-headline-md text-on-secondary-fixed mb-3">Tempo de resposta</h2>
+        <p class="text-body-md text-on-secondary-fixed-variant">
+          Costumamos responder no mesmo dia útil. Se a gente demorar, é porque está com as
+          duas mãos ocupadas num ponto que não dá para largar no meio.
+        </p>
+      </div>
+    </aside>
+  </div>
+
+  <div class="stitch-rule mb-16" role="presentation"></div>
+
+  <!-- ===================== INFORMAÇÕES ===================== -->
+  <section aria-labelledby="t-info">
+    <h2 id="t-info" class="font-headline text-headline-lg-mobile md:text-headline-lg text-primary text-center mb-12">
+      Como funciona a parte prática
+    </h2>
+
+    <div class="grid md:grid-cols-3 gap-gutter">
+      <article id="envio" class="bg-surface-container-lowest rounded-xl p-8 soft-shadow scroll-mt-40">
+        <h3 class="font-headline text-headline-md text-on-surface mb-5">Envio</h3>
+        <ul class="leaf-list space-y-3 text-body-md text-on-surface-variant">
+          <li>Enviamos para todo o Brasil pelos Correios e por transportadora</li>
+          <li>Peças em pronta entrega saem em até 2 dias úteis</li>
+          <li>Encomendas saem no prazo combinado no início do pedido</li>
+          <li>Frete grátis acima de R$ 400 para Sudeste e Sul</li>
+          <li>O código de rastreio vai pelo WhatsApp assim que a peça é postada</li>
+        </ul>
+      </article>
+
+      <article id="pagamento" class="bg-surface-container-lowest rounded-xl p-8 soft-shadow scroll-mt-40">
+        <h3 class="font-headline text-headline-md text-on-surface mb-5">Pagamento</h3>
+        <ul class="leaf-list space-y-3 text-body-md text-on-surface-variant">
+          <li>Pix — com 5% de desconto à vista</li>
+          <li>Cartão em até 6× sem juros, por link de pagamento</li>
+          <li>Encomendas: 50% de sinal e 50% antes do envio</li>
+          <li>Nota fiscal emitida em toda compra</li>
+        </ul>
+      </article>
+
+      <article id="trocas" class="bg-surface-container-lowest rounded-xl p-8 soft-shadow scroll-mt-40">
+        <h3 class="font-headline text-headline-md text-on-surface mb-5">Trocas e consertos</h3>
+        <ul class="leaf-list space-y-3 text-body-md text-on-surface-variant">
+          <li>7 dias para desistir da compra, conforme o Código de Defesa do Consumidor</li>
+          <li>30 dias para trocar tamanho em peças de pronta entrega</li>
+          <li>Conserto gratuito no primeiro ano de uso</li>
+          <li>Peças sob medida não têm troca por tamanho — por isso conferimos tudo antes</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+</main>
+
+<footer class="bg-surface-container-high rounded-t-xl mt-4">
+  <div class="shell grid gap-10 md:grid-cols-4 py-14">
+    <div class="md:col-span-2">
+      <p class="font-headline text-headline-md text-primary mb-4">Begônia Ateliê</p>
+      <p class="text-body-md text-on-surface-variant max-w-xs mb-6">
+        Crochê, tricô e macramê feitos à mão em pequenos lotes. Peças para vestir e para morar.
+      </p>
+      <div class="flex items-center gap-3">
+        <a class="js-instagram grid place-items-center w-10 h-10 rounded-full bg-surface text-primary hover:bg-surface-container-lowest transition-colors" href="#" target="_blank" rel="noopener" aria-label="Instagram do Begônia Ateliê"><i data-icone="instagram"></i></a>
+        <a class="js-whatsapp grid place-items-center w-10 h-10 rounded-full bg-surface text-primary hover:bg-surface-container-lowest transition-colors" href="#" target="_blank" rel="noopener" aria-label="WhatsApp do Begônia Ateliê"><i data-icone="whatsapp"></i></a>
+        <a class="js-email grid place-items-center w-10 h-10 rounded-full bg-surface text-primary hover:bg-surface-container-lowest transition-colors" href="#" aria-label="Enviar e-mail para o ateliê"><i data-icone="email"></i></a>
+      </div>
+    </div>
+    <nav aria-labelledby="rodape-loja">
+      <h2 id="rodape-loja" class="text-label-sm uppercase tracking-wider text-on-surface mb-4">Loja</h2>
+      <ul class="space-y-3 text-body-md">
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html">Todas as peças</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?disp=pronta">Pronta entrega</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="sob-encomenda.html">Sob encomenda</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="sobre.html">Sobre o ateliê</a></li>
+      </ul>
+    </nav>
+    <nav aria-labelledby="rodape-ajuda">
+      <h2 id="rodape-ajuda" class="text-label-sm uppercase tracking-wider text-on-surface mb-4">Ajuda</h2>
+      <ul class="space-y-3 text-body-md">
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="contato.html#envio">Políticas de envio</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="contato.html#pagamento">Meios de pagamento</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="contato.html#trocas">Trocas e devoluções</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="contato.html">Fale com a gente</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="privacidade.html">Privacidade</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="shell border-t border-outline-variant/40 py-6">
+    <p class="text-body-md text-on-surface-variant text-center">
+      Begônia Ateliê © <span class="js-ano">2026</span>. Feito com amor à mão.
+    </p>
+  </div>
+</footer>
+
+<div id="painel-menu" data-painel class="hidden" role="dialog" aria-modal="true" aria-label="Menu de navegação">
+  <div data-fundo></div>
+  <div class="painel-corpo painel-esquerda">
+    <div class="flex items-center justify-between p-6 border-b border-outline-variant/40">
+      <span class="font-headline text-headline-md text-primary">Begônia Ateliê</span>
+      <button type="button" data-fechar="painel-menu" aria-label="Fechar menu" class="grid place-items-center w-10 h-10 rounded-full hover:bg-surface-container text-on-surface-variant"><i data-icone="fechar"></i></button>
+    </div>
+    <nav class="flex-1 overflow-y-auto p-6" aria-label="Navegação mobile">
+      <ul class="space-y-1 mb-8">
+        <li><a class="block py-3 font-headline text-headline-md text-on-surface hover:text-primary transition-colors" href="index.html">Início</a></li>
+        <li><a class="block py-3 font-headline text-headline-md text-on-surface hover:text-primary transition-colors" href="loja.html">Loja</a></li>
+        <li><a class="block py-3 font-headline text-headline-md text-on-surface hover:text-primary transition-colors" href="sob-encomenda.html">Sob Encomenda</a></li>
+        <li><a class="block py-3 font-headline text-headline-md text-on-surface hover:text-primary transition-colors" href="sobre.html">Sobre</a></li>
+        <li><a class="block py-3 font-headline text-headline-md text-primary" href="contato.html">Contato</a></li>
+      </ul>
+      <p class="text-label-sm uppercase tracking-wider text-on-surface-variant mb-4">Categorias</p>
+      <ul class="space-y-3 text-body-md">
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?cat=cardigans">Cardigans</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?cat=decoracao">Decoração</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?cat=suportes">Suportes de Planta</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?cat=acessorios">Acessórios</a></li>
+      </ul>
+    </nav>
+    <div class="p-6 border-t border-outline-variant/40">
+      <a class="js-whatsapp btn btn-primary w-full" href="#" target="_blank" rel="noopener"><i data-icone="whatsapp" data-icone-classe="w-4 h-4"></i> Falar no WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<div id="painel-busca" data-painel class="hidden" role="dialog" aria-modal="true" aria-label="Buscar peças">
+  <div data-fundo></div>
+  <div class="painel-corpo painel-topo">
+    <div class="shell py-6 flex items-center gap-4">
+      <label for="busca-campo" class="sr-only">Buscar peças</label>
+      <input id="busca-campo" type="search" placeholder="Buscar por cardigan, macramê, planta…" class="field flex-1" autocomplete="off">
+      <button type="button" data-fechar="painel-busca" aria-label="Fechar busca" class="grid place-items-center w-10 h-10 rounded-full hover:bg-surface-container text-on-surface-variant shrink-0"><i data-icone="fechar"></i></button>
+    </div>
+    <div id="busca-resultados" class="shell pb-8 overflow-y-auto"></div>
+  </div>
+</div>
+
+<div id="painel-favoritos" data-painel class="hidden" role="dialog" aria-modal="true" aria-label="Sua sacola">
+  <div data-fundo></div>
+  <div class="painel-corpo painel-direita">
+    <div class="flex items-center justify-between p-6 border-b border-outline-variant/40">
+      <h2 class="font-headline text-headline-md text-primary">Sua sacola</h2>
+      <button type="button" data-fechar="painel-favoritos" aria-label="Fechar a sacola" class="grid place-items-center w-10 h-10 rounded-full hover:bg-surface-container text-on-surface-variant"><i data-icone="fechar"></i></button>
+    </div>
+    <ul id="favoritos-corpo" class="flex-1 overflow-y-auto px-6"></ul>
+    <div id="favoritos-rodape" class="p-6 border-t border-outline-variant/40 hidden"></div>
+  </div>
+</div>
+
+<script src="src/js/dados.js"></script>
+<script src="src/js/site.js"></script>
+<script>
+  // Preenche cidade e horário a partir de dados.js.
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".js-cidade").forEach((el) => (el.textContent = ATELIE.cidade));
+    document.querySelectorAll(".js-horario").forEach((el) => (el.textContent = ATELIE.horario));
+
+    const form = document.getElementById("form-contato");
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const dados = new FormData(form);
+      const erro = document.getElementById("contato-erro");
+      const nome = (dados.get("nome") || "").toString().trim();
+      const texto = (dados.get("mensagem") || "").toString().trim();
+
+      if (!nome || !texto) {
+        erro.textContent = "Precisamos do seu nome e da mensagem para continuar.";
+        erro.classList.remove("hidden");
+        (nome ? form.querySelector("[name=mensagem]") : form.querySelector("[name=nome]")).focus();
+        return;
+      }
+      erro.classList.add("hidden");
+
+      const linhas = [`Olá! Sou ${nome}.`, "", `Assunto: ${dados.get("assunto")}`, "", texto];
+      if (dados.get("email")) linhas.push("", `Meu e-mail: ${dados.get("email")}`);
+
+      window.open(linkWhatsApp(linhas.join("\n")), "_blank", "noopener");
+      const ok = document.getElementById("contato-ok");
+      ok.classList.remove("hidden");
+      ok.focus();
+    });
+  });
+</script>
+</body>
+</html>

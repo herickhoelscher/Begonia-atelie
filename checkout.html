@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finalizar compra — Begônia Ateliê</title>
+<meta name="description" content="Finalize sua compra no Begônia Ateliê com Pix, cartão de crédito ou de débito.">
+<meta name="theme-color" content="#faf9f6">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap">
+<link rel="stylesheet" href="css/site.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+
+<a href="#conteudo" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[70] focus:btn focus:btn-primary">Pular para o conteúdo</a>
+
+<!-- ===================== CABEÇALHO ===================== -->
+<header id="cabecalho" class="sticky top-0 z-50 bg-surface transition-shadow duration-300">
+  <div class="shell">
+    <div class="flex items-center justify-between gap-4 py-4">
+      <a href="index.html" class="font-headline text-headline-md text-primary shrink-0">Begônia Ateliê</a>
+      <nav class="hidden md:flex items-center gap-8" aria-label="Navegação principal">
+        <a class="nav-link" href="index.html">Início</a>
+        <a class="nav-link" href="loja.html">Loja</a>
+        <a class="nav-link" href="sob-encomenda.html">Sob Encomenda</a>
+        <a class="nav-link" href="sobre.html">Sobre</a>
+        <a class="nav-link" href="contato.html">Contato</a>
+      </nav>
+      <div class="flex items-center gap-1 text-primary">
+        <button type="button" data-abrir="painel-busca" aria-label="Buscar peças"
+                class="grid place-items-center w-10 h-10 rounded-full hover:bg-surface-container transition-colors">
+          <i data-icone="busca"></i>
+        </button>
+        <button type="button" data-abrir="painel-favoritos" aria-label="Abrir a sacola"
+                class="relative grid place-items-center w-10 h-10 rounded-full hover:bg-surface-container transition-colors">
+          <i data-icone="sacola"></i>
+          <span class="js-contador-favoritos hidden absolute top-0.5 right-0.5 grid place-items-center min-w-5 h-5 px-1 rounded-full bg-primary text-on-primary text-[10px] font-semibold">0</span>
+        </button>
+        <button type="button" data-abrir="painel-menu" aria-label="Abrir menu"
+                class="md:hidden grid place-items-center w-10 h-10 rounded-full hover:bg-surface-container transition-colors">
+          <i data-icone="menu"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="hidden md:block bg-surface-container-low border-t border-outline-variant/40">
+    <div class="shell flex justify-center items-center gap-gutter py-2 text-label-sm">
+      <span class="uppercase tracking-wider font-semibold text-on-secondary-container">Categorias</span>
+      <a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?cat=cardigans">Cardigans</a>
+      <a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?cat=decoracao">Decoração</a>
+      <a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?cat=suportes">Suportes de Planta</a>
+      <a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?disp=pronta">Pronta Entrega</a>
+    </div>
+  </div>
+</header>
+
+
+<main id="conteudo" class="shell py-10 md:py-16">
+
+  <nav aria-label="Você está aqui" class="mb-8">
+    <ol class="flex items-center gap-2 text-label-sm text-on-surface-variant">
+      <li><a class="hover:text-primary transition-colors" href="loja.html">Loja</a></li>
+      <li aria-hidden="true"><i data-icone="chevronDir" data-icone-classe="w-4 h-4"></i></li>
+      <li><span class="text-primary" aria-current="page">Finalizar compra</span></li>
+    </ol>
+  </nav>
+
+  <!-- Sacola vazia: nada a pagar, então nem mostramos o formulário. -->
+  <div id="checkout-vazio" class="hidden text-center py-24">
+    <div class="mx-auto grid place-items-center w-16 h-16 rounded-full bg-surface-container text-primary mb-6">
+      <i data-icone="sacola" data-icone-classe="w-8 h-8"></i>
+    </div>
+    <h1 class="font-headline text-headline-lg-mobile md:text-headline-lg text-primary mb-3">Sua sacola está vazia</h1>
+    <p class="text-body-md text-on-surface-variant max-w-md mx-auto mb-10">
+      Escolha as peças na loja e elas aparecem aqui para fechar a compra.
+    </p>
+    <a href="loja.html" class="btn btn-primary">Ver a loja</a>
+  </div>
+
+  <!-- Pagamento não configurado: avisamos antes de a pessoa preencher tudo. -->
+  <div id="checkout-indisponivel" class="hidden max-w-2xl mx-auto text-center py-24">
+    <h1 class="font-headline text-headline-lg-mobile md:text-headline-lg text-primary mb-3">
+      O pagamento online está fora do ar
+    </h1>
+    <p class="text-body-md text-on-surface-variant mb-10">
+      Sua sacola continua guardada. Enquanto isso, dá para fechar pelo WhatsApp — a gente
+      confirma tudo por lá.
+    </p>
+    <a id="checkout-whatsapp-alternativo" class="btn btn-primary" href="#" target="_blank" rel="noopener">
+      <i data-icone="whatsapp" data-icone-classe="w-4 h-4"></i> Fechar pelo WhatsApp
+    </a>
+  </div>
+
+  <div id="checkout-conteudo" class="hidden">
+    <h1 class="font-headline text-headline-lg-mobile md:text-headline-xl text-primary mb-8">Finalizar compra</h1>
+
+    <!-- Progresso: o fio de macramê da marca liga um passo ao outro.
+         Marca sozinho conforme os campos ficam válidos. -->
+    <ol class="passos mb-10 overflow-x-auto pb-2" aria-label="Progresso do checkout">
+      <li class="passo" data-passo="dados" aria-current="step">
+        <span class="passo-numero">1</span> Seus dados
+      </li>
+      <li class="passo-fio" role="presentation"></li>
+      <li class="passo" data-passo="entrega"><span class="passo-numero">2</span> Entrega</li>
+      <li class="passo-fio" role="presentation"></li>
+      <li class="passo" data-passo="pagamento"><span class="passo-numero">3</span> Pagamento</li>
+    </ol>
+
+    <form id="form-checkout" class="grid lg:grid-cols-5 gap-10 lg:gap-16 items-start" novalidate>
+
+      <!-- =============== COLUNA DO FORMULÁRIO =============== -->
+      <div class="lg:col-span-3 space-y-10">
+
+        <!-- 1. Seus dados -->
+        <fieldset data-secao="dados" class="bg-surface-container-lowest rounded-xl p-6 md:p-8 soft-shadow">
+          <legend class="font-headline text-headline-md text-on-surface px-2">Seus dados</legend>
+          <div class="grid sm:grid-cols-2 gap-5 mt-4">
+            <div class="sm:col-span-2">
+              <label class="field-label" for="c-nome">Nome completo</label>
+              <input id="c-nome" name="nome" type="text" class="field" autocomplete="name" required>
+            </div>
+            <div>
+              <label class="field-label" for="c-email">E-mail</label>
+              <input id="c-email" name="email" type="email" class="field" autocomplete="email" required>
+            </div>
+            <div>
+              <label class="field-label" for="c-whatsapp">WhatsApp</label>
+              <input id="c-whatsapp" name="whatsapp" type="tel" class="field" autocomplete="tel"
+                     placeholder="(11) 98888-7777" required>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="field-label" for="c-cpf">
+                CPF <span class="normal-case tracking-normal font-normal text-on-surface-variant/80" id="c-cpf-nota">— obrigatório para pagar no Pix</span>
+              </label>
+              <input id="c-cpf" name="cpf" type="text" class="field" inputmode="numeric" placeholder="000.000.000-00">
+              <p class="text-label-sm text-on-surface-variant normal-case tracking-normal mt-2">
+                O CPF vai direto para o Mercado Pago, que precisa dele para emitir a cobrança.
+                A gente não guarda esse número.
+              </p>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- 2. Entrega -->
+        <fieldset data-secao="entrega" class="bg-surface-container-lowest rounded-xl p-6 md:p-8 soft-shadow">
+          <legend class="font-headline text-headline-md text-on-surface px-2">Entrega</legend>
+          <div class="grid sm:grid-cols-6 gap-5 mt-4">
+            <div class="sm:col-span-2">
+              <label class="field-label" for="c-cep">CEP</label>
+              <input id="c-cep" name="cep" type="text" class="field" inputmode="numeric"
+                     autocomplete="postal-code" placeholder="00000-000" required>
+              <p id="c-cep-aviso" class="text-label-sm text-on-surface-variant normal-case tracking-normal mt-2 hidden"></p>
+            </div>
+            <div class="sm:col-span-4">
+              <label class="field-label" for="c-rua">Rua</label>
+              <input id="c-rua" name="rua" type="text" class="field" autocomplete="address-line1" required>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="field-label" for="c-numero">Número</label>
+              <input id="c-numero" name="numero" type="text" class="field" placeholder="123 ou S/N" required>
+            </div>
+            <div class="sm:col-span-4">
+              <label class="field-label" for="c-complemento">Complemento <span class="normal-case tracking-normal font-normal text-on-surface-variant/80">— opcional</span></label>
+              <input id="c-complemento" name="complemento" type="text" class="field" autocomplete="address-line2">
+            </div>
+            <div class="sm:col-span-3">
+              <label class="field-label" for="c-bairro">Bairro</label>
+              <input id="c-bairro" name="bairro" type="text" class="field" required>
+            </div>
+            <div class="sm:col-span-3">
+              <label class="field-label" for="c-cidade">Cidade</label>
+              <input id="c-cidade" name="cidade" type="text" class="field" autocomplete="address-level2" required>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="field-label" for="c-estado">Estado</label>
+              <select id="c-estado" name="estado" class="field" autocomplete="address-level1" required>
+                <option value="">UF</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- 3. Pagamento -->
+        <fieldset data-secao="pagamento" class="bg-surface-container-lowest rounded-xl p-6 md:p-8 soft-shadow">
+          <legend class="font-headline text-headline-md text-on-surface px-2">Pagamento</legend>
+
+          <div id="c-metodos" class="grid gap-3 mt-4" role="radiogroup" aria-label="Forma de pagamento"></div>
+
+          <div class="mt-6">
+            <label class="field-label" for="c-observacoes">Observações <span class="normal-case tracking-normal font-normal text-on-surface-variant/80">— opcional</span></label>
+            <textarea id="c-observacoes" name="observacoes" rows="3" class="field"
+                      placeholder="É presente? Prefere alguma cor? Conte aqui."></textarea>
+          </div>
+
+          <p class="selo-seguro mt-6">
+            <i data-icone="cadeado" data-icone-classe="w-4 h-4"></i>
+            Os dados do cartão são digitados no ambiente do Mercado Pago. Este site nunca vê o número do seu cartão.
+          </p>
+        </fieldset>
+      </div>
+
+      <!-- =============== COLUNA DO RESUMO =============== -->
+      <aside class="lg:col-span-2 lg:sticky lg:top-40">
+        <div class="bg-surface-container rounded-xl p-6 md:p-8">
+          <h2 class="font-headline text-headline-md text-on-surface mb-6">Seu pedido</h2>
+
+          <ul id="c-itens" class="space-y-4 mb-6"></ul>
+
+          <div class="stitch-rule my-6" role="presentation"></div>
+
+          <dl class="space-y-3 text-body-md">
+            <div class="flex justify-between">
+              <dt class="text-on-surface-variant">Subtotal</dt>
+              <dd id="c-subtotal">—</dd>
+            </div>
+            <div class="flex justify-between">
+              <dt class="text-on-surface-variant">Frete</dt>
+              <dd id="c-frete" class="text-right">Informe o CEP</dd>
+            </div>
+            <div class="flex justify-between items-baseline pt-3 border-t border-outline-variant/50">
+              <dt class="font-headline text-body-lg text-on-surface">Total</dt>
+              <dd id="c-total" class="font-headline text-headline-md text-primary">—</dd>
+            </div>
+          </dl>
+
+          <p id="c-erro" class="text-body-md text-error mt-6 hidden" role="alert"></p>
+
+          <button type="submit" id="c-enviar" class="btn btn-primary w-full mt-6">
+            <span id="c-enviar-texto">Ir para o pagamento</span>
+          </button>
+
+          <p class="text-label-sm text-on-surface-variant text-center normal-case tracking-normal mt-4">
+            Peça sob encomenda não entra aqui — ela é fechada pelo WhatsApp.
+            <a href="privacidade.html" class="text-primary underline underline-offset-4">Como tratamos seus dados</a>.
+          </p>
+        </div>
+      </aside>
+    </form>
+  </div>
+</main>
+
+
+<footer class="bg-surface-container-high rounded-t-xl mt-4">
+  <div class="shell grid gap-10 md:grid-cols-4 py-14">
+    <div class="md:col-span-2">
+      <p class="font-headline text-headline-md text-primary mb-4">Begônia Ateliê</p>
+      <p class="text-body-md text-on-surface-variant max-w-xs mb-6">
+        Crochê, tricô e macramê feitos à mão em pequenos lotes. Peças para vestir e para morar.
+      </p>
+      <div class="flex items-center gap-3">
+        <a class="js-instagram grid place-items-center w-10 h-10 rounded-full bg-surface text-primary hover:bg-surface-container-lowest transition-colors" href="#" target="_blank" rel="noopener" aria-label="Instagram do Begônia Ateliê"><i data-icone="instagram"></i></a>
+        <a class="js-whatsapp grid place-items-center w-10 h-10 rounded-full bg-surface text-primary hover:bg-surface-container-lowest transition-colors" href="#" target="_blank" rel="noopener" aria-label="WhatsApp do Begônia Ateliê"><i data-icone="whatsapp"></i></a>
+        <a class="js-email grid place-items-center w-10 h-10 rounded-full bg-surface text-primary hover:bg-surface-container-lowest transition-colors" href="#" aria-label="Enviar e-mail para o ateliê"><i data-icone="email"></i></a>
+      </div>
+    </div>
+    <nav aria-labelledby="rodape-loja">
+      <h2 id="rodape-loja" class="text-label-sm uppercase tracking-wider text-on-surface mb-4">Loja</h2>
+      <ul class="space-y-3 text-body-md">
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html">Todas as peças</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?disp=pronta">Pronta entrega</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="sob-encomenda.html">Sob encomenda</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="sobre.html">Sobre o ateliê</a></li>
+      </ul>
+    </nav>
+    <nav aria-labelledby="rodape-ajuda">
+      <h2 id="rodape-ajuda" class="text-label-sm uppercase tracking-wider text-on-surface mb-4">Ajuda</h2>
+      <ul class="space-y-3 text-body-md">
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="contato.html#envio">Políticas de envio</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="contato.html#pagamento">Meios de pagamento</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="contato.html#trocas">Trocas e devoluções</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="contato.html">Fale com a gente</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="privacidade.html">Privacidade</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="shell border-t border-outline-variant/40 py-6">
+    <p class="text-body-md text-on-surface-variant text-center">
+      Begônia Ateliê © <span class="js-ano">2026</span>. Feito com amor à mão.
+    </p>
+  </div>
+</footer>
+
+<!-- ===================== PAINÉIS ===================== -->
+<div id="painel-menu" data-painel class="hidden" role="dialog" aria-modal="true" aria-label="Menu de navegação">
+  <div data-fundo></div>
+  <div class="painel-corpo painel-esquerda">
+    <div class="flex items-center justify-between p-6 border-b border-outline-variant/40">
+      <span class="font-headline text-headline-md text-primary">Begônia Ateliê</span>
+      <button type="button" data-fechar="painel-menu" aria-label="Fechar menu" class="grid place-items-center w-10 h-10 rounded-full hover:bg-surface-container text-on-surface-variant"><i data-icone="fechar"></i></button>
+    </div>
+    <nav class="flex-1 overflow-y-auto p-6" aria-label="Navegação mobile">
+      <ul class="space-y-1 mb-8">
+        <li><a class="block py-3 font-headline text-headline-md text-on-surface hover:text-primary transition-colors" href="index.html">Início</a></li>
+        <li><a class="block py-3 font-headline text-headline-md text-on-surface hover:text-primary transition-colors" href="loja.html">Loja</a></li>
+        <li><a class="block py-3 font-headline text-headline-md text-on-surface hover:text-primary transition-colors" href="sob-encomenda.html">Sob Encomenda</a></li>
+        <li><a class="block py-3 font-headline text-headline-md text-on-surface hover:text-primary transition-colors" href="sobre.html">Sobre</a></li>
+        <li><a class="block py-3 font-headline text-headline-md text-on-surface hover:text-primary transition-colors" href="contato.html">Contato</a></li>
+      </ul>
+      <p class="text-label-sm uppercase tracking-wider text-on-surface-variant mb-4">Categorias</p>
+      <ul class="space-y-3 text-body-md">
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?cat=cardigans">Cardigans</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?cat=decoracao">Decoração</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?cat=suportes">Suportes de Planta</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?cat=acessorios">Acessórios</a></li>
+      </ul>
+    </nav>
+    <div class="p-6 border-t border-outline-variant/40">
+      <a class="js-whatsapp btn btn-primary w-full" href="#" target="_blank" rel="noopener"><i data-icone="whatsapp" data-icone-classe="w-4 h-4"></i> Falar no WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<div id="painel-busca" data-painel class="hidden" role="dialog" aria-modal="true" aria-label="Buscar peças">
+  <div data-fundo></div>
+  <div class="painel-corpo painel-topo">
+    <div class="shell py-6 flex items-center gap-4">
+      <label for="busca-campo" class="sr-only">Buscar peças</label>
+      <input id="busca-campo" type="search" placeholder="Buscar por cardigan, macramê, planta…" class="field flex-1" autocomplete="off">
+      <button type="button" data-fechar="painel-busca" aria-label="Fechar busca" class="grid place-items-center w-10 h-10 rounded-full hover:bg-surface-container text-on-surface-variant shrink-0"><i data-icone="fechar"></i></button>
+    </div>
+    <div id="busca-resultados" class="shell pb-8 overflow-y-auto"></div>
+  </div>
+</div>
+
+<div id="painel-favoritos" data-painel class="hidden" role="dialog" aria-modal="true" aria-label="Sua sacola">
+  <div data-fundo></div>
+  <div class="painel-corpo painel-direita">
+    <div class="flex items-center justify-between p-6 border-b border-outline-variant/40">
+      <h2 class="font-headline text-headline-md text-primary">Sua sacola</h2>
+      <button type="button" data-fechar="painel-favoritos" aria-label="Fechar a sacola" class="grid place-items-center w-10 h-10 rounded-full hover:bg-surface-container text-on-surface-variant"><i data-icone="fechar"></i></button>
+    </div>
+    <ul id="favoritos-corpo" class="flex-1 overflow-y-auto px-6"></ul>
+    <div id="favoritos-rodape" class="p-6 border-t border-outline-variant/40 hidden"></div>
+  </div>
+</div>
+
+
+<script src="src/js/dados.js"></script>
+<script src="src/js/site.js"></script>
+<script src="src/js/checkout.js"></script>
+</body>
+</html>

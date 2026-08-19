@@ -1,0 +1,13 @@
+node_modules/
+.DS_Store
+Thumbs.db
+
+# CSS compilado — gerado por `npm run build`.
+# Se o seu host não roda build, comente a linha abaixo e versione o arquivo.
+css/site.css
+
+# Segredos: nunca versionar.
+.env
+.env.local
+.env*.local
+.vercel
