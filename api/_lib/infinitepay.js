@@ -68,7 +68,21 @@ async function chamar(caminho, corpo) {
 
   if (!resposta.ok) {
     console.error("[infinitepay] POST %s -> %s %s", caminho, resposta.status, texto.slice(0, 500));
+
+    // Erro que a gente sabe que vai acontecer pelo menos uma vez: a conta
+    // existe, mas o Checkout Integrado ainda não foi ligado no app. Sem esta
+    // mensagem, o log diria só "404" e ninguém saberia o que fazer.
+    if (dados && dados.error === "external_checkout_not_enabled") {
+      console.error(
+        "[infinitepay] ATENÇÃO: o Checkout Integrado não está habilitado na conta %s. " +
+          "Ligue em https://app.infinitepay.io/external-checkout#configuracoes " +
+          "— até lá nenhuma cobrança pode ser criada.",
+        process.env.INFINITEPAY_HANDLE
+      );
+    }
+
     const e = new Error((dados && (dados.message || dados.error)) || `InfinitePay respondeu ${resposta.status}`);
+    e.codigo = dados && dados.error;
     e.status = resposta.status;
     e.detalhes = dados;
     throw e;
