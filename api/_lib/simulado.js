@@ -71,71 +71,52 @@ function traduzirStatus(status) {
   return status === "approved" ? "aprovado" : status === "rejected" ? "recusado" : "pendente";
 }
 
-/* Depois do atraso, dispara o nosso próprio webhook — assim o caminho de
-   confirmação e o e-mail para a dona são exercitados de verdade, e não só
-   o polling da tela. Só funciona em processo longo (o dev-server). */
-function agendarWebhook(idGateway, urlSite) {
-  const disparar = async () => {
-    try {
-      await fetch(`${urlSite}/api/webhook`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "x-simulado": idGateway },
-        body: JSON.stringify({ type: "payment", data: { id: idGateway } }),
-      });
-      console.log("[simulado] webhook disparado para %s", idGateway);
-    } catch (e) {
-      console.warn("[simulado] não consegui disparar o webhook:", e.message);
-    }
-  };
-  const t = setTimeout(disparar, (ATRASO_SEGUNDOS + 1) * 1000);
-  if (typeof t.unref === "function") t.unref();
+/* Decisões tomadas na tela falsa de pagamento.
+
+   Antes o pagamento se aprovava sozinho depois de alguns segundos, o que
+   deixava a simulação com uma tela a menos que a produção: na vida real a
+   pessoa sai do site, paga na página do provedor e volta. Agora a decisão é
+   explícita, e dá para testar também a recusa e a desistência.
+
+   Fica em globalThis para sobreviver ao recarregamento de módulo que o
+   servidor de desenvolvimento faz a cada requisição. */
+const decisoes = globalThis.__begoniaDecisoesSimuladas || (globalThis.__begoniaDecisoesSimuladas = new Map());
+
+function registrarDecisao(idGateway, decisao) {
+  exigirDesenvolvimento();
+  decisoes.set(String(idGateway), decisao === "recusar" ? "rejected" : "approved");
+  console.log("[simulado] pagamento %s marcado como %s", idGateway, decisao);
 }
 
-async function criarPagamentoPix({ referencia, pedido, urlSite }) {
-  exigirDesenvolvimento();
+/* Manda para a tela falsa de pagamento — o equivalente, na simulação, à
+   página do provedor. */
+function paraTelaDePagamento({ referencia, pedido, metodo, urlSite }) {
   const idGateway = montarId(referencia);
-  agendarWebhook(idGateway, urlSite);
+  console.log("[simulado] pagamento %s criado para o pedido %s (%s)", idGateway, referencia, pedido.total);
 
-  console.log(
-    "[simulado] Pix de %s para o pedido %s — aprova sozinho em %ss",
-    pedido.total,
-    referencia,
-    ATRASO_SEGUNDOS
-  );
-
-  return {
-    tipo: "pix",
-    idGateway,
-    status: "pendente",
-    // Copia-e-cola falso, com o aviso escrito dentro: ninguém paga isso por engano.
-    qrCodeTexto: `00020126SIMULADO-NAO-E-UM-PIX-DE-VERDADE-${referencia}-VALOR-${pedido.total.toFixed(2)}6304TEST`,
-    qrCodeImagem: null, // sem QR: a tela mostra só o copia-e-cola
-    expiraEm: new Date(Date.now() + 30 * 60 * 1000).toISOString(),
-    simulado: true,
-  };
-}
-
-async function criarPagamentoCartao({ referencia, pedido, metodo, urlSite }) {
-  exigirDesenvolvimento();
-  const idGateway = montarId(referencia);
-  agendarWebhook(idGateway, urlSite);
-
-  console.log(
-    "[simulado] %s de %s para o pedido %s — aprova sozinho em %ss",
-    metodo,
-    pedido.total,
-    referencia,
-    ATRASO_SEGUNDOS
-  );
+  const parametros = new URLSearchParams({
+    ref: referencia,
+    id: idGateway,
+    total: String(pedido.total),
+    metodo: metodo || "checkout",
+  });
 
   return {
     tipo: "redirecionamento",
     idGateway,
-    // Em vez do ambiente do Mercado Pago, vai direto para a tela de
-    // acompanhamento — que é onde a pessoa cairia depois de pagar.
-    url: `${urlSite}/pedido.html?ref=${referencia}`,
+    url: `${urlSite}/pagamento-simulado.html?${parametros}`,
     simulado: true,
   };
+}
+
+async function criarPagamentoPix(args) {
+  exigirDesenvolvimento();
+  return paraTelaDePagamento({ ...args, metodo: "pix" });
+}
+
+async function criarPagamentoCartao(args) {
+  exigirDesenvolvimento();
+  return paraTelaDePagamento(args);
 }
 
 async function consultarPagamento(idPagamento) {
@@ -143,21 +124,24 @@ async function consultarPagamento(idPagamento) {
   const dados = lerId(idPagamento);
   if (!dados) throw new Error(`Identificador simulado inválido: ${idPagamento}`);
 
-  const passou = (Date.now() - dados.criadoEm) / 1000 >= ATRASO_SEGUNDOS;
-  const bruto = passou ? "approved" : "pending";
+  // Sem decisão registrada, o pagamento está pendente: a pessoa ainda não
+  // clicou nada na tela falsa.
+  const bruto = decisoes.get(String(idPagamento)) || "pending";
+  const passou = bruto === "approved";
 
   return {
     idGateway: String(idPagamento),
     referencia: dados.referencia,
     status: traduzirStatus(bruto),
     statusOriginal: bruto,
-    detalheStatus: passou ? "accredited" : "pending_waiting_transfer",
+    detalheStatus:
+      bruto === "approved" ? "accredited" : bruto === "rejected" ? "cc_rejected_other_reason" : "pending_waiting_payment",
     // O valor real vem do nosso próprio registro do pedido; devolvemos null
     // para a conferência de valor do webhook não reprovar a simulação.
     valor: null,
     metodo: "simulado",
     tipoMetodo: "simulado",
-    pagoEm: passou ? new Date(dados.criadoEm + ATRASO_SEGUNDOS * 1000).toISOString() : null,
+    pagoEm: passou ? new Date().toISOString() : null,
     cartaoFinal: null,
     simulado: true,
   };
@@ -174,6 +158,7 @@ function validarWebhook({ cabecalhos, idRecurso }) {
 module.exports = {
   nome: "simulado",
   capacidades,
+  registrarDecisao,
   extrairNotificacao,
   criarPagamentoUnico: (args) => module.exports.criarPagamentoCartao(args),
   criarPagamentoCartao,
