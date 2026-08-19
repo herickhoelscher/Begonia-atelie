@@ -136,16 +136,34 @@ function chaveCliente(email) {
 }
 
 /* Sem histórico configurado não dá para responder com honestidade, então
-   devolvemos null — e quem chama decide não oferecer o desconto. */
+   devolvemos null — e quem chama decide não oferecer o desconto.
+
+   Em desenvolvimento, HISTORICO_EM_MEMORIA=true libera uma lista na memória
+   do processo, só para dar para testar o desconto de primeira compra sem
+   subir um Redis. Ela some quando o servidor reinicia, e em produção o
+   Redis sempre ganha desta opção. */
+const historicoEmMemoria = process.env.HISTORICO_EM_MEMORIA === "true";
+const chaveClientes = "begonia:clientes";
+
 async function jaComprou(email) {
-  if (!configurado) return null;
-  const resultado = await comando("SISMEMBER", "begonia:clientes", chaveCliente(email));
+  if (!configurado) {
+    if (!historicoEmMemoria) return null;
+    const lista = memoria.get(chaveClientes) || new Set();
+    return lista.has(chaveCliente(email));
+  }
+  const resultado = await comando("SISMEMBER", chaveClientes, chaveCliente(email));
   return Number(resultado) === 1;
 }
 
 async function registrarCliente(email) {
-  if (!configurado) return false;
-  await comando("SADD", "begonia:clientes", chaveCliente(email));
+  if (!configurado) {
+    if (!historicoEmMemoria) return false;
+    const lista = memoria.get(chaveClientes) || new Set();
+    lista.add(chaveCliente(email));
+    memoria.set(chaveClientes, lista);
+    return true;
+  }
+  await comando("SADD", chaveClientes, chaveCliente(email));
   return true;
 }
 

@@ -6,9 +6,15 @@
 
 const ATELIE = {
   nome: "Begônia Ateliê",
-  // TROCAR: número real, formato internacional, só dígitos.
-  whatsapp: "5511999990000",
-  instagram: "https://instagram.com/begoniaatelie",
+  // Formato internacional, só dígitos: 55 + DDD + número.
+  // CONFERIR: o número informado foi +55 45 9852-4129, que dá 8 dígitos
+  // depois do DDD. Celular no Brasil tem 9 — provavelmente falta um dígito
+  // e o certo é 45 99852-4129 (ou seja, "5545998524129"). Enquanto isso não
+  // for confirmado, todo botão de WhatsApp do site aponta para o número
+  // abaixo, do jeito que veio.
+  whatsapp: "554598524129",
+  instagram: "https://www.instagram.com/begonia.ateliee/",
+  // TROCAR: ainda são exemplos.
   email: "contato@begoniaatelie.com.br",
   cidade: "São Paulo, SP",
   horario: "Segunda a sexta, das 9h às 18h",

@@ -14,13 +14,28 @@ teste e vender de verdade. Está separado por assunto e marcado por urgência:
 Hoje esses valores são **exemplos inventados** e aparecem em todo botão de WhatsApp do site,
 no rodapé, na página de contato e dentro dos e-mails de pedido.
 
-| O que preciso | Está hoje | Onde é usado |
+| O que preciso | Situação | Onde é usado |
 | --- | --- | --- |
-| Número de WhatsApp com DDD | `(11) 99999-0000` | Todos os botões de WhatsApp, e-mail de pedido |
-| Perfil do Instagram | `@begoniaatelie` | Rodapé, página de contato |
-| E-mail de contato | `contato@begoniaatelie.com.br` | Rodapé, página de contato, privacidade |
-| Cidade e estado do ateliê | `São Paulo, SP` | Página de contato |
-| Horário de atendimento | `Seg a sex, 9h às 18h` | Página de contato |
+| Número de WhatsApp | ⚠️ `+55 45 9852-4129` — **conferir, ver abaixo** | Todos os botões de WhatsApp, e-mail de pedido |
+| Perfil do Instagram | ✅ `instagram.com/begonia.ateliee` | Rodapé, página de contato |
+| E-mail de contato | ❌ ainda é exemplo | Rodapé, página de contato, privacidade |
+| Cidade e estado do ateliê | ❌ ainda diz "São Paulo, SP" | Página de contato |
+| Horário de atendimento | ❌ ainda é exemplo | Página de contato |
+
+> ⚠️ **O WhatsApp precisa de confirmação.** O número informado foi
+> **+55 45 9852-4129**, que tem **8 dígitos depois do DDD**. Celular no Brasil tem 9 —
+> todos ganharam o dígito 9 na frente. O provável é que o certo seja
+> **(45) 99852-4129**.
+>
+> Um dígito a menos não dá erro visível: o link abre e o WhatsApp diz que o número não
+> existe. Como ele está em **todo botão do site** e dentro do e-mail de pedido, vale
+> confirmar antes de publicar.
+>
+> Se estiver faltando o 9, é uma linha em `src/js/dados.js`: trocar `554598524129`
+> por `5545998524129`.
+
+> **O DDD 45 é do Paraná** (região de Cascavel e Foz do Iguaçu), mas a página de contato
+> ainda diz "São Paulo, SP". Precisa da cidade real dela.
 
 > Onde entra: `src/js/dados.js`, no objeto `ATELIE` (primeiras linhas do arquivo).
 
