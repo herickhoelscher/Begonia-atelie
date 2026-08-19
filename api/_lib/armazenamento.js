@@ -12,6 +12,8 @@
    quem precisa dele por obrigação legal.
    ========================================================================= */
 
+const crypto = require("crypto");
+
 const URL_REDIS = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
 const TOKEN_REDIS = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
 
@@ -122,6 +124,31 @@ async function liberarNotificacao(referencia) {
   await comando("DEL", chave);
 }
 
+/* --- Clientes que já compraram ------------------------------------------
+   Serve para o desconto de primeira compra. Guardamos o HASH do e-mail, não
+   o e-mail: dá para responder "essa pessoa já comprou?" sem manter uma lista
+   de endereços em texto puro no banco.
+   ----------------------------------------------------------------------- */
+
+function chaveCliente(email) {
+  const normalizado = String(email || "").trim().toLowerCase();
+  return crypto.createHash("sha256").update(normalizado).digest("hex").slice(0, 32);
+}
+
+/* Sem histórico configurado não dá para responder com honestidade, então
+   devolvemos null — e quem chama decide não oferecer o desconto. */
+async function jaComprou(email) {
+  if (!configurado) return null;
+  const resultado = await comando("SISMEMBER", "begonia:clientes", chaveCliente(email));
+  return Number(resultado) === 1;
+}
+
+async function registrarCliente(email) {
+  if (!configurado) return false;
+  await comando("SADD", "begonia:clientes", chaveCliente(email));
+  return true;
+}
+
 /* --- Limite de taxa -----------------------------------------------------
    Trava simples por IP, para ninguém usar o endpoint de pagamento como
    metralhadora contra a nossa conta do Mercado Pago.
@@ -151,5 +178,7 @@ module.exports = {
   atualizarPedido,
   reservarNotificacao,
   liberarNotificacao,
+  jaComprou,
+  registrarCliente,
   dentroDoLimite,
 };

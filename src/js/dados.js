@@ -292,8 +292,9 @@ function caminhoImagem(produto, tamanho = "") {
    ========================================================================= */
 
 const ENVIO = {
-  gratisAcimaDe: 400,
-  regioesComFreteGratis: ["sudeste", "sul"],
+  // Regra da dona: frete grátis a partir de R$ 120, sem restrição de região.
+  gratisAcimaDe: 120,
+  regioesComFreteGratis: ["norte", "nordeste", "centro-oeste", "sudeste", "sul"],
   // Valor fixo por região. Trocar por cálculo dos Correios é uma mudança
   // isolada: só esta tabela e a função fretePara() precisam mudar.
   tabela: {
@@ -321,10 +322,13 @@ function regiaoPorUF(uf) {
 }
 
 /* Frete de um pedido. Devolve 0 quando é grátis, null quando a UF é inválida. */
-function fretePara(uf, subtotal) {
+/* O frete grátis é decidido pelo valor das PEÇAS, antes dos descontos.
+   Se fosse depois, um desconto poderia derrubar o pedido abaixo do limite e
+   o frete reapareceria na tela — que é a pior surpresa possível num checkout. */
+function fretePara(uf, subtotalSemDesconto) {
   const regiao = regiaoPorUF(uf);
   if (!regiao) return null;
-  if (ENVIO.regioesComFreteGratis.includes(regiao) && subtotal >= ENVIO.gratisAcimaDe) return 0;
+  if (ENVIO.regioesComFreteGratis.includes(regiao) && subtotalSemDesconto >= ENVIO.gratisAcimaDe) return 0;
   return ENVIO.tabela[regiao];
 }
 
@@ -350,6 +354,70 @@ function podeComprarOnline(produto) {
 }
 
 /* =========================================================================
+   Descontos
+
+   Quem aplica é sempre o servidor: o navegador só mostra o que o servidor
+   respondeu. Mudar um percentual aqui muda a vitrine E a cobrança.
+   ========================================================================= */
+
+const DESCONTOS = {
+  primeiraCompra: {
+    ativo: true,
+    percentual: 10,
+    rotulo: "Primeira compra",
+    // Só é oferecido quando dá para verificar de verdade, ou seja, quando o
+    // histórico de pedidos está configurado. Sem isso, todo mundo seria
+    // "primeira compra" para sempre — e a promoção nunca terminaria.
+    exigeHistorico: true,
+  },
+  pix: {
+    ativo: true,
+    percentual: 5,
+    rotulo: "Desconto no Pix",
+  },
+  // true  = os dois somam (10% + 5% = 15%)
+  // false = vale só o maior dos dois
+  acumulam: true,
+};
+
+const arredondar = (valor) => Math.round(valor * 100) / 100;
+
+/* Devolve a lista de descontos aplicáveis e o quanto cada um vale em reais.
+   `metodo` é "pix" quando a pessoa declarou que vai pagar no Pix. */
+function calcularDescontos({ subtotal, metodo, primeiraCompra }) {
+  const candidatos = [];
+
+  if (DESCONTOS.primeiraCompra.ativo && primeiraCompra) {
+    candidatos.push({
+      id: "primeira-compra",
+      rotulo: DESCONTOS.primeiraCompra.rotulo,
+      percentual: DESCONTOS.primeiraCompra.percentual,
+    });
+  }
+  if (DESCONTOS.pix.ativo && metodo === "pix") {
+    candidatos.push({
+      id: "pix",
+      rotulo: DESCONTOS.pix.rotulo,
+      percentual: DESCONTOS.pix.percentual,
+    });
+  }
+
+  if (!candidatos.length) return [];
+
+  const escolhidos = DESCONTOS.acumulam
+    ? candidatos
+    : [candidatos.reduce((a, b) => (b.percentual > a.percentual ? b : a))];
+
+  // Percentuais somados sobre o subtotal, não em cascata: 10% + 5% tira 15%
+  // do valor cheio, e não 5% do que sobrou depois dos 10%. É o que a cliente
+  // quis dizer e é o que o cliente espera ao ler "10% + 5%".
+  return escolhidos.map((d) => ({
+    ...d,
+    valor: arredondar((subtotal * d.percentual) / 100),
+  }));
+}
+
+/* =========================================================================
    Exportação para o backend
    As funções serverless em /api dão require() neste mesmo arquivo, para que
    preço e catálogo tenham UMA fonte só. No navegador este bloco é ignorado.
@@ -366,6 +434,8 @@ if (typeof module !== "undefined" && module.exports) {
     UF_POR_REGIAO,
     UFS,
     PAGAMENTO,
+    DESCONTOS,
+    calcularDescontos,
     linkWhatsApp,
     formatarPreco,
     produtoPorSlug,

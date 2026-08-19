@@ -14,7 +14,8 @@
     "teste:api": "node testes/api.test.js",
     "serve:estatico": "http-server . -p 4321 -c-1 -o",
     "teste:infinitepay": "node testes/infinitepay.test.js",
-    "teste": "npm run teste:api && npm run teste:infinitepay"
+    "teste": "npm run teste:api && npm run teste:infinitepay && npm run teste:descontos",
+    "teste:descontos": "node testes/descontos.test.js"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.11",

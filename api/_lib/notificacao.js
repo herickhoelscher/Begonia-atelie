@@ -37,6 +37,7 @@ const NOME_METODO = {
   pix: "Pix",
   cartao: "Cartão de crédito",
   debito: "Cartão de débito",
+  checkout: "escolhida na página do provedor",
 };
 
 /* -------------------------------------------------------------------------
@@ -127,6 +128,15 @@ function tabelaItens(pedido) {
       <td style="padding:10px 0 0;color:${COR.suave}">Subtotal</td>
       <td style="padding:10px 0 0;text-align:right">${esc(formatarPreco(pedido.subtotal))}</td>
     </tr>
+    ${(pedido.descontos || [])
+      .map(
+        (d) => `
+    <tr>
+      <td style="padding:4px 0;color:${COR.oliva}">${esc(d.rotulo)} (${d.percentual}%)</td>
+      <td style="padding:4px 0;text-align:right;color:${COR.oliva}">− ${esc(formatarPreco(d.valor))}</td>
+    </tr>`
+      )
+      .join("")}
     <tr>
       <td style="padding:4px 0;color:${COR.suave}">Frete</td>
       <td style="padding:4px 0;text-align:right">${pedido.frete === 0 ? "Grátis" : esc(formatarPreco(pedido.frete))}</td>
@@ -190,8 +200,18 @@ function emailParaDona(registro) {
       ["E-mail", cliente.email],
     ])}
     ${blocoDados("Entrega", [["Endereço", enderecoLinha]])}
+    ${
+      pagamento.metodoDivergente
+        ? `<p style="margin:24px 0 0;padding:14px 16px;background:#ffdad6;border-radius:10px;font-size:14px;color:#93000a">
+             <strong>Confira a forma de pagamento.</strong> No site a pessoa escolheu
+             ${esc(NOME_METODO[pagamento.metodoDeclarado] || pagamento.metodoDeclarado)} e ganhou o desconto
+             correspondente, mas o pagamento chegou como
+             ${esc(NOME_METODO[pagamento.metodoRealizado] || pagamento.metodoRealizado)}.
+           </p>`
+        : ""
+    }
     ${blocoDados("Pagamento", [
-      ["Forma", NOME_METODO[pagamento.metodo] || pagamento.metodo],
+      ["Forma", NOME_METODO[pagamento.metodoRealizado || pagamento.metodo] || pagamento.metodo],
       ["Status", "Aprovado"],
       ["ID no Mercado Pago", pagamento.idGateway],
       ["Pago em", pagamento.pagoEm ? new Date(pagamento.pagoEm).toLocaleString("pt-BR") : ""],

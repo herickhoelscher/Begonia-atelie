@@ -11,7 +11,7 @@
 
 const { rota, json } = require("./_lib/http.js");
 const { gateway } = require("./_lib/gateway.js");
-const { ENVIO, PAGAMENTO, UFS } = require("../src/js/dados.js");
+const { ENVIO, PAGAMENTO, UFS, DESCONTOS } = require("../src/js/dados.js");
 
 /* Está configurado? Cada gateway pede uma credencial diferente. */
 function pagamentoConfigurado(escolhido) {
@@ -49,6 +49,11 @@ module.exports = rota(["GET"], async (req, res) => {
     simulado: escolhido === "simulado",
     gateway: escolhido,
     capacidades,
+    // Percentual do desconto no Pix, para a tela poder etiquetar a opção.
+    // null quando o desconto está desligado.
+    descontoPix: DESCONTOS.pix.ativo ? DESCONTOS.pix.percentual : null,
+    descontoPrimeiraCompra: DESCONTOS.primeiraCompra.ativo ? DESCONTOS.primeiraCompra.percentual : null,
+    freteGratisAcimaDe: ENVIO.gratisAcimaDe,
     metodos: metodosAtivos,
     maxParcelas: Number(process.env.MP_MAX_PARCELAS || PAGAMENTO.maxParcelas),
     maxQuantidadePorPeca: PAGAMENTO.maxQuantidadePorPeca,

@@ -92,7 +92,9 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", complem
     await api("config.js")(req({ metodo: "GET", caminho: "/api/config" }), r);
     checar("responde 200", r._status === 200);
     checar("não vaza access token", !r._corpo.includes("TEST-token-falso"));
-    checar("traz regras de frete", r.json.envio.gratisAcimaDe === 400);
+    checar("traz regras de frete", r.json.envio.gratisAcimaDe === 120, r.json.envio);
+    checar("expõe o desconto do Pix", r.json.descontoPix === 5);
+    checar("expõe o desconto de primeira compra", r.json.descontoPrimeiraCompra === 10);
     checar("marca pagamento disponível", r.json.pagamentoDisponivel === true);
   }
 
@@ -129,13 +131,15 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", complem
     }), r);
     refPix = r.json.referencia;
     checar("responde 200", r._status === 200, r.json);
-    // 85,00 + frete sudeste 24,90 = 109,90 (abaixo de 400, então frete não é grátis)
-    checar("ignora o preço forjado e cobra 109,90", r.json.total === 109.9, { total: r.json.total });
+    // 85,00 + frete sudeste 24,90 = 109,90 (abaixo de 120, então paga frete).
+    // Menos 5% de desconto do Pix sobre as peças (4,25) = 105,65.
+    checar("ignora o preço forjado e aplica o desconto do Pix", r.json.total === 105.65, { total: r.json.total });
+    checar("mostra o desconto do Pix na resposta", r.json.descontos.some((d) => d.id === "pix" && d.valor === 4.25), r.json.descontos);
     checar("devolve copia-e-cola do Pix", typeof r.json.qrCodeTexto === "string" && r.json.qrCodeTexto.length > 10);
     checar("devolve imagem do QR", typeof r.json.qrCodeImagem === "string");
     checar("referência no formato certo", /^BA-[A-Z2-9]{8}$/.test(refPix || ""), refPix);
     const enviado = chamadas.filter((c) => c.url.includes("/v1/payments")).pop();
-    checar("valor enviado ao MP é o do servidor", enviado.corpo.transaction_amount === 109.9);
+    checar("valor enviado ao MP é o do servidor", enviado.corpo.transaction_amount === 105.65, enviado.corpo.transaction_amount);
     checar("CPF vai para o MP", enviado.corpo.payer.identification.number === "11144477735");
   }
 
@@ -144,10 +148,11 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", complem
     const r = res();
     await api("criar-pagamento.js")(req({
       caminho: "/api/criar-pagamento",
-      // 389,00 + 85,00 = 474,00, acima do limite de 400 para frete grátis.
+      // 389,00 + 85,00 = 474,00, acima do limite de 120 para frete grátis.
       corpo: { metodo: "cartao", itens: [{ slug: "cardigan-outono", quantidade: 1 }, { slug: "caneca-rustica", quantidade: 1 }], cliente: CLIENTE, entrega: ENTREGA },
     }), r);
-    checar("frete grátis acima de 400 no Sudeste", r.json.frete === 0 && r.json.total === 474, { frete: r.json.frete, total: r.json.total });
+    checar("frete grátis acima de 120", r.json.frete === 0 && r.json.total === 474, { frete: r.json.frete, total: r.json.total });
+    checar("cartão não ganha o desconto do Pix", r.json.descontos.length === 0, r.json.descontos);
     checar("devolve URL do checkout", String(r.json.url || "").startsWith("https://"));
     const pref = chamadas.filter((c) => c.url.includes("preferences")).pop();
     checar("crédito exclui débito", pref.corpo.payment_methods.excluded_payment_types.some((t) => t.id === "debit_card"));
@@ -168,19 +173,28 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", complem
     const r = res();
     await api("criar-pagamento.js")(req({
       caminho: "/api/criar-pagamento",
-      // 389,00 fica abaixo do limite: frete do Sudeste é cobrado.
-      corpo: { metodo: "cartao", itens: [{ slug: "cardigan-outono", quantidade: 1 }], cliente: CLIENTE, entrega: ENTREGA },
+      // 85,00 fica abaixo do limite de 120: frete do Sudeste é cobrado.
+      corpo: { metodo: "cartao", itens: [{ slug: "caneca-rustica", quantidade: 1 }], cliente: CLIENTE, entrega: ENTREGA },
     }), r);
-    checar("abaixo de 400 paga frete", r.json.frete === 24.9 && r.json.total === 413.9, { frete: r.json.frete, total: r.json.total });
+    checar("abaixo de 120 paga frete", r.json.frete === 24.9 && r.json.total === 109.9, { frete: r.json.frete, total: r.json.total });
   }
   {
     const r = res();
     await api("criar-pagamento.js")(req({
       caminho: "/api/criar-pagamento",
-      // Norte não tem frete grátis, mesmo com valor alto.
-      corpo: { metodo: "cartao", itens: [{ slug: "cardigan-outono", quantidade: 1 }, { slug: "caneca-rustica", quantidade: 1 }], cliente: CLIENTE, entrega: { ...ENTREGA, estado: "AM", cidade: "Manaus" } },
+      // Frete grátis agora vale para todas as regiões.
+      corpo: { metodo: "cartao", itens: [{ slug: "cardigan-outono", quantidade: 1 }], cliente: CLIENTE, entrega: { ...ENTREGA, estado: "AM", cidade: "Manaus" } },
     }), r);
-    checar("Norte paga frete mesmo acima de 400", r.json.frete === 44.9 && r.json.total === 518.9, { frete: r.json.frete, total: r.json.total });
+    checar("Norte também tem frete grátis acima de 120", r.json.frete === 0 && r.json.total === 389, { frete: r.json.frete, total: r.json.total });
+  }
+  {
+    const r = res();
+    await api("criar-pagamento.js")(req({
+      caminho: "/api/criar-pagamento",
+      // 85,00 no Norte, abaixo do limite: frete cheio da região.
+      corpo: { metodo: "cartao", itens: [{ slug: "caneca-rustica", quantidade: 1 }], cliente: CLIENTE, entrega: { ...ENTREGA, estado: "AM", cidade: "Manaus" } },
+    }), r);
+    checar("Norte abaixo de 120 paga o frete da região", r.json.frete === 44.9 && r.json.total === 129.9, { frete: r.json.frete, total: r.json.total });
   }
 
   console.log("\n== /api/status-pagamento ==");

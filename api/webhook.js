@@ -115,6 +115,27 @@ module.exports = rota(["POST"], async (req, res) => {
     return json(res, 200, { ok: true, status: pagamento.status });
   }
 
+  // Marca o e-mail como "já comprou", para o desconto de primeira compra não
+  // valer de novo. Guardamos só o hash — ver api/_lib/armazenamento.js.
+  if (registro.cliente && registro.cliente.email) {
+    await armazenamento.registrarCliente(registro.cliente.email);
+  }
+
+  // Gateway de link único não deixa forçar a forma de pagamento: a pessoa
+  // declara "Pix" no nosso checkout e escolhe de novo na página dele. Se o
+  // que chegou for diferente do declarado, avisamos no e-mail da dona em vez
+  // de deixar passar em silêncio.
+  const declarado = registro.pagamento && registro.pagamento.metodoDeclarado;
+  const realizado = pagamento.metodo === "pix" ? "pix" : pagamento.metodo ? "cartao" : null;
+  const metodoDivergente =
+    Boolean(declarado && realizado) && declarado !== "checkout" && declarado !== realizado;
+  if (metodoDivergente) {
+    console.warn(
+      "[webhook] pedido %s: declarou %s e pagou %s",
+      referencia, declarado, realizado
+    );
+  }
+
   // 3. Uma notificação por pedido.
   const primeiraVez = await armazenamento.reservarNotificacao(referencia);
   if (!primeiraVez) {
@@ -125,7 +146,13 @@ module.exports = rota(["POST"], async (req, res) => {
     const resultado = await avisarPedidoPago({
       ...registro,
       status: "aprovado",
-      pagamento: { ...(registro.pagamento || {}), idGateway: pagamento.idGateway, pagoEm: pagamento.pagoEm },
+      pagamento: {
+        ...(registro.pagamento || {}),
+        idGateway: pagamento.idGateway,
+        pagoEm: pagamento.pagoEm,
+        metodoRealizado: realizado,
+        metodoDivergente,
+      },
     });
     // Se nem o e-mail da dona saiu, solta a trava para o próximo reenvio tentar.
     if (!resultado.dona || !resultado.dona.enviado) {

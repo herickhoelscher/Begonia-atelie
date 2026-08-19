@@ -10,7 +10,7 @@
    ========================================================================= */
 
 const crypto = require("crypto");
-const { PRODUTOS, PAGAMENTO, fretePara, regiaoPorUF } = require("../../src/js/dados.js");
+const { PRODUTOS, PAGAMENTO, ENVIO, fretePara, regiaoPorUF, calcularDescontos } = require("../../src/js/dados.js");
 
 const emCentavos = (reais) => Math.round(Number(reais) * 100);
 const emReais = (centavos) => Math.round(centavos) / 100;
@@ -37,8 +37,12 @@ function agruparItens(itens) {
   }));
 }
 
-/* Devolve { campos, pedido }. Se campos tiver qualquer chave, o pedido é inválido. */
-function montarPedido(itensPedidos, uf) {
+/* Devolve { campos, pedido }. Se campos tiver qualquer chave, o pedido é inválido.
+
+   `opcoes.metodo` é a forma de pagamento declarada (para o desconto do Pix).
+   `opcoes.primeiraCompra` vem da consulta ao histórico; quando é null, não
+   dá para verificar e o desconto simplesmente não é oferecido. */
+function montarPedido(itensPedidos, uf, opcoes = {}) {
   const campos = {};
   const itens = [];
   let subtotalCent = 0;
@@ -75,26 +79,85 @@ function montarPedido(itensPedidos, uf) {
   if (Object.keys(campos).length) return { campos, pedido: null };
 
   const subtotal = emReais(subtotalCent);
+
+  // Frete decidido pelo valor das peças, antes de qualquer desconto.
   const frete = fretePara(uf, subtotal);
   if (frete === null) {
     return { campos: { estado: "Não entregamos para esse estado. Fale com a gente." }, pedido: null };
   }
 
+  const descontos = calcularDescontos({
+    subtotal,
+    metodo: opcoes.metodo,
+    primeiraCompra: opcoes.primeiraCompra === true,
+  });
+  const descontoCent = descontos.reduce((soma, d) => soma + emCentavos(d.valor), 0);
+
   const freteCent = emCentavos(frete);
-  const totalCent = subtotalCent + freteCent;
+  // Trava de segurança: desconto nunca pode zerar ou inverter a cobrança.
+  const totalCent = Math.max(emCentavos(1), subtotalCent - descontoCent + freteCent);
 
   return {
     campos: {},
     pedido: {
       itens,
       subtotal,
+      descontos,
+      descontoTotal: emReais(descontoCent),
       frete,
       total: emReais(totalCent),
       totalCentavos: totalCent,
       regiao: regiaoPorUF(uf),
       freteGratis: freteCent === 0,
+      faltaParaFreteGratis: freteCent === 0 ? 0 : emReais(Math.max(0, emCentavos(ENVIO.gratisAcimaDe) - subtotalCent)),
     },
   };
 }
 
-module.exports = { montarPedido, novaReferencia, emCentavos, emReais };
+/* -------------------------------------------------------------------------
+   Itens para mandar ao gateway
+
+   Os gateways cobram pela soma dos itens que a gente envia. Se mandássemos os
+   preços cheios, o cliente veria o desconto na nossa tela e seria cobrado o
+   valor integral — foi exatamente esse o bug que este helper existe para não
+   deixar acontecer de novo.
+
+   O desconto é distribuído proporcionalmente entre as peças, e a última linha
+   absorve a sobra do arredondamento. Assim a soma bate com o total ao
+   centavo, sem depender de o gateway aceitar item de preço negativo.
+   ------------------------------------------------------------------------- */
+function itensParaCobranca(pedido) {
+  const subtotalCent = emCentavos(pedido.subtotal);
+  const descontoCent = emCentavos(pedido.descontoTotal || 0);
+  const alvoCent = subtotalCent - descontoCent;
+
+  const linhas = pedido.itens.map((i) => ({
+    slug: i.slug,
+    nome: i.nome,
+    quantidade: i.quantidade,
+    totalCent: emCentavos(i.precoTotal),
+  }));
+
+  if (descontoCent > 0 && subtotalCent > 0) {
+    let distribuido = 0;
+    linhas.forEach((linha, indice) => {
+      if (indice === linhas.length - 1) {
+        linha.totalCent = alvoCent - distribuido; // a última fecha a conta
+      } else {
+        linha.totalCent = Math.round((linha.totalCent * alvoCent) / subtotalCent);
+        distribuido += linha.totalCent;
+      }
+    });
+  }
+
+  return linhas.map((linha) => ({
+    slug: linha.slug,
+    nome: linha.nome,
+    quantidade: linha.quantidade,
+    // Preço unitário já com o desconto embutido.
+    unitarioCent: Math.round(linha.totalCent / linha.quantidade),
+    totalCent: linha.totalCent,
+  }));
+}
+
+module.exports = { montarPedido, novaReferencia, emCentavos, emReais, itensParaCobranca };

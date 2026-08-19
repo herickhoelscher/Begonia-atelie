@@ -18,6 +18,8 @@
    só aqui, na borda.
    ========================================================================= */
 
+const { itensParaCobranca } = require("./pedido.js");
+
 const BASE = "https://api.checkout.infinitepay.io";
 
 /* Capacidades declaradas: o resto do sistema lê isto em vez de perguntar
@@ -115,9 +117,11 @@ function slugDaUrl(url) {
    funções da interface caem aqui.
    ------------------------------------------------------------------------- */
 async function criarPagamentoUnico({ referencia, pedido, cliente, urlSite }) {
-  const itens = pedido.itens.map((i) => ({
+  // Preços já com o desconto embutido: o que é cobrado tem de ser exatamente
+  // o que a tela mostrou.
+  const itens = itensParaCobranca(pedido).map((i) => ({
     quantity: i.quantidade,
-    price: emCentavos(i.precoUnitario), // centavos
+    price: i.unitarioCent, // centavos
     description: i.nome,
   }));
   if (pedido.frete > 0) {

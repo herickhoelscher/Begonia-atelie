@@ -75,6 +75,40 @@ informação real:
 | Conserto gratuito: existe mesmo? por quanto tempo? | 1 ano |
 | Aceita quantas parcelas no crédito? | até 12× (limite da InfinitePay) |
 | Quem paga o juro do parcelamento: ela ou o cliente? | a definir com ela |
+
+### Regras que ela já definiu — implementadas
+
+| Regra | Como está no site |
+| --- | --- |
+| Frete grátis a partir de R$ 120 | Vale para **todo o Brasil**. Ela não restringiu região |
+| 10% na primeira compra | Verificado pelo e-mail, contra o histórico de pedidos pagos |
+| 5% no Pix | Aplicado quando a pessoa declara Pix no checkout |
+
+**Os três acumulam.** Numa primeira compra pagando com Pix, o desconto é de **15%**.
+
+> ⚠️ **Confira a conta com ela antes de publicar.** Uma peça de R$ 130 vendida para o Norte,
+> na primeira compra, no Pix, fica assim:
+>
+> | | |
+> | --- | --- |
+> | Peça | R$ 130,00 |
+> | Primeira compra (10%) | − R$ 13,00 |
+> | Pix (5%) | − R$ 6,50 |
+> | Frete (grátis acima de 120, mas custa) | − R$ 44,90 do bolso dela |
+> | **Ela recebe** | **R$ 110,50** |
+> | **Ela gasta com frete** | **R$ 44,90** |
+> | **Sobra bruta** | **R$ 65,60 de uma venda de R$ 130** |
+>
+> Isso é metade do preço de tabela, antes do custo do fio e das horas de trabalho.
+> Três coisas resolveriam, e ela escolhe:
+>
+> - [ ] **Limitar o frete grátis a Sudeste e Sul** (era assim antes; o Norte custa quase o
+>       dobro). Mudança: uma linha em `dados.js`.
+> - [ ] **Não acumular os descontos** — vale só o maior dos dois, ou seja, 10%.
+>       Mudança: `DESCONTOS.acumulam = false`.
+> - [ ] **Subir o limite do frete grátis** de R$ 120 para algo como R$ 200.
+>
+> Deixei tudo como ela pediu. As três mudanças são de uma linha cada.
 | Quantidade máxima da mesma peça num pedido | 5 |
 
 > Onde entra: `src/js/dados.js` (`ENVIO` e `PAGAMENTO`) e `contato.html`.
@@ -88,12 +122,10 @@ inteira. Precisamos de **uma informação só**.
 
 ### O que preciso
 
-- [ ] **A InfiniteTag dela** — é o `@` da conta no app InfinitePay.
-      Onde achar: abrir o app → **Perfil** → aparece logo abaixo do nome, com um cifrão
-      na frente (exemplo: `$begoniaatelie`).
-      Pode mandar com ou sem o cifrão.
+- [x] ~~**A InfiniteTag dela**~~ — **recebida: `$begoniaatelie`**, conta lojista CPF no nome de
+      Fabricio Sanches Correa. Já está configurada no projeto.
 
-É isso. **Não existe chave secreta, token nem senha para me passar.**
+**Não existe chave secreta, token nem senha para me passar.** Este item está fechado.
 
 ### O que ela precisa fazer na conta dela
 

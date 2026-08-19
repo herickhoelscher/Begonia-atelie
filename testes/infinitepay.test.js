@@ -111,12 +111,13 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
     checar("aceita o método 'checkout'", r.json.metodo === "checkout");
     checar("devolve redirecionamento", r.json.tipo === "redirecionamento");
     checar("URL é do checkout da InfinitePay", String(r.json.url).includes("checkout.infinitepay.io"));
-    // 389,00 + 24,90 de frete Sudeste = 413,90
-    checar("ignora o preço forjado", r.json.total === 413.9, { total: r.json.total });
+    // 389,00 está acima do limite de 120: frete grátis. Sem desconto de
+    // primeira compra porque o histórico não está configurado neste teste.
+    checar("ignora o preço forjado", r.json.total === 389, { total: r.json.total });
 
     const enviado = chamadas.filter((c) => c.url.endsWith("/links")).pop();
     checar("valores vão em CENTAVOS", enviado.corpo.items[0].price === 38900, enviado.corpo.items[0]);
-    checar("frete vai como item separado", enviado.corpo.items.some((i) => i.description === "Frete" && i.price === 2490));
+    checar("frete grátis não vira item", !enviado.corpo.items.some((i) => i.description === "Frete"), enviado.corpo.items);
     checar("handle vai sem o cifrão", enviado.corpo.handle === "begoniaatelie");
     checar("order_nsu é a nossa referência", enviado.corpo.order_nsu === referencia);
     checar("webhook apontado para o site", enviado.corpo.webhook_url === "https://begonia.exemplo/api/webhook");
@@ -132,6 +133,24 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
       corpo: { metodo: "checkout", itens: [{ slug: "caneca-rustica", quantidade: 1 }], cliente: CLIENTE, entrega: ENTREGA },
     }), r);
     checar("passa sem CPF", r._status === 200, r.json);
+    // 85,00 está abaixo de 120: o frete entra como item na cobrança.
+    const enviado = chamadas.filter((c) => c.url.endsWith("/links")).pop();
+    checar("abaixo de 120, frete vira item de 24,90",
+      enviado.corpo.items.some((i) => i.description === "Frete" && i.price === 2490), enviado.corpo.items);
+    checar("total com frete", r.json.total === 109.9, { total: r.json.total });
+  }
+
+  {
+    const r = res();
+    await api("criar-pagamento.js")(req({
+      caminho: "/api/criar-pagamento",
+      corpo: { metodo: "pix", itens: [{ slug: "cardigan-outono", quantidade: 1 }], cliente: CLIENTE, entrega: ENTREGA },
+    }), r);
+    // 389 menos 5% = 369,55, com frete grátis
+    checar("declarar Pix dá 5% de desconto", r.json.total === 369.55, { total: r.json.total });
+    const enviado = chamadas.filter((c) => c.url.endsWith("/links")).pop();
+    const somaItens = enviado.corpo.items.reduce((s, i) => s + i.price * i.quantity, 0);
+    checar("o link é criado já com o desconto aplicado", somaItens === 36955, { somaItens });
   }
 
   console.log("\n== webhook: as três conferências ==");
@@ -140,8 +159,8 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
     invoice_slug: slug,
     order_nsu: referencia,
     transaction_nsu: "tx-abc-123",
-    amount: 41390,
-    paid_amount: 41390,
+    amount: 38900,
+    paid_amount: 38900,
     installments: 1,
     capture_method: "pix",
     receipt_url: "https://comprovante.exemplo/1",
@@ -182,7 +201,7 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
   }
   {
     // Pagamento legítimo.
-    FATURAS.get(slug).amountCentavos = 41390;
+    FATURAS.get(slug).amountCentavos = 38900;
     const r = res();
     await api("webhook.js")(req({ caminho: "/api/webhook", corpo: corpoWebhook() }), r);
     checar("confirma pagamento legítimo", r.json.status === "aprovado", r.json);

@@ -18,7 +18,7 @@ const { validarCliente, validarEntrega, validarItens, limparTexto, metodoValido 
 const { montarPedido, novaReferencia } = require("./_lib/pedido.js");
 const { gateway } = require("./_lib/gateway.js");
 const armazenamento = require("./_lib/armazenamento.js");
-const { PAGAMENTO } = require("../src/js/dados.js");
+const { PAGAMENTO, DESCONTOS } = require("../src/js/dados.js");
 
 /* URL pública do site, usada nos retornos e no webhook do Mercado Pago. */
 function urlDoSite(req) {
@@ -76,8 +76,19 @@ module.exports = rota(["POST"], async (req, res) => {
     return erro(res, 422, "Confira os campos destacados.", camposComErro);
   }
 
-  // Preço, frete e total nascem aqui — nunca no navegador.
-  const { campos: camposPedido, pedido } = montarPedido(itens, entrega.estado);
+  // Primeira compra é conferida no servidor, contra o histórico de pedidos
+  // pagos. O navegador não opina — ele só mostra o que voltar daqui.
+  let primeiraCompra = false;
+  if (DESCONTOS.primeiraCompra.ativo) {
+    const comprou = await armazenamento.jaComprou(cliente.email);
+    primeiraCompra = comprou === false;
+  }
+
+  // Preço, descontos, frete e total nascem aqui — nunca no navegador.
+  const { campos: camposPedido, pedido } = montarPedido(itens, entrega.estado, {
+    metodo,
+    primeiraCompra,
+  });
   if (Object.keys(camposPedido).length) {
     return erro(res, 422, camposPedido.itens || camposPedido.estado || "Não foi possível montar o pedido.", camposPedido);
   }
@@ -94,7 +105,14 @@ module.exports = rota(["POST"], async (req, res) => {
     cliente: { nome: cliente.nome, email: cliente.email, whatsapp: cliente.whatsapp },
     entrega,
     observacoes,
-    pagamento: { metodo, idGateway: null, pagoEm: null },
+    pagamento: {
+      metodo,
+      idGateway: null,
+      pagoEm: null,
+      // Guardamos o que a pessoa DECLAROU. Se o gateway avisar depois que ela
+      // pagou de outro jeito, dá para comparar — ver api/webhook.js.
+      metodoDeclarado: metodo,
+    },
   };
 
   // Grava antes de cobrar. Se o gateway responder e a gravação falhar depois,
@@ -134,6 +152,8 @@ module.exports = rota(["POST"], async (req, res) => {
     total: pedido.total,
     subtotal: pedido.subtotal,
     frete: pedido.frete,
+    descontos: pedido.descontos,
+    descontoTotal: pedido.descontoTotal,
     itens: pedido.itens.map((i) => ({ nome: i.nome, quantidade: i.quantidade, precoTotal: i.precoTotal })),
     // Cartão: para onde mandar o cliente. Pix: o que desenhar na tela.
     url: resultado.url || null,

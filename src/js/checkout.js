@@ -94,17 +94,56 @@ function ufEscolhida() {
   return document.getElementById("c-estado").value;
 }
 
-/* Prévia do frete, com as mesmas regras que o servidor aplica. */
-function calcularResumo() {
-  const itens = itensCompraveis();
-  const subtotal = itens.reduce((s, i) => s + i.produto.preco * i.quantidade, 0);
-  const uf = ufEscolhida();
-  const frete = uf ? fretePara(uf, subtotal) : null;
-  return { itens, subtotal, frete, total: frete === null ? null : subtotal + frete };
+/* A conta é do servidor. Guardamos aqui a última resposta de /api/orcamento
+   para a tela ter o que desenhar entre uma consulta e outra. */
+let ORCAMENTO = null;
+let consultaPendente = null;
+
+function metodoDeclarado() {
+  const escolhido = document.querySelector('input[name="metodo"]:checked');
+  return escolhido ? escolhido.value : null;
+}
+
+/* Pede a conta ao servidor. É ele quem decide desconto, frete e total —
+   o navegador só desenha. Sem isso, a mesma regra existiria em dois lugares. */
+async function pedirOrcamento() {
+  const itens = itensCompraveis().map((i) => ({ slug: i.produto.slug, quantidade: i.quantidade }));
+  if (!itens.length) return;
+
+  const corpo = {
+    itens,
+    estado: ufEscolhida(),
+    metodo: metodoDeclarado(),
+    email: document.getElementById("c-email").value.trim(),
+  };
+
+  clearTimeout(consultaPendente);
+  consultaPendente = setTimeout(async () => {
+    try {
+      const resposta = await fetch(`${API}/orcamento`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(corpo),
+      });
+      const dados = await resposta.json();
+      if (dados.ok) {
+        ORCAMENTO = dados;
+        renderizarResumo();
+      }
+    } catch {
+      // Servidor fora do ar: a tela mantém o último valor conhecido e o
+      // envio, que também passa pelo servidor, é quem vai reclamar.
+    }
+  }, 250);
 }
 
 function renderizarResumo() {
-  const { itens, subtotal, frete, total } = calcularResumo();
+  const itens = itensCompraveis();
+  const subtotal = ORCAMENTO
+    ? ORCAMENTO.subtotal
+    : itens.reduce((s, i) => s + i.produto.preco * i.quantidade, 0);
+  const frete = ORCAMENTO ? ORCAMENTO.frete : null;
+  const total = ORCAMENTO ? ORCAMENTO.total : null;
 
   document.getElementById("c-itens").innerHTML = itens
     .map(
@@ -124,6 +163,29 @@ function renderizarResumo() {
     .join("");
 
   document.getElementById("c-subtotal").textContent = formatarPreco(subtotal);
+
+  // Linhas de desconto: aparecem e somem conforme o servidor responde.
+  const listaDescontos = document.getElementById("c-descontos");
+  const descontos = (ORCAMENTO && ORCAMENTO.descontos) || [];
+  listaDescontos.innerHTML = descontos
+    .map(
+      (d) => `
+      <div class="flex justify-between text-secondary">
+        <dt>${d.rotulo} <span class="text-label-sm">(${d.percentual}%)</span></dt>
+        <dd class="whitespace-nowrap">− ${formatarPreco(d.valor)}</dd>
+      </div>`
+    )
+    .join("");
+
+  // Quanto falta para o frete grátis — só quando faltar mesmo.
+  const aviso = document.getElementById("c-falta-frete");
+  const falta = ORCAMENTO && ORCAMENTO.faltaParaFreteGratis;
+  if (falta > 0) {
+    aviso.textContent = `Faltam ${formatarPreco(falta)} para o frete sair de graça.`;
+    aviso.classList.remove("hidden");
+  } else {
+    aviso.classList.add("hidden");
+  }
 
   const campoFrete = document.getElementById("c-frete");
   if (frete === null) {
@@ -233,7 +295,7 @@ async function buscarCep(cep) {
     if (dados.uf && !estado.value) estado.value = dados.uf;
 
     aviso.classList.add("hidden");
-    renderizarResumo();
+    pedirOrcamento();
     atualizarPassos();
     document.getElementById("c-numero").focus();
   } catch {
@@ -252,8 +314,10 @@ async function enviar(evento) {
   const textoBotao = document.getElementById("c-enviar-texto");
   const escolhido = document.querySelector('input[name="metodo"]:checked');
 
-  // "checkout" avisa ao servidor que a forma será escolhida no gateway.
-  const metodo = escolhaNoGateway() ? "checkout" : escolhido && escolhido.value;
+  // Sem seletor na tela, "checkout" avisa ao servidor que a forma será
+  // escolhida no gateway. Com seletor, vale o que a pessoa marcou — mesmo
+  // com gateway de link único, porque é essa declaração que dá o desconto.
+  const metodo = escolhido ? escolhido.value : escolhaNoGateway() ? "checkout" : null;
 
   if (!metodo) {
     mostrarErroGeral("Escolha como você quer pagar.");
@@ -362,7 +426,11 @@ function montarMetodos() {
   // página dele. Mostrar um seletor aqui seria prometer uma escolha que a
   // gente não controla — então listamos o que é aceito e explicamos onde
   // escolher.
-  if (escolhaNoGateway()) {
+  const descontoPix = CONFIG && CONFIG.descontoPix;
+
+  // Gateway de link único (InfinitePay) SEM desconto por forma de pagamento:
+  // não há nada a escolher aqui, então só listamos o que é aceito.
+  if (escolhaNoGateway() && !descontoPix) {
     caixa.removeAttribute("role");
     caixa.removeAttribute("aria-label");
     caixa.innerHTML = `
@@ -385,20 +453,32 @@ function montarMetodos() {
     return;
   }
 
-  caixa.innerHTML = metodos
-    .map(
-      (m, indice) => `
+  caixa.innerHTML =
+    metodos
+      .map(
+        (m, indice) => `
       <label class="metodo">
         <input type="radio" name="metodo" value="${m.id}" class="mt-1 accent-primary w-4 h-4"
                ${indice === 0 ? "checked" : ""}>
         <span class="text-primary shrink-0 mt-0.5">${icone(iconePorMetodo[m.id] || "cartao", "w-6 h-6")}</span>
         <span class="min-w-0">
-          <span class="block font-headline text-body-lg text-on-surface">${m.nome}</span>
+          <span class="block font-headline text-body-lg text-on-surface">
+            ${m.nome}
+            ${m.id === "pix" && descontoPix ? `<span class="tag tag-pronta ml-2">${descontoPix}% de desconto</span>` : ""}
+          </span>
           <span class="block text-body-md text-on-surface-variant">${m.descricao}</span>
         </span>
       </label>`
-    )
-    .join("");
+      )
+      .join("") +
+    // Com gateway de link único, a escolha aqui é uma declaração: a
+    // confirmação acontece na página dele. Dizer isso evita a sensação de
+    // ter escolhido duas vezes.
+    (escolhaNoGateway()
+      ? `<p class="text-label-sm text-on-surface-variant normal-case tracking-normal mt-1">
+           Você confirma a forma de pagamento na próxima etapa, em ${provedor}.
+         </p>`
+      : "");
 }
 
 function montarEstados() {
@@ -510,6 +590,7 @@ Podemos conversar sobre cores, medidas e prazo?`);
   carregarRascunho();
   ajustarCpf();
   renderizarResumo();
+  pedirOrcamento(); // primeira conta, já com o que veio do rascunho
   atualizarPassos();
 
   // Máscaras.
@@ -525,7 +606,7 @@ Podemos conversar sobre cores, medidas e prazo?`);
 
   // Frete e progresso reagem ao que a pessoa preenche.
   document.getElementById("c-estado").addEventListener("change", () => {
-    renderizarResumo();
+    pedirOrcamento();
     atualizarPassos();
   });
   document.getElementById("form-checkout").addEventListener("input", () => {
@@ -533,9 +614,15 @@ Podemos conversar sobre cores, medidas e prazo?`);
     salvarRascunho();
   });
   document.getElementById("form-checkout").addEventListener("change", (e) => {
-    if (e.target.name === "metodo") ajustarCpf();
+    if (e.target.name === "metodo") {
+      ajustarCpf();
+      pedirOrcamento(); // o desconto do Pix muda o total
+    }
     atualizarPassos();
   });
+
+  // E-mail muda o desconto de primeira compra; UF e itens mudam o frete.
+  document.getElementById("c-email").addEventListener("blur", pedirOrcamento);
 
   document.getElementById("form-checkout").addEventListener("submit", enviar);
 
@@ -546,5 +633,6 @@ Podemos conversar sobre cores, medidas e prazo?`);
       return;
     }
     renderizarResumo();
+    pedirOrcamento();
   });
 });

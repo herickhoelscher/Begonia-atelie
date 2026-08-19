@@ -10,6 +10,7 @@
    ========================================================================= */
 
 const crypto = require("crypto");
+const { itensParaCobranca } = require("./pedido.js");
 
 const BASE = "https://api.mercadopago.com";
 
@@ -110,11 +111,12 @@ async function criarPagamentoCartao({ referencia, pedido, cliente, metodo, urlSi
   const primeiroNome = partesNome[0];
   const sobrenome = partesNome.slice(1).join(" ") || primeiroNome;
 
-  const itens = pedido.itens.map((i) => ({
+  // Preços já com o desconto embutido — ver itensParaCobranca().
+  const itens = itensParaCobranca(pedido).map((i) => ({
     id: i.slug,
     title: i.nome,
     quantity: i.quantidade,
-    unit_price: i.precoUnitario,
+    unit_price: i.unitarioCent / 100,
     currency_id: "BRL",
   }));
   if (pedido.frete > 0) {
