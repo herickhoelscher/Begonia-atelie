@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <p class="text-label-sm text-on-surface-variant normal-case tracking-normal mb-10">
           ${
             pronta
-              ? `${icone("cadeado", "w-3.5 h-3.5 inline-block align-[-2px] mr-1")}Pix, cartão de crédito ou débito. O cartão é digitado no ambiente do Mercado Pago.`
+              ? `${icone("cadeado", "w-3.5 h-3.5 inline-block align-[-2px] mr-1")}Pagamento no ambiente seguro do nosso provedor. Este site nunca vê o número do seu cartão.`
               : "Peça sob medida tem preço fechado na conversa — por isso ela é combinada pelo WhatsApp, e não pelo checkout."
           }
         </p>

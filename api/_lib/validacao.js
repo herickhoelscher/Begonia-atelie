@@ -141,8 +141,11 @@ function validarItens(bruto, maxQuantidade) {
   return { campos, itens };
 }
 
+/* "checkout" é o método usado quando o gateway não deixa escolher a forma
+   de pagamento pela API — o cliente decide entre Pix e cartão na página
+   dele. É o caso da InfinitePay. */
 function metodoValido(metodo) {
-  return ["pix", "cartao", "debito"].includes(metodo);
+  return ["pix", "cartao", "debito", "checkout"].includes(metodo);
 }
 
 module.exports = {

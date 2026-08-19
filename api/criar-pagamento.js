@@ -29,8 +29,16 @@ function urlDoSite(req) {
   return `${protocolo}://${host}`;
 }
 
+/* O gateway está configurado? Cada um precisa de uma credencial diferente. */
+function pagamentoConfigurado() {
+  const escolhido = process.env.GATEWAY || "mercadopago";
+  if (escolhido === "simulado") return true;
+  if (escolhido === "infinitepay") return Boolean(process.env.INFINITEPAY_HANDLE);
+  return Boolean(process.env.MP_ACCESS_TOKEN);
+}
+
 module.exports = rota(["POST"], async (req, res) => {
-  if (!process.env.MP_ACCESS_TOKEN && process.env.GATEWAY !== "simulado") {
+  if (!pagamentoConfigurado()) {
     return erro(res, 503, "O pagamento online ainda não está configurado. Fale com a gente pelo WhatsApp.");
   }
 
@@ -52,8 +60,12 @@ module.exports = rota(["POST"], async (req, res) => {
   const metodo = String(corpo.metodo || "");
   if (!metodoValido(metodo)) return erro(res, 400, "Escolha uma forma de pagamento.");
 
-  // O Mercado Pago exige CPF para emitir cobrança Pix; no cartão ele mesmo pede.
-  const exigirCpf = metodo === "pix";
+  const g = gateway();
+  const capacidades = g.capacidades || {};
+
+  // O CPF só é pedido quando o gateway precisa dele para emitir o Pix. O
+  // Mercado Pago precisa; a InfinitePay coleta o que precisa na página dela.
+  const exigirCpf = Boolean(capacidades.exigeCpf) && metodo === "pix";
 
   const { campos: camposCliente, cliente } = validarCliente(corpo.cliente, { exigirCpf });
   const { campos: camposEntrega, entrega } = validarEntrega(corpo.entrega);
@@ -89,13 +101,17 @@ module.exports = rota(["POST"], async (req, res) => {
   // o webhook ainda encontra o pedido pela referência.
   await armazenamento.salvarPedido(referencia, registro);
 
-  const g = gateway();
   let resultado;
   try {
-    resultado =
-      metodo === "pix"
-        ? await g.criarPagamentoPix({ referencia, pedido, cliente, urlSite })
-        : await g.criarPagamentoCartao({ referencia, pedido, cliente, metodo, urlSite });
+    // Gateway de link único (InfinitePay): uma chamada só, e o cliente
+    // escolhe Pix ou cartão na página dele.
+    if (capacidades.escolhaNoGateway && g.criarPagamentoUnico) {
+      resultado = await g.criarPagamentoUnico({ referencia, pedido, cliente, urlSite });
+    } else if (metodo === "pix") {
+      resultado = await g.criarPagamentoPix({ referencia, pedido, cliente, urlSite });
+    } else {
+      resultado = await g.criarPagamentoCartao({ referencia, pedido, cliente, metodo, urlSite });
+    }
   } catch (e) {
     console.error("[criar-pagamento] gateway falhou no pedido %s:", referencia, e.message);
     await armazenamento.atualizarPedido(referencia, { status: "falhou", erroGateway: e.message });

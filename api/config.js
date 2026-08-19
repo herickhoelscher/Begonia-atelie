@@ -10,20 +10,46 @@
    ========================================================================= */
 
 const { rota, json } = require("./_lib/http.js");
+const { gateway } = require("./_lib/gateway.js");
 const { ENVIO, PAGAMENTO, UFS } = require("../src/js/dados.js");
 
+/* Está configurado? Cada gateway pede uma credencial diferente. */
+function pagamentoConfigurado(escolhido) {
+  if (escolhido === "simulado") return true;
+  if (escolhido === "infinitepay") return Boolean(process.env.INFINITEPAY_HANDLE);
+  return Boolean(process.env.MP_ACCESS_TOKEN);
+}
+
 module.exports = rota(["GET"], async (req, res) => {
+  const escolhido = process.env.GATEWAY || "mercadopago";
+
+  // As capacidades vêm do próprio gateway. Se ele nem carregar (credencial
+  // ausente, nome errado), o front cai no aviso de indisponível em vez de
+  // quebrar a página.
+  let capacidades = null;
+  try {
+    capacidades = gateway().capacidades || null;
+  } catch (e) {
+    console.error("[config] gateway não carregou:", e.message);
+  }
+
+  const metodosAtivos = capacidades
+    ? PAGAMENTO.metodos.filter((m) => capacidades.metodos.includes(m.id))
+    : PAGAMENTO.metodos;
+
   json(res, 200, {
     ok: true,
     publicKey: process.env.MP_PUBLIC_KEY || null,
     modo: process.env.MP_MODO === "teste" ? "teste" : "producao",
     // Quando falta configuração, o front avisa em vez de deixar o cliente
     // preencher tudo e falhar no último passo.
-    pagamentoDisponivel: Boolean(process.env.MP_ACCESS_TOKEN) || process.env.GATEWAY === "simulado",
+    pagamentoDisponivel: Boolean(capacidades) && pagamentoConfigurado(escolhido),
     // O front mostra um aviso na tela quando o gateway é o simulado, para
     // ninguém achar que fez uma compra de verdade.
-    simulado: process.env.GATEWAY === "simulado",
-    metodos: PAGAMENTO.metodos,
+    simulado: escolhido === "simulado",
+    gateway: escolhido,
+    capacidades,
+    metodos: metodosAtivos,
     maxParcelas: Number(process.env.MP_MAX_PARCELAS || PAGAMENTO.maxParcelas),
     maxQuantidadePorPeca: PAGAMENTO.maxQuantidadePorPeca,
     envio: {

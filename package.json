@@ -12,7 +12,9 @@
     "vercel-build": "npm run build",
     "dev:api": "npm run build && vercel dev --listen 4321",
     "teste:api": "node testes/api.test.js",
-    "serve:estatico": "http-server . -p 4321 -c-1 -o"
+    "serve:estatico": "http-server . -p 4321 -c-1 -o",
+    "teste:infinitepay": "node testes/infinitepay.test.js",
+    "teste": "npm run teste:api && npm run teste:infinitepay"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.11",

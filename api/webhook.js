@@ -1,16 +1,19 @@
 /* =========================================================================
    POST /api/webhook
 
-   O Mercado Pago avisa aqui quando um pagamento muda de estado.
+   O gateway de pagamento avisa aqui quando um pagamento muda de estado.
 
    Três cuidados que fazem este endpoint ser confiável:
 
-   1. Assinatura. A notificação é validada por HMAC antes de qualquer coisa.
-      Sem isso, qualquer pessoa poderia postar "pagamento aprovado" e a dona
-      receberia pedido que ninguém pagou.
-   2. Confirmação na fonte. Mesmo com assinatura válida, o valor e o status
-      vêm de uma consulta nossa à API do Mercado Pago, nunca do corpo do POST.
-   3. Uma notificação por pedido. O Mercado Pago reenvia o webhook várias
+   1. Autenticidade. Gateway que assina (Mercado Pago) tem o HMAC conferido.
+      Gateway que não assina (InfinitePay) tem o formato conferido aqui e a
+      prova real vem dos passos 2 e 3.
+   2. Confirmação na fonte. O valor e o status vêm de uma consulta NOSSA à
+      API do gateway, nunca do corpo do POST. Um webhook forjado não
+      consegue fazer a API do gateway responder "pago".
+   3. Conferência de valor. O total pago tem de bater com o que o servidor
+      calculou, senão alguém pagaria R$ 1 e amarraria a um pedido de R$ 500.
+   4. Uma notificação por pedido. Os gateways reenviam o webhook várias
       vezes; uma trava atômica garante um e-mail só.
 
    Sempre responde 200, inclusive quando ignora a notificação: status de erro
@@ -31,29 +34,35 @@ module.exports = rota(["POST"], async (req, res) => {
   }
 
   const url = new URL(req.url, "http://interno");
-  const tipo = (corpo && (corpo.type || corpo.topic)) || url.searchParams.get("type") || url.searchParams.get("topic");
-  const idPagamento =
-    (corpo && corpo.data && corpo.data.id) || url.searchParams.get("data.id") || url.searchParams.get("id");
-
-  // O Mercado Pago manda vários tópicos (merchant_order, plan...). Só pagamento interessa.
-  if (tipo !== "payment" || !idPagamento) {
-    return json(res, 200, { ok: true, ignorado: `tipo:${tipo || "desconhecido"}` });
-  }
-
   const g = gateway();
 
-  // 1. Assinatura.
-  const assinatura = g.validarWebhook({ cabecalhos: req.headers, idRecurso: idPagamento });
+  // Cada gateway avisa num formato. Quem sabe ler é o próprio gateway.
+  const notificacao = g.extrairNotificacao({ corpo, query: url.searchParams });
+  if (!notificacao.ehPagamento) {
+    return json(res, 200, { ok: true, ignorado: notificacao.motivo || "nao-e-pagamento" });
+  }
+  const idPagamento = notificacao.idRecurso;
+
+  // 1. Autenticidade da notificação.
+  //    Gateway que assina (Mercado Pago): confere o HMAC.
+  //    Gateway que não assina (InfinitePay): confere o formato e deixa a
+  //    prova de verdade para os passos 2 e 3, que consultam a fonte.
+  const assinatura = g.validarWebhook({ cabecalhos: req.headers, corpo, idRecurso: idPagamento });
   if (!assinatura.valido) {
     console.warn("[webhook] notificação descartada (%s) para o pagamento %s", assinatura.motivo, idPagamento);
     // 401 aqui é proposital: notificação não autenticada não vira pedido.
     return json(res, 401, { ok: false, erro: "assinatura-invalida" });
   }
 
+  // Alguns gateways precisam de mais de um identificador para a consulta
+  // (a InfinitePay pede slug + transaction_nsu + order_nsu). O validador
+  // devolve o identificador composto quando é o caso.
+  const idParaConsulta = assinatura.idGateway || idPagamento;
+
   // 2. Confirmação na fonte.
   let pagamento;
   try {
-    pagamento = await g.consultarPagamento(idPagamento);
+    pagamento = await g.consultarPagamento(idParaConsulta);
   } catch (e) {
     console.error("[webhook] não consegui consultar o pagamento %s:", idPagamento, e.message);
     // 500 faz o Mercado Pago reenviar — é o que queremos numa falha temporária.

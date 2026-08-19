@@ -16,6 +16,19 @@ const CHAVE_RASCUNHO = "begonia:checkout-rascunho";
 
 let CONFIG = null;
 
+/* Atalhos para o que o gateway ativo sabe fazer. */
+function capacidades() {
+  return (CONFIG && CONFIG.capacidades) || {};
+}
+function escolhaNoGateway() {
+  return Boolean(capacidades().escolhaNoGateway);
+}
+
+/* Nome do provedor, declarado pelo próprio gateway. */
+function nomeProvedor() {
+  return capacidades().rotulo || "nosso provedor de pagamento";
+}
+
 /* --- Máscaras: ajudam a digitar, não substituem validação --------------- */
 
 function mascararCep(valor) {
@@ -138,7 +151,9 @@ function atualizarPassos() {
   const estados = {
     dados: secaoCompleta("dados"),
     entrega: secaoCompleta("entrega"),
-    pagamento: Boolean(document.querySelector('input[name="metodo"]:checked')),
+    // Quando a forma de pagamento é escolhida na página do gateway, não há
+    // nada a preencher aqui: o passo conta como pronto.
+    pagamento: escolhaNoGateway() || Boolean(document.querySelector('input[name="metodo"]:checked')),
   };
   const ordem = ["dados", "entrega", "pagamento"];
   const atual = ordem.find((s) => !estados[s]) || "pagamento";
@@ -235,7 +250,10 @@ async function enviar(evento) {
 
   const botao = document.getElementById("c-enviar");
   const textoBotao = document.getElementById("c-enviar-texto");
-  const metodo = document.querySelector('input[name="metodo"]:checked');
+  const escolhido = document.querySelector('input[name="metodo"]:checked');
+
+  // "checkout" avisa ao servidor que a forma será escolhida no gateway.
+  const metodo = escolhaNoGateway() ? "checkout" : escolhido && escolhido.value;
 
   if (!metodo) {
     mostrarErroGeral("Escolha como você quer pagar.");
@@ -250,7 +268,7 @@ async function enviar(evento) {
 
   const valor = (id) => document.getElementById(id).value.trim();
   const corpo = {
-    metodo: metodo.value,
+    metodo,
     itens,
     cliente: {
       nome: valor("c-nome"),
@@ -337,8 +355,37 @@ async function enviar(evento) {
 function montarMetodos() {
   const caixa = document.getElementById("c-metodos");
   const iconePorMetodo = { pix: "pix", cartao: "cartao", debito: "cartao" };
+  const metodos = CONFIG && CONFIG.metodos ? CONFIG.metodos : PAGAMENTO.metodos;
+  const provedor = nomeProvedor();
 
-  caixa.innerHTML = (CONFIG && CONFIG.metodos ? CONFIG.metodos : PAGAMENTO.metodos)
+  // Gateway de link único (InfinitePay): a forma de pagamento é escolhida na
+  // página dele. Mostrar um seletor aqui seria prometer uma escolha que a
+  // gente não controla — então listamos o que é aceito e explicamos onde
+  // escolher.
+  if (escolhaNoGateway()) {
+    caixa.removeAttribute("role");
+    caixa.removeAttribute("aria-label");
+    caixa.innerHTML = `
+      <div class="p-5 rounded-md bg-surface-container-low">
+        <p class="text-body-md text-on-surface mb-4">
+          Você escolhe como pagar na próxima etapa, direto em ${provedor}.
+        </p>
+        <ul class="flex flex-wrap gap-3">
+          ${metodos
+            .map(
+              (m) => `
+            <li class="flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container-lowest border border-outline-variant">
+              <span class="text-primary">${icone(iconePorMetodo[m.id] || "cartao", "w-5 h-5")}</span>
+              <span class="text-body-md text-on-surface">${m.nome}</span>
+            </li>`
+            )
+            .join("")}
+        </ul>
+      </div>`;
+    return;
+  }
+
+  caixa.innerHTML = metodos
     .map(
       (m, indice) => `
       <label class="metodo">
@@ -361,13 +408,24 @@ function montarEstados() {
     '<option value="">UF</option>' + lista.map((uf) => `<option value="${uf}">${uf}</option>`).join("");
 }
 
-/* O CPF só é obrigatório no Pix. O rótulo muda junto, para a pessoa não
-   ficar adivinhando por que o campo reclamou. */
+/* O CPF só aparece quando o gateway precisa dele. O Mercado Pago exige para
+   emitir o Pix; a InfinitePay coleta o que precisa na página dela, então o
+   campo some — um dado sensível a menos passando por aqui. */
 function ajustarCpf() {
-  const metodo = document.querySelector('input[name="metodo"]:checked');
-  const ehPix = metodo && metodo.value === "pix";
   const campo = document.getElementById("c-cpf");
   const nota = document.getElementById("c-cpf-nota");
+  const bloco = campo.closest("div");
+
+  if (!capacidades().exigeCpf) {
+    campo.required = false;
+    campo.value = "";
+    bloco.classList.add("hidden");
+    return;
+  }
+
+  bloco.classList.remove("hidden");
+  const metodo = document.querySelector('input[name="metodo"]:checked');
+  const ehPix = metodo && metodo.value === "pix";
   campo.required = ehPix;
   nota.textContent = ehPix ? "— obrigatório para pagar no Pix" : "— opcional no cartão";
 }
@@ -426,6 +484,13 @@ Podemos conversar sobre cores, medidas e prazo?`);
   }
 
   conteudo.classList.remove("hidden");
+
+  // O selo cita o provedor certo, seja qual for o gateway ativo.
+  const selo = conteudo.querySelector(".selo-seguro");
+  if (selo) {
+    selo.lastChild.textContent =
+      ` Os dados do cartão são digitados em ${nomeProvedor()}, não aqui. Este site nunca vê o número do seu cartão.`;
+  }
 
   // Modo simulado: ninguém pode achar que fez uma compra de verdade.
   if (CONFIG.simulado) {

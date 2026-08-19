@@ -73,40 +73,58 @@ informação real:
 | Prazo de envio da pronta entrega | 2 dias úteis |
 | Política de troca e devolução | 7 dias arrependimento, 30 dias troca de tamanho |
 | Conserto gratuito: existe mesmo? por quanto tempo? | 1 ano |
-| Aceita quantas parcelas sem juros? | 6× |
-| Aceita cartão de débito? | Sim |
+| Aceita quantas parcelas no crédito? | até 12× (limite da InfinitePay) |
+| Quem paga o juro do parcelamento: ela ou o cliente? | a definir com ela |
 | Quantidade máxima da mesma peça num pedido | 5 |
 
 > Onde entra: `src/js/dados.js` (`ENVIO` e `PAGAMENTO`) e `contato.html`.
 
 ---
 
-## 4. Mercado Pago 🟡
+## 4. InfinitePay 🟡
 
-Sem isso o checkout existe, mas mostra "pagamento fora do ar" e manda o cliente para o
-WhatsApp.
+O gateway escolhido é a **InfinitePay**. A boa notícia: é o item mais curto desta lista
+inteira. Precisamos de **uma informação só**.
 
-- [ ] **Conta no Mercado Pago** no nome dela (CPF ou CNPJ do ateliê).
-      Se ela ainda não tem, criar em [mercadopago.com.br](https://www.mercadopago.com.br).
-- [ ] **Access token de TESTE** e **Public key de TESTE**
-- [ ] **Access token de PRODUÇÃO** e **Public key de PRODUÇÃO**
-- [ ] **Chave secreta do webhook**
+### O que preciso
 
-**Onde ela acha isso:** entrar na conta → *Seu negócio* → *Configurações* → *Gestão e
-administração* → *Credenciais*. Tem dois blocos, "Credenciais de teste" e "Credenciais de
-produção".
+- [ ] **A InfiniteTag dela** — é o `@` da conta no app InfinitePay.
+      Onde achar: abrir o app → **Perfil** → aparece logo abaixo do nome, com um cifrão
+      na frente (exemplo: `$begoniaatelie`).
+      Pode mandar com ou sem o cifrão.
 
-A chave do webhook fica em: *Suas integrações* → a aplicação → *Webhooks* →
-*Configurar notificações*.
+É isso. **Não existe chave secreta, token nem senha para me passar.**
 
-> ⚠️ **Essas chaves são senha de banco.** O access token dá acesso ao dinheiro da conta dela.
-> Peça para mandar por um canal privado, nunca por grupo de WhatsApp ou e-mail comum.
-> Depois de configurar, peça para ela apagar a mensagem.
+### O que ela precisa fazer na conta dela
 
-- [ ] Confirmar se a conta dela já está **habilitada para receber Pix** (precisa de chave Pix
-      cadastrada no Mercado Pago).
-- [ ] Verificar as **taxas** que o Mercado Pago cobra dela por Pix, débito e crédito, para
-      ela decidir se o preço das peças cobre isso.
+- [ ] **Ter conta na InfinitePay** (CPF ou CNPJ). Se ainda não tem:
+      [infinitepay.io](https://www.infinitepay.io).
+- [ ] **Habilitar o Checkout Integrado** — no app InfinitePay ou no site. Sem isso a API
+      recusa a criação dos links, e o site mostra "pagamento fora do ar".
+- [ ] **Cadastrar a chave Pix** dentro da InfinitePay, para o Pix funcionar.
+- [ ] **Conferir a conta bancária de saque** — é para lá que o dinheiro vai.
+
+### O que ela precisa saber antes de decidir
+
+- **Pix não tem taxa** na InfinitePay. É a principal vantagem sobre o Mercado Pago.
+- **Não tem cartão de débito** no checkout online deles. O site vai oferecer **Pix e cartão
+  de crédito**. Se débito for importante para ela, o caminho é voltar ao Mercado Pago —
+  o código suporta os dois, é trocar uma variável.
+- **O crédito parcela em até 12×.** Confirmar com ela quem paga o juro: ela ou o cliente.
+- **O cliente sai do site para pagar.** Ele preenche os dados no nosso checkout, e a tela
+  de pagamento em si é a da InfinitePay. Depois ele volta sozinho para a página do pedido.
+- [ ] Pedir para ela conferir as **taxas atuais de crédito** no app, para saber se o preço
+      das peças cobre.
+
+### Uma observação técnica que vale registrar
+
+A API da InfinitePay não usa chave secreta: a conta é identificada só pela InfiniteTag, que
+é pública. Também não há assinatura criptográfica no aviso de pagamento.
+
+Isso está tratado no código. Antes de confirmar qualquer venda, o servidor faz três
+conferências: o número do pedido tem de existir no nosso histórico, o pagamento é
+reconsultado direto na API da InfinitePay, e o valor tem de bater com o que calculamos.
+Um aviso falso não passa por nenhuma das três.
 
 ---
 
@@ -172,7 +190,7 @@ Deixo registrado para não virar surpresa depois:
 **Para lançar o site (sem pagamento online):** itens 1, 2 e 3. Com isso o site vai ao ar
 bonito e correto, vendendo pelo WhatsApp como já é hoje.
 
-**Para ligar o pagamento:** itens 4, 5 e 6.
+**Para ligar o pagamento:** itens 4, 5 e 6. O item 4 é rápido — uma linha de resposta dela.
 
 **Para ficar redondo:** itens 7 e 8.
 
@@ -188,5 +206,9 @@ antes de ela abrir qualquer conta.
 npm run dev      # http://localhost:4321
 ```
 
-Quando as credenciais chegarem, é só preencher o `.env.local` e trocar
-`GATEWAY=simulado` por `GATEWAY=mercadopago`.
+Quando a InfiniteTag chegar, é só trocar duas linhas no `.env.local`:
+
+```
+GATEWAY=infinitepay
+INFINITEPAY_HANDLE=a-tag-dela
+```

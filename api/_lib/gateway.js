@@ -12,6 +12,7 @@
 
 const implementacoes = {
   mercadopago: () => require("./mercadopago.js"),
+  infinitepay: () => require("./infinitepay.js"),
   // Só para desenvolvimento: aprova sozinho, não cobra ninguém.
   // O próprio arquivo se recusa a rodar em produção.
   simulado: () => require("./simulado.js"),

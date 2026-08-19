@@ -15,6 +15,31 @@
 
 const ATRASO_SEGUNDOS = Number(process.env.SIMULADO_ATRASO_SEGUNDOS || 12);
 
+/* Imita as capacidades do gateway que estiver configurado de verdade, para o
+   modo de teste se parecer com produção. Por padrão imita o Mercado Pago. */
+const imitandoInfinitePay = process.env.SIMULADO_IMITA === "infinitepay";
+
+const capacidades = {
+  // Em teste, usa o nome do gateway imitado: a tela fica igual à de produção.
+  rotulo: imitandoInfinitePay ? "InfinitePay" : "Mercado Pago",
+  // A InfinitePay não tem débito no checkout online; o Mercado Pago tem.
+  metodos: imitandoInfinitePay ? ["pix", "cartao"] : ["pix", "cartao", "debito"],
+  escolhaNoGateway: process.env.SIMULADO_IMITA === "infinitepay",
+  pixInline: process.env.SIMULADO_IMITA !== "infinitepay",
+  exigeCpf: process.env.SIMULADO_IMITA !== "infinitepay",
+  assinaWebhook: false,
+};
+
+function extrairNotificacao({ corpo, query }) {
+  const tipo = (corpo && corpo.type) || query.get("type");
+  const id = (corpo && corpo.data && corpo.data.id) || query.get("data.id");
+  return {
+    ehPagamento: tipo === "payment" && Boolean(id),
+    idRecurso: id ? String(id) : null,
+    motivo: `tipo:${tipo || "desconhecido"}`,
+  };
+}
+
 /* Trava: nenhuma venda de verdade pode passar por aqui. */
 function exigirDesenvolvimento() {
   const ehProducao =
@@ -148,6 +173,9 @@ function validarWebhook({ cabecalhos, idRecurso }) {
 
 module.exports = {
   nome: "simulado",
+  capacidades,
+  extrairNotificacao,
+  criarPagamentoUnico: (args) => module.exports.criarPagamentoCartao(args),
   criarPagamentoCartao,
   criarPagamentoPix,
   consultarPagamento,

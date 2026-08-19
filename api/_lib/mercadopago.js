@@ -13,6 +13,30 @@ const crypto = require("crypto");
 
 const BASE = "https://api.mercadopago.com";
 
+/* O que este gateway sabe fazer. O resto do sistema lê isto em vez de
+   perguntar "qual é o gateway?" em cada ponto de decisão. */
+const capacidades = {
+  rotulo: "Mercado Pago",
+  metodos: ["pix", "cartao", "debito"],
+  escolhaNoGateway: false, // a pessoa escolhe a forma no nosso site
+  pixInline: true,         // devolvemos QR code para desenhar na nossa página
+  exigeCpf: true,          // o Mercado Pago exige CPF para emitir o Pix
+  assinaWebhook: true,
+};
+
+/* Lê a notificação no formato do Mercado Pago. Cada gateway avisa de um
+   jeito; o webhook.js não precisa conhecer nenhum deles. */
+function extrairNotificacao({ corpo, query }) {
+  const tipo = (corpo && (corpo.type || corpo.topic)) || query.get("type") || query.get("topic");
+  const id = (corpo && corpo.data && corpo.data.id) || query.get("data.id") || query.get("id");
+  return {
+    // O Mercado Pago manda vários tópicos (merchant_order, plan...).
+    ehPagamento: tipo === "payment" && Boolean(id),
+    idRecurso: id ? String(id) : null,
+    motivo: `tipo:${tipo || "desconhecido"}`,
+  };
+}
+
 function token() {
   const t = process.env.MP_ACCESS_TOKEN;
   if (!t) throw new Error("MP_ACCESS_TOKEN não está definido nas variáveis de ambiente.");
@@ -242,6 +266,8 @@ function validarWebhook({ cabecalhos, idRecurso }) {
 
 module.exports = {
   nome: "mercadopago",
+  capacidades,
+  extrairNotificacao,
   criarPagamentoCartao,
   criarPagamentoPix,
   consultarPagamento,

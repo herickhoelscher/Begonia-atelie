@@ -127,12 +127,43 @@ assinatura HMAC (`MP_WEBHOOK_SECRET`); depois o valor é confirmado numa consult
 do Mercado Pago; e só então a dona é avisada. Uma trava atômica garante um e-mail por
 pedido, mesmo com os reenvios que o Mercado Pago faz.
 
-### Trocar de gateway
+### Gateways
 
-Todo o Mercado Pago está em `api/_lib/mercadopago.js`. Para trocar: escreva outro arquivo
-com as mesmas funções (`criarPagamentoCartao`, `criarPagamentoPix`, `consultarPagamento`,
-`validarWebhook`, `traduzirStatus`), registre em `api/_lib/gateway.js` e defina `GATEWAY` no
-ambiente. Nenhum endpoint muda.
+O provedor de pagamento é escolhido pela variável `GATEWAY`. Cada um vive num arquivo só,
+e declara o que sabe fazer num objeto `capacidades` — o resto do sistema lê isso em vez de
+perguntar "qual é o gateway?" em cada ponto de decisão.
+
+| | `infinitepay` (em uso) | `mercadopago` | `simulado` |
+| --- | --- | --- | --- |
+| Pix | sim, sem taxa | sim | sim |
+| Crédito | sim, até 12× | sim, até 6× | sim |
+| Débito | não | sim | sim |
+| Escolha da forma | na página deles | no nosso site | conforme `SIMULADO_IMITA` |
+| QR do Pix no nosso site | não | sim | conforme `SIMULADO_IMITA` |
+| Pede CPF | não | sim, para o Pix | conforme `SIMULADO_IMITA` |
+| Assina o webhook | não | sim (HMAC) | não |
+| Credencial | InfiniteTag (pública) | access token (secreto) | nenhuma |
+
+Para plugar um quarto: escreva `api/_lib/<nome>.js` exportando `capacidades`,
+`extrairNotificacao`, `criarPagamentoPix`, `criarPagamentoCartao`, `consultarPagamento`,
+`validarWebhook` e `traduzirStatus`; registre em `api/_lib/gateway.js`. Nenhum endpoint muda.
+
+### Como a InfinitePay é tratada sem assinatura de webhook
+
+A InfinitePay não assina a notificação de pagamento, e a API dela não usa chave secreta — a
+conta é identificada pela InfiniteTag, que é pública. Sozinho, o POST do webhook não prova
+nada.
+
+O que segura isso são três conferências, nesta ordem, em `api/webhook.js`:
+
+1. **O `order_nsu` recebido tem de existir no nosso histórico.** Ele é a referência que
+   geramos (`BA` + 8 caracteres de um alfabeto de 32), não é adivinhável e não é pública.
+2. **O pagamento é reconsultado no `payment_check` da InfinitePay.** Um webhook forjado não
+   consegue fazer a API deles responder `paid: true`.
+3. **O valor devolvido tem de bater com o total que o servidor calculou.** Isso impede
+   alguém de pagar R$ 1 de verdade e amarrar esse comprovante a um pedido de R$ 500.
+
+Há teste automatizado para cada uma delas em `testes/infinitepay.test.js`.
 
 ### Frete
 
@@ -215,7 +246,9 @@ e cadastre a URL pública como webhook no painel do Mercado Pago.
 ### Testes automatizados
 
 ```bash
-npm run teste:api
+npm run teste            # os dois conjuntos
+npm run teste:api        # Mercado Pago
+npm run teste:infinitepay
 ```
 
 Sobe os quatro endpoints com o Mercado Pago e o Resend simulados e confere, entre outras
