@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pagamento simulado — Begônia Ateliê</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap">
+<link rel="stylesheet" href="css/site.css">
+<script>document.documentElement.classList.add("js");</script>
+<style>
+  /* Esta página imita o ambiente do provedor de pagamento, então ela
+     deliberadamente NÃO usa a identidade da loja: no fluxo real o cliente
+     percebe que saiu do site. O cinza aqui é proposital. */
+  body { background: #eceff1; }
+</style>
+</head>
+<body class="min-h-screen grid place-items-center p-5">
+
+<main class="w-full max-w-md">
+
+  <!-- Aviso de que isto não é um pagamento de verdade -->
+  <p class="flex items-start gap-3 p-4 mb-5 rounded-md bg-tertiary-fixed text-on-tertiary-fixed text-body-md">
+    <i data-icone="relogio" data-icone-classe="w-5 h-5 shrink-0 mt-0.5"></i>
+    <span><strong>Tela de teste.</strong> Aqui é onde ficaria a página da InfinitePay.
+    Nenhum dinheiro é movimentado.</span>
+  </p>
+
+  <div class="bg-white rounded-xl p-6 md:p-8 soft-shadow-lg">
+
+    <div class="flex items-center justify-between mb-8 pb-6 border-b border-outline-variant/40">
+      <span class="font-headline text-headline-md text-on-surface">Pagamento</span>
+      <span class="text-label-sm uppercase tracking-wider text-on-surface-variant">Ambiente simulado</span>
+    </div>
+
+    <p class="text-label-sm uppercase tracking-wider text-on-surface-variant mb-2">Valor a pagar</p>
+    <p id="valor" class="font-headline text-headline-xl text-on-surface mb-8">—</p>
+
+    <dl class="space-y-3 text-body-md mb-8">
+      <div class="flex justify-between">
+        <dt class="text-on-surface-variant">Pedido</dt>
+        <dd id="referencia" class="font-semibold">—</dd>
+      </div>
+      <div class="flex justify-between">
+        <dt class="text-on-surface-variant">Loja</dt>
+        <dd>Begônia Ateliê</dd>
+      </div>
+      <div class="flex justify-between">
+        <dt class="text-on-surface-variant">Forma escolhida no site</dt>
+        <dd id="metodo">—</dd>
+      </div>
+    </dl>
+
+    <div class="stitch-rule mb-8" role="presentation"></div>
+
+    <p class="text-body-md text-on-surface-variant mb-5">
+      Escolha o desfecho que você quer testar:
+    </p>
+
+    <div class="space-y-3">
+      <button type="button" id="aprovar" class="btn btn-primary w-full">
+        <i data-icone="confere" data-icone-classe="w-4 h-4"></i> Pagar e aprovar
+      </button>
+      <button type="button" id="recusar" class="btn btn-soft w-full">
+        <i data-icone="fechar" data-icone-classe="w-4 h-4"></i> Simular pagamento recusado
+      </button>
+      <a id="desistir" href="#" class="btn btn-soft w-full">
+        Voltar sem pagar
+      </a>
+    </div>
+
+    <p id="aviso" class="text-body-md text-center mt-6 hidden" role="status"></p>
+
+    <p class="text-label-sm text-on-surface-variant text-center normal-case tracking-normal mt-8">
+      Em produção esta tela é substituída pela página da InfinitePay, onde o cliente
+      escolhe entre Pix e cartão e paga de verdade.
+    </p>
+  </div>
+</main>
+
+<script src="js/dados.js"></script>
+<script src="js/site.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const parametros = new URLSearchParams(location.search);
+    const referencia = parametros.get("ref") || "";
+    const id = parametros.get("id") || "";
+    const total = Number(parametros.get("total") || 0);
+    const metodo = parametros.get("metodo") || "checkout";
+
+    const NOMES = { pix: "Pix (com 5% de desconto)", cartao: "Cartão de crédito", debito: "Cartão de débito", checkout: "a escolher aqui" };
+
+    document.getElementById("valor").textContent = formatarPreco(total);
+    document.getElementById("referencia").textContent = referencia;
+    document.getElementById("metodo").textContent = NOMES[metodo] || metodo;
+    document.getElementById("desistir").href = `pedido.html?ref=${encodeURIComponent(referencia)}`;
+
+    const aviso = document.getElementById("aviso");
+    const botoes = [document.getElementById("aprovar"), document.getElementById("recusar")];
+
+    async function decidir(decisao) {
+      botoes.forEach((b) => (b.disabled = true));
+      aviso.textContent = "Processando…";
+      aviso.className = "text-body-md text-center mt-6 text-on-surface-variant";
+
+      try {
+        const resposta = await fetch("/api/simulado-pagar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id, decisao }),
+        });
+        const dados = await resposta.json();
+        if (!dados.ok) throw new Error(dados.erro || "falhou");
+      } catch (e) {
+        botoes.forEach((b) => (b.disabled = false));
+        aviso.textContent = "Não consegui registrar a decisão: " + e.message;
+        aviso.className = "text-body-md text-center mt-6 text-error";
+        return;
+      }
+
+      // Volta para a loja, como o provedor de verdade faria.
+      window.location.href = `pedido.html?ref=${encodeURIComponent(referencia)}`;
+    }
+
+    document.getElementById("aprovar").addEventListener("click", () => decidir("aprovar"));
+    document.getElementById("recusar").addEventListener("click", () => decidir("recusar"));
+  });
+</script>
+</body>
+</html>

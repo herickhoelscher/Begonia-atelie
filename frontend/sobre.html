@@ -1,0 +1,298 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sobre o ateliê — Begônia Ateliê</title>
+<meta name="description" content="A história do Begônia Ateliê: uma mesa, dois novelos e a decisão de fazer devagar. Conheça o processo, os materiais e o que sustenta cada peça.">
+<meta name="theme-color" content="#faf9f6">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap">
+<link rel="stylesheet" href="css/site.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+
+<a href="#conteudo" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[70] focus:btn focus:btn-primary">Pular para o conteúdo</a>
+
+<header id="cabecalho" class="sticky top-0 z-50 bg-surface transition-shadow duration-300">
+  <div class="shell">
+    <div class="flex items-center justify-between gap-4 py-4">
+      <a href="index.html" class="font-headline text-headline-md text-primary shrink-0">Begônia Ateliê</a>
+      <nav class="hidden md:flex items-center gap-8" aria-label="Navegação principal">
+        <a class="nav-link" href="index.html">Início</a>
+        <a class="nav-link" href="loja.html">Loja</a>
+        <a class="nav-link" href="sob-encomenda.html">Sob Encomenda</a>
+        <a class="nav-link" href="sobre.html" aria-current="page">Sobre</a>
+        <a class="nav-link" href="contato.html">Contato</a>
+      </nav>
+      <div class="flex items-center gap-1 text-primary">
+        <button type="button" data-abrir="painel-busca" aria-label="Buscar peças" class="grid place-items-center w-10 h-10 rounded-full hover:bg-surface-container transition-colors"><i data-icone="busca"></i></button>
+        <button type="button" data-abrir="painel-favoritos" aria-label="Abrir a sacola" class="relative grid place-items-center w-10 h-10 rounded-full hover:bg-surface-container transition-colors">
+          <i data-icone="sacola"></i>
+          <span class="js-contador-favoritos hidden absolute top-0.5 right-0.5 grid place-items-center min-w-5 h-5 px-1 rounded-full bg-primary text-on-primary text-[10px] font-semibold">0</span>
+        </button>
+        <button type="button" data-abrir="painel-menu" aria-label="Abrir menu" class="md:hidden grid place-items-center w-10 h-10 rounded-full hover:bg-surface-container transition-colors"><i data-icone="menu"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="hidden md:block bg-surface-container-low border-t border-outline-variant/40">
+    <div class="shell flex justify-center items-center gap-gutter py-2 text-label-sm">
+      <span class="uppercase tracking-wider font-semibold text-on-secondary-container">Categorias</span>
+      <a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?cat=mesa">Mesa posta</a>
+      <a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?cat=decoracao">Decoração</a>
+      <a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?cat=acessorios">Acessórios</a>
+      <a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?disp=pronta">Pronta Entrega</a>
+    </div>
+  </div>
+</header>
+
+<main id="conteudo">
+
+  <!-- ===================== ABERTURA ===================== -->
+  <section class="shell py-16 md:py-24 text-center">
+    <p class="text-label-sm uppercase tracking-[0.2em] text-secondary mb-5">Sobre o ateliê</p>
+    <h1 class="font-headline text-headline-lg-mobile md:text-headline-xl text-primary mb-6 max-w-3xl mx-auto">
+      Começou com dois novelos e uma tarde livre
+    </h1>
+    <p class="text-body-lg text-on-surface-variant max-w-2xl mx-auto">
+      O Begônia Ateliê nasceu numa mesa de cozinha, em 2019, quando um suporte de planta
+      feito para a própria casa virou pedido de três amigas na mesma semana.
+    </p>
+  </section>
+
+  <div class="shell">
+    <div class="rounded-xl overflow-hidden soft-shadow-lg reveal">
+      <img src="assets/img/galeria-tear.jpg" width="2000" height="1500" fetchpriority="high"
+           alt="Tapeçaria em processo num tear de madeira, com fios em ocre, oliva e branco quente e ferramentas de crochê ao redor."
+           class="w-full object-cover aspect-16/9">
+    </div>
+  </div>
+
+  <!-- ===================== HISTÓRIA ===================== -->
+  <section class="shell py-20 md:py-24" aria-labelledby="t-historia">
+    <div class="grid md:grid-cols-3 gap-12 lg:gap-16">
+      <h2 id="t-historia" class="font-headline text-headline-lg-mobile md:text-headline-lg text-on-background md:sticky md:top-40 self-start">
+        O que a gente faz aqui
+      </h2>
+      <div class="md:col-span-2 space-y-6 text-body-md text-on-surface-variant reveal">
+        <p>
+          Fazemos crochê, tricô e macramê — peças para vestir e peças para morar. Um cardigan
+          que atravessa cinco invernos, uma manta que cobre duas pessoas, um painel que muda
+          uma parede inteira.
+        </p>
+        <p>
+          Não temos coleção de estação nem estoque grande. Trabalhamos em lotes pequenos e
+          por encomenda, porque é o que o trabalho manual permite: uma manta leva de três a
+          cinco semanas, e não há como espremer isso sem espremer também a qualidade do ponto.
+        </p>
+        <p>
+          Quase tudo que está hoje na loja começou como pedido de alguém. O suporte duplo
+          nasceu de uma cliente com duas jiboias e um gancho só. Os cestos encaixáveis vieram
+          da pergunta “onde eu guardo o organizador?”. É assim que o catálogo cresce: um
+          problema real de cada vez.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== NÚMEROS ===================== -->
+  <section class="bg-surface-container-low py-16 md:py-20" aria-labelledby="t-numeros">
+    <div class="shell">
+      <h2 id="t-numeros" class="sr-only">O ateliê em números</h2>
+      <dl class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center reveal">
+        <div class="flex flex-col-reverse gap-3">
+          <dt class="text-label-sm uppercase tracking-wider text-on-surface-variant">Anos de ateliê</dt>
+          <dd class="font-headline text-headline-lg text-primary">7</dd>
+        </div>
+        <div class="flex flex-col-reverse gap-3">
+          <dt class="text-label-sm uppercase tracking-wider text-on-surface-variant">Peças entregues</dt>
+          <dd class="font-headline text-headline-lg text-primary">1.400+</dd>
+        </div>
+        <div class="flex flex-col-reverse gap-3">
+          <dt class="text-label-sm uppercase tracking-wider text-on-surface-variant">Encomendas por mês</dt>
+          <dd class="font-headline text-headline-lg text-primary">12</dd>
+        </div>
+        <div class="flex flex-col-reverse gap-3">
+          <dt class="text-label-sm uppercase tracking-wider text-on-surface-variant">Pares de mãos</dt>
+          <dd class="font-headline text-headline-lg text-primary">2</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ===================== PROCESSO ===================== -->
+  <section class="shell py-20 md:py-24" aria-labelledby="t-processo">
+    <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div class="rounded-xl overflow-hidden soft-shadow reveal order-2 md:order-1">
+        <img src="assets/img/fios-cartela.jpg" loading="lazy" width="2000" height="1500"
+             alt="Novelos de algodão grosso em terracota, mostarda e verde oliva, com a torção do fio bem visível."
+             class="w-full object-cover aspect-4/3">
+      </div>
+      <div class="order-1 md:order-2 reveal">
+        <h2 id="t-processo" class="font-headline text-headline-lg-mobile md:text-headline-lg text-on-background mb-6">
+          De onde vêm os fios
+        </h2>
+        <p class="text-body-md text-on-surface-variant mb-6">
+          Trabalhamos com algodão ecológico de dois fornecedores brasileiros, e boa parte da
+          nossa cartela vem de tingimento natural — casca de cebola para o mostarda, urucum
+          para o terracota. Isso significa variação leve de lote para lote, e a gente prefere
+          avisar antes: sua peça não vai sair idêntica à da foto, e é esse o ponto.
+        </p>
+        <ul class="leaf-list space-y-3 text-body-md text-on-surface-variant">
+          <li>Sobras de fio viram porta-copos e cestos pequenos, nunca lixo</li>
+          <li>Embalagem em papel kraft e fita de algodão, sem plástico</li>
+          <li>Ajustes e consertos gratuitos no primeiro ano de uso</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="shell"><div class="stitch-rule" role="presentation"></div></div>
+
+  <!-- ===================== VALORES ===================== -->
+  <section class="shell py-20 md:py-24" aria-labelledby="t-valores">
+    <h2 id="t-valores" class="font-headline text-headline-lg-mobile md:text-headline-lg text-primary text-center mb-12 reveal">
+      Três coisas em que não abrimos mão
+    </h2>
+    <ul class="grid md:grid-cols-3 gap-gutter reveal">
+      <li class="bg-surface-container-lowest rounded-xl p-8 soft-shadow">
+        <h3 class="font-headline text-headline-md text-on-surface mb-4">Tempo de verdade</h3>
+        <p class="text-body-md text-on-surface-variant">
+          A gente diz o prazo real, mesmo quando ele é longo. Nunca prometemos duas semanas
+          para o que leva cinco.
+        </p>
+      </li>
+      <li class="bg-surface-container-lowest rounded-xl p-8 soft-shadow">
+        <h3 class="font-headline text-headline-md text-on-surface mb-4">Conversa antes da venda</h3>
+        <p class="text-body-md text-on-surface-variant">
+          Toda encomenda começa com perguntas: onde a peça vai ficar, quem vai usar, que cores
+          já existem no ambiente.
+        </p>
+      </li>
+      <li class="bg-surface-container-lowest rounded-xl p-8 soft-shadow">
+        <h3 class="font-headline text-headline-md text-on-surface mb-4">Peça que dura</h3>
+        <p class="text-body-md text-on-surface-variant">
+          Se soltar um ponto no primeiro ano, é só mandar de volta. Consertamos e devolvemos
+          sem cobrar nada.
+        </p>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ===================== CHAMADA ===================== -->
+  <section class="bg-surface-container py-20 md:py-24 text-center" aria-labelledby="t-conhecer">
+    <div class="shell max-w-2xl!">
+      <h2 id="t-conhecer" class="font-headline text-headline-lg-mobile md:text-headline-lg text-on-background mb-6">
+        Vem ver o que está pronto
+      </h2>
+      <p class="text-body-lg text-on-surface-variant mb-10">
+        Tem peça saindo do ateliê toda semana — e sempre dá para encomendar do seu jeito.
+      </p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <a href="loja.html" class="btn btn-primary">Ver a loja</a>
+        <a href="sob-encomenda.html" class="btn btn-outline">Encomendar sob medida</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="bg-surface-container-high rounded-t-xl mt-4">
+  <div class="shell grid gap-10 md:grid-cols-4 py-14">
+    <div class="md:col-span-2">
+      <p class="font-headline text-headline-md text-primary mb-4">Begônia Ateliê</p>
+      <p class="text-body-md text-on-surface-variant max-w-xs mb-6">
+        Crochê, tricô e macramê feitos à mão em pequenos lotes. Peças para vestir e para morar.
+      </p>
+      <div class="flex items-center gap-3">
+        <a class="js-instagram grid place-items-center w-10 h-10 rounded-full bg-surface text-primary hover:bg-surface-container-lowest transition-colors" href="#" target="_blank" rel="noopener" aria-label="Instagram do Begônia Ateliê"><i data-icone="instagram"></i></a>
+        <a class="js-whatsapp grid place-items-center w-10 h-10 rounded-full bg-surface text-primary hover:bg-surface-container-lowest transition-colors" href="#" target="_blank" rel="noopener" aria-label="WhatsApp do Begônia Ateliê"><i data-icone="whatsapp"></i></a>
+        <a class="js-email grid place-items-center w-10 h-10 rounded-full bg-surface text-primary hover:bg-surface-container-lowest transition-colors" href="#" aria-label="Enviar e-mail para o ateliê"><i data-icone="email"></i></a>
+      </div>
+    </div>
+    <nav aria-labelledby="rodape-loja">
+      <h2 id="rodape-loja" class="text-label-sm uppercase tracking-wider text-on-surface mb-4">Loja</h2>
+      <ul class="space-y-3 text-body-md">
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html">Todas as peças</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?disp=pronta">Pronta entrega</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="sob-encomenda.html">Sob encomenda</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="sobre.html">Sobre o ateliê</a></li>
+      </ul>
+    </nav>
+    <nav aria-labelledby="rodape-ajuda">
+      <h2 id="rodape-ajuda" class="text-label-sm uppercase tracking-wider text-on-surface mb-4">Ajuda</h2>
+      <ul class="space-y-3 text-body-md">
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="contato.html#envio">Políticas de envio</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="contato.html#pagamento">Meios de pagamento</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="contato.html#trocas">Trocas e devoluções</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="contato.html">Fale com a gente</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="privacidade.html">Privacidade</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="shell border-t border-outline-variant/40 py-6">
+    <p class="text-body-md text-on-surface-variant text-center">
+      Begônia Ateliê © <span class="js-ano">2026</span>. Feito com amor à mão.
+    </p>
+  </div>
+</footer>
+
+<div id="painel-menu" data-painel class="hidden" role="dialog" aria-modal="true" aria-label="Menu de navegação">
+  <div data-fundo></div>
+  <div class="painel-corpo painel-esquerda">
+    <div class="flex items-center justify-between p-6 border-b border-outline-variant/40">
+      <span class="font-headline text-headline-md text-primary">Begônia Ateliê</span>
+      <button type="button" data-fechar="painel-menu" aria-label="Fechar menu" class="grid place-items-center w-10 h-10 rounded-full hover:bg-surface-container text-on-surface-variant"><i data-icone="fechar"></i></button>
+    </div>
+    <nav class="flex-1 overflow-y-auto p-6" aria-label="Navegação mobile">
+      <ul class="space-y-1 mb-8">
+        <li><a class="block py-3 font-headline text-headline-md text-on-surface hover:text-primary transition-colors" href="index.html">Início</a></li>
+        <li><a class="block py-3 font-headline text-headline-md text-on-surface hover:text-primary transition-colors" href="loja.html">Loja</a></li>
+        <li><a class="block py-3 font-headline text-headline-md text-on-surface hover:text-primary transition-colors" href="sob-encomenda.html">Sob Encomenda</a></li>
+        <li><a class="block py-3 font-headline text-headline-md text-primary" href="sobre.html">Sobre</a></li>
+        <li><a class="block py-3 font-headline text-headline-md text-on-surface hover:text-primary transition-colors" href="contato.html">Contato</a></li>
+      </ul>
+      <p class="text-label-sm uppercase tracking-wider text-on-surface-variant mb-4">Categorias</p>
+      <ul class="space-y-3 text-body-md">
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?cat=mesa">Mesa posta</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?cat=decoracao">Decoração</a></li>
+        <li><a class="text-on-surface-variant hover:text-primary transition-colors" href="loja.html?cat=acessorios">Acessórios</a></li>
+      </ul>
+    </nav>
+    <div class="p-6 border-t border-outline-variant/40">
+      <a class="js-whatsapp btn btn-primary w-full" href="#" target="_blank" rel="noopener"><i data-icone="whatsapp" data-icone-classe="w-4 h-4"></i> Falar no WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<div id="painel-busca" data-painel class="hidden" role="dialog" aria-modal="true" aria-label="Buscar peças">
+  <div data-fundo></div>
+  <div class="painel-corpo painel-topo">
+    <div class="shell py-6 flex items-center gap-4">
+      <label for="busca-campo" class="sr-only">Buscar peças</label>
+      <input id="busca-campo" type="search" placeholder="Buscar por cardigan, macramê, planta…" class="field flex-1" autocomplete="off">
+      <button type="button" data-fechar="painel-busca" aria-label="Fechar busca" class="grid place-items-center w-10 h-10 rounded-full hover:bg-surface-container text-on-surface-variant shrink-0"><i data-icone="fechar"></i></button>
+    </div>
+    <div id="busca-resultados" class="shell pb-8 overflow-y-auto"></div>
+  </div>
+</div>
+
+<div id="painel-favoritos" data-painel class="hidden" role="dialog" aria-modal="true" aria-label="Sua sacola">
+  <div data-fundo></div>
+  <div class="painel-corpo painel-direita">
+    <div class="flex items-center justify-between p-6 border-b border-outline-variant/40">
+      <h2 class="font-headline text-headline-md text-primary">Sua sacola</h2>
+      <button type="button" data-fechar="painel-favoritos" aria-label="Fechar a sacola" class="grid place-items-center w-10 h-10 rounded-full hover:bg-surface-container text-on-surface-variant"><i data-icone="fechar"></i></button>
+    </div>
+    <ul id="favoritos-corpo" class="flex-1 overflow-y-auto px-6"></ul>
+    <div id="favoritos-rodape" class="p-6 border-t border-outline-variant/40 hidden"></div>
+  </div>
+</div>
+
+<script src="js/dados.js"></script>
+<script src="js/site.js"></script>
+</body>
+</html>

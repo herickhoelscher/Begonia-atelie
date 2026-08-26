@@ -12,7 +12,42 @@ process.env.RESEND_API_KEY = "re_falso";
 process.env.EMAIL_REMETENTE = "loja@begonia.exemplo";
 
 const RAIZ = process.argv[2] || process.cwd();
-const api = (n) => require(path.join(RAIZ, "api", n));
+const api = (n) => require(path.join(RAIZ, "backend/rotas", n));
+
+/* --- Catálogo de teste --------------------------------------------------
+   Os testes usam peças próprias, injetadas no catálogo, em vez das peças
+   reais. Assim mudar um preço na loja não quebra o teste do checkout, que é
+   sobre a regra e não sobre o produto. */
+const { PRODUTOS: CATALOGO } = require(path.join(RAIZ, "frontend/js/dados.js"));
+CATALOGO.length = 0;
+CATALOGO.push(
+  {
+    slug: "cardigan-outono", nome: "Cardigan Outono", preco: 389, categoria: "acessorios",
+    disponibilidade: "pronta", destaque: true, tags: ["novo"], fotos: ["x.jpeg"],
+    alt: "", resumo: "", descricao: "", materiais: [], medidas: "", cuidados: [], prazo: "",
+  },
+  {
+    slug: "caneca-rustica", nome: "Caneca Rústica com Porta-copos", preco: 85, categoria: "acessorios",
+    disponibilidade: "pronta", destaque: false, tags: [], fotos: ["x.jpeg"],
+    alt: "", resumo: "", descricao: "", materiais: [], medidas: "", cuidados: [], prazo: "",
+  },
+  {
+    slug: "hanger-plantas", nome: "Hanger para Plantas", preco: 95, categoria: "decoracao",
+    disponibilidade: "pronta", destaque: false, tags: [], fotos: ["x.jpeg"],
+    alt: "", resumo: "", descricao: "", materiais: [], medidas: "", cuidados: [], prazo: "",
+  },
+  {
+    slug: "capa-almofada-trama", nome: "Capa de Almofada Trama", preco: 120, categoria: "decoracao",
+    disponibilidade: "pronta", destaque: false, tags: [], fotos: ["x.jpeg"],
+    alt: "", resumo: "", descricao: "", materiais: [], medidas: "", cuidados: [], prazo: "",
+  },
+  {
+    slug: "manta-tricolor", nome: "Manta Tricolor", preco: 520, categoria: "decoracao",
+    disponibilidade: "encomenda", destaque: true, tags: [], fotos: ["x.jpeg"],
+    alt: "", resumo: "", descricao: "", materiais: [], medidas: "", cuidados: [], prazo: "",
+  }
+);
+
 
 /* --- Mercado Pago e Resend simulados ------------------------------------ */
 const chamadas = [];

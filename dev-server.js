@@ -16,6 +16,10 @@ const path = require("path");
 const { URL } = require("url");
 
 const RAIZ = __dirname;
+/* Depois da separação em frontend/ e backend/, o site estático mora em
+   frontend/ e as rotas em backend/rotas/. */
+const PUBLICO = path.join(RAIZ, "frontend");
+const ROTAS = path.join(RAIZ, "backend", "rotas");
 const PORTA = Number(process.env.PORT || 4321);
 
 /* -------------------------------------------------------------------------
@@ -97,8 +101,8 @@ const TIPOS = {
 
 function servirEstatico(caminho, res) {
   // Impede sair da pasta do projeto com ../../
-  const destino = path.normalize(path.join(RAIZ, decodeURIComponent(caminho)));
-  if (!destino.startsWith(RAIZ)) {
+  const destino = path.normalize(path.join(PUBLICO, decodeURIComponent(caminho)));
+  if (!destino.startsWith(PUBLICO)) {
     res.statusCode = 403;
     return res.end("Fora do projeto.");
   }
@@ -119,7 +123,7 @@ function servirEstatico(caminho, res) {
 }
 
 async function rodarFuncaoApi(nome, req, res) {
-  const arquivo = path.join(RAIZ, "api", nome + ".js");
+  const arquivo = path.join(ROTAS, nome + ".js");
   if (!fs.existsSync(arquivo)) {
     res.statusCode = 404;
     res.setHeader("Content-Type", "application/json; charset=utf-8");
@@ -128,7 +132,7 @@ async function rodarFuncaoApi(nome, req, res) {
 
   // Recarrega a cada chamada: editar um arquivo de /api não exige reiniciar.
   Object.keys(require.cache)
-    .filter((k) => k.includes(path.join(RAIZ, "api")) || k.includes(path.join(RAIZ, "src", "js", "dados.js")))
+    .filter((k) => k.includes(path.join(RAIZ, "backend")) || k.includes(path.join(RAIZ, "frontend", "js", "dados.js")))
     .forEach((k) => delete require.cache[k]);
 
   const bruto = await lerCorpoBruto(req);
