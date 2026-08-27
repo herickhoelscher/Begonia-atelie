@@ -146,8 +146,8 @@ inteira. Precisamos de **uma informação só**.
 
 - [ ] **Ter conta na InfinitePay** (CPF ou CNPJ). Se ainda não tem:
       [infinitepay.io](https://www.infinitepay.io).
-- [ ] **Habilitar o Checkout Integrado** — no app InfinitePay ou no site. Sem isso a API
-      recusa a criação dos links, e o site mostra "pagamento fora do ar".
+- [x] ~~**Habilitar o Checkout Integrado**~~ — **feito em 27/08/2026**. Testei contra a API
+      real: a criação de link responde 200.
 - [ ] **Cadastrar a chave Pix** dentro da InfinitePay, para o Pix funcionar.
 - [ ] **Conferir a conta bancária de saque** — é para lá que o dinheiro vai.
 

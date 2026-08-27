@@ -180,11 +180,23 @@ servidor.listen(PORTA, () => {
     "  .env.local: " + (carregadas.length ? carregadas.length + " variáveis carregadas" : "não encontrado")
   );
   console.log("  Gateway de pagamento: " + gateway + (gateway === "simulado" ? "  (nenhuma cobrança real)" : ""));
-  if (!process.env.MP_ACCESS_TOKEN && gateway !== "simulado") {
+  // Cada gateway pede uma credencial diferente; o aviso tem de falar da certa.
+  const credencial = {
+    mercadopago: ["MP_ACCESS_TOKEN", process.env.MP_ACCESS_TOKEN],
+    infinitepay: ["INFINITEPAY_HANDLE", process.env.INFINITEPAY_HANDLE],
+  }[gateway];
+
+  if (credencial && !credencial[1]) {
     console.log("");
-    console.log("  Aviso: MP_ACCESS_TOKEN não está definido, então o checkout vai");
+    console.log("  Aviso: %s não está definido, então o checkout vai", credencial[0]);
     console.log("  mostrar 'pagamento fora do ar'. Use GATEWAY=simulado no .env.local");
-    console.log("  para testar o fluxo sem conta no Mercado Pago.");
+    console.log("  para testar o fluxo sem conta em gateway nenhum.");
+  } else if (gateway !== "simulado") {
+    console.log("");
+    console.log("  ATENÇÃO: gateway de verdade. Uma compra aqui gera cobrança real.");
+    console.log("  O webhook não chega em localhost, então o pedido fica em");
+    console.log("  'confirmando' até publicar o site. Use GATEWAY=simulado para");
+    console.log("  testar o fluxo inteiro.");
   }
   console.log("");
 });

@@ -61,7 +61,9 @@ global.fetch = async (url, opcoes = {}) => {
     const slug = "fat" + (FATURAS.size + 1);
     const total = corpo.items.reduce((s, i) => s + i.price * i.quantity, 0);
     FATURAS.set(slug, { orderNsu: corpo.order_nsu, amountCentavos: total, pago: false });
-    return ok({ url: `https://checkout.infinitepay.io/${corpo.handle}/${slug}` });
+    // A API real devolve o handle no caminho e o link cifrado na query —
+    // sem slug. O slug só chega depois, no invoice_slug do webhook.
+    return ok({ url: `https://checkout.infinitepay.io/${corpo.handle}?lenc=FAKE-${slug}` });
   }
   if (url.endsWith("/payment_check")) {
     const f = FATURAS.get(corpo.slug);
@@ -146,6 +148,11 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
     checar("aceita o método 'checkout'", r.json.metodo === "checkout");
     checar("devolve redirecionamento", r.json.tipo === "redirecionamento");
     checar("URL é do checkout da InfinitePay", String(r.json.url).includes("checkout.infinitepay.io"));
+    // A URL da API não traz slug: guardar o handle no lugar dele quebraria
+    // o payment_check mais tarde.
+    const pedidoSalvo = await require(path.join(RAIZ, "backend/lib/armazenamento.js")).lerPedido(referencia);
+    checar("não confunde o handle com o slug",
+      !String(pedidoSalvo.pagamento.idGateway).startsWith("begoniaatelie|"), pedidoSalvo.pagamento.idGateway);
     // 389,00 está acima do limite de 120: frete grátis. Sem desconto de
     // primeira compra porque o histórico não está configurado neste teste.
     checar("ignora o preço forjado", r.json.total === 389, { total: r.json.total });

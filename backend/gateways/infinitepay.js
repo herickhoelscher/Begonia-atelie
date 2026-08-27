@@ -113,12 +113,22 @@ function lerId(id) {
   return { slug: slug || null, transactionNsu: transactionNsu || null, orderNsu: orderNsu || null };
 }
 
-/* O slug da fatura aparece no fim da URL devolvida. Guardamos porque o
-   payment_check precisa dele. */
+/* Tenta achar o slug da fatura na URL devolvida.
+
+   A InfinitePay usa dois formatos, e isso importa:
+     app:  checkout.infinitepay.io/<handle>/<slug>   -> dá para ler o slug
+     API:  checkout.infinitepay.io/<handle>?lenc=... -> NÃO tem slug na URL
+
+   Quando a criação vem pela API, o slug só aparece depois, no campo
+   invoice_slug do webhook. Aqui devolvemos null nesse caso, em vez de
+   devolver o handle por engano — foi o que o teste contra a API real pegou.
+   Sem essa checagem, o payment_check seria chamado com o handle no lugar do
+   slug e nunca confirmaria pagamento nenhum. */
 function slugDaUrl(url) {
   try {
     const partes = new URL(url).pathname.split("/").filter(Boolean);
-    return partes[partes.length - 1] || null;
+    // Menos de 2 segmentos significa que só há o handle no caminho.
+    return partes.length >= 2 ? partes[partes.length - 1] : null;
   } catch {
     return null;
   }
