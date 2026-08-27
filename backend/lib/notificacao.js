@@ -112,7 +112,9 @@ function tabelaItens(pedido) {
       <tr>
         <td style="padding:10px 0;border-bottom:1px solid ${COR.linha}66">
           <strong style="font-weight:600">${esc(i.nome)}</strong><br>
-          <span style="font-size:13px;color:${COR.suave}">${i.quantidade} × ${esc(formatarPreco(i.precoUnitario))}</span>
+          <span style="font-size:13px;color:${COR.suave}">
+            ${i.quantidade} × ${esc(formatarPreco(i.precoUnitario))}${i.cor ? " &middot; <strong>" + esc(i.cor) + "</strong>" : ""}
+          </span>
         </td>
         <td style="padding:10px 0;border-bottom:1px solid ${COR.linha}66;text-align:right;white-space:nowrap">
           ${esc(formatarPreco(i.precoTotal))}

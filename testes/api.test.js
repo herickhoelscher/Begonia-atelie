@@ -143,7 +143,19 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", complem
   {
     const r = res();
     await api("criar-pagamento.js")(req({ caminho: "/api/criar-pagamento", corpo: { metodo: "pix", itens: [{ slug: "manta-tricolor", quantidade: 1 }], cliente: CLIENTE, entrega: ENTREGA } }), r);
-    checar("bloqueia peça sob encomenda", r._status === 422 && /encomenda/i.test(r.json.erro), r.json.erro);
+    // Peça sob encomenda passou a ser vendida pelo site: o prazo é maior, o
+    // preço é o mesmo. O que barra hoje é peça SEM preço.
+    checar("peça sob encomenda pode ser comprada", r._status === 200, r.json);
+  }
+  {
+    const semPreco = { slug: "sem-preco", nome: "Peça sem preço", preco: 0, categoria: "decoracao",
+      disponibilidade: "encomenda", destaque: false, tags: [], fotos: ["x.jpeg"],
+      alt: "", resumo: "", descricao: "", materiais: [], medidas: "", cuidados: [], prazo: "" };
+    CATALOGO.push(semPreco);
+    const r = res();
+    await api("criar-pagamento.js")(req({ caminho: "/api/criar-pagamento", corpo: { metodo: "pix", itens: [{ slug: "sem-preco", quantidade: 1 }], cliente: CLIENTE, entrega: ENTREGA } }), r);
+    checar("bloqueia peça sem preço", r._status === 422 && /não tem preço/i.test(r.json.erro), r.json.erro);
+    CATALOGO.pop();
   }
   {
     const r = res();
@@ -252,7 +264,9 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", complem
   }
 
   console.log("\n== /api/webhook ==");
-  const idPag = [...PAGAMENTOS.keys()][0];
+  // Amarra pela referência, e não pela ordem de criação: assim o teste não
+  // quebra quando um caso novo cria um pagamento antes deste.
+  const idPag = [...PAGAMENTOS.entries()].find(([, p]) => p.external_reference === refPix)[0];
   const assinar = (id, reqId) => {
     const ts = Math.floor(Date.now() / 1000);
     const v1 = crypto.createHmac("sha256", "segredo-de-teste").update(`id:${String(id).toLowerCase()};request-id:${reqId};ts:${ts};`).digest("hex");

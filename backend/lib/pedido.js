@@ -27,13 +27,17 @@ function novaReferencia() {
 
 /* Junta quantidades repetidas do mesmo slug numa linha só. */
 function agruparItens(itens) {
+  // Agrupa por peça E cor: duas cores da mesma peça são linhas diferentes.
   const mapa = new Map();
   for (const item of itens) {
-    mapa.set(item.slug, (mapa.get(item.slug) || 0) + item.quantidade);
+    const chave = `${item.slug}|${item.cor || ""}`;
+    const atual = mapa.get(chave) || { slug: item.slug, cor: item.cor || null, quantidade: 0 };
+    atual.quantidade += item.quantidade;
+    mapa.set(chave, atual);
   }
-  return [...mapa].map(([slug, quantidade]) => ({
-    slug,
-    quantidade: Math.min(quantidade, PAGAMENTO.maxQuantidadePorPeca),
+  return [...mapa.values()].map((i) => ({
+    ...i,
+    quantidade: Math.min(i.quantidade, PAGAMENTO.maxQuantidadePorPeca),
   }));
 }
 
@@ -58,10 +62,7 @@ function montarPedido(itensPedidos, uf, opcoes = {}) {
     // pelo WhatsApp, nunca por pagamento online. A mesma trava barra peça
     // sem preço definido, que nunca pode virar cobrança.
     if (!podeComprarOnline(produto)) {
-      campos.itens =
-        Number(produto.preco) > 0
-          ? `"${produto.nome}" é sob encomenda e é fechada pelo WhatsApp, não pelo checkout.`
-          : `"${produto.nome}" ainda não tem preço no site. Fale com a gente pelo WhatsApp.`;
+      campos.itens = `"${produto.nome}" ainda não tem preço no site. Fale com a gente pelo WhatsApp.`;
       continue;
     }
 
@@ -74,6 +75,7 @@ function montarPedido(itensPedidos, uf, opcoes = {}) {
     itens.push({
       slug: produto.slug,
       nome: produto.nome,
+      cor: pedido.cor || null,
       quantidade: pedido.quantidade,
       precoUnitario: emReais(unitarioCent),
       precoTotal: emReais(totalLinhaCent),

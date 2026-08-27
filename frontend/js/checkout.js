@@ -107,7 +107,20 @@ function metodoDeclarado() {
 /* Pede a conta ao servidor. É ele quem decide desconto, frete e total —
    o navegador só desenha. Sem isso, a mesma regra existiria em dois lugares. */
 async function pedirOrcamento() {
-  const itens = itensCompraveis().map((i) => ({ slug: i.produto.slug, quantidade: i.quantidade }));
+  const itens = itensCompraveis().map((i) => ({
+    slug: i.produto.slug,
+    quantidade: i.quantidade,
+    cor: i.cor,
+  }));
+
+  // Sem cor, ela recebe a venda e não sabe o que tricotar.
+  const semCor = itensCompraveis().filter((i) => precisaEscolherCor(i.produto) && !i.cor);
+  if (semCor.length) {
+    mostrarErroGeral(
+      `Escolha a cor de ${semCor.map((i) => i.produto.nome).join(", ")} — abra a sacola para definir.`
+    );
+    return;
+  }
   if (!itens.length) return;
 
   const corpo = {
@@ -154,7 +167,7 @@ function renderizarResumo() {
         <div class="flex-1 min-w-0">
           <p class="font-headline text-body-md text-on-surface leading-snug">${i.produto.nome}</p>
           <p class="text-label-sm text-on-surface-variant normal-case tracking-normal mt-1">
-            ${i.quantidade} × ${formatarPreco(i.produto.preco)}
+            ${i.quantidade} × ${formatarPreco(i.produto.preco)}${i.cor ? ` · ${i.cor}` : ""}
           </p>
         </div>
         <span class="text-body-md whitespace-nowrap">${formatarPreco(i.produto.preco * i.quantidade)}</span>

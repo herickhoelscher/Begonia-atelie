@@ -30,6 +30,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const categoria = CATEGORIAS.find((c) => c.id === p.categoria);
   const pronta = p.disponibilidade === "pronta";
+  // O que decide o botão de compra é ter preço, não o prazo de entrega.
+  const vendavel = podeComprarOnline(p);
+  const escolheCor = vendavel && precisaEscolherCor(p);
   const etiquetas = [
     ...p.tags.map((t) => TAGS[t]).filter(Boolean),
     pronta ? TAGS.pronta : TAGS.encomenda,
@@ -72,14 +75,27 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="flex items-center gap-3 p-4 rounded-md bg-surface-container-low mb-8">
           <span class="text-secondary shrink-0">${icone(pronta ? "seta" : "relogio", "w-5 h-5")}</span>
           <p class="text-body-md text-on-surface-variant">
-            <strong class="text-on-surface">${pronta ? "Pronta entrega." : "Sob encomenda."}</strong>
+            <strong class="text-on-surface">${pronta ? "Pronta entrega." : "Feita sob encomenda."}</strong>
             ${p.prazo}.
           </p>
         </div>
 
+        ${
+          escolheCor
+            ? `<div class="mb-6">
+                 <label class="field-label" for="cor-produto">Cor do fio</label>
+                 <select id="cor-produto" class="field">
+                   <option value="">Escolha a cor</option>
+                   ${CARTELA.map((c) => `<option value="${c.nome}">${c.nome}</option>`).join("")}
+                 </select>
+                 <p id="cor-aviso" class="erro-campo hidden">Escolha a cor antes de continuar.</p>
+               </div>`
+            : ""
+        }
+
         <div class="flex flex-col sm:flex-row gap-3 mb-4">
           ${
-            pronta
+            vendavel
               ? `<button type="button" id="comprar-agora" class="btn btn-primary flex-1">
                    ${icone("sacola", "w-4 h-4")} Comprar agora
                  </button>
@@ -88,12 +104,8 @@ document.addEventListener("DOMContentLoaded", () => {
                    <span id="favoritar-texto">${favoritado ? "Na sacola" : "Adicionar à sacola"}</span>
                  </button>`
               : `<a href="${linkWhatsApp(mensagem)}" target="_blank" rel="noopener" class="btn btn-primary flex-1">
-                   ${icone("whatsapp", "w-4 h-4")} Pedir pelo WhatsApp
-                 </a>
-                 <button type="button" id="favoritar-produto" class="btn btn-soft" aria-pressed="${favoritado}">
-                   <span id="favoritar-icone">${icone(favoritado ? "confere" : "mais", "w-4 h-4")}</span>
-                   <span id="favoritar-texto">${favoritado ? "Na sacola" : "Guardar na sacola"}</span>
-                 </button>`
+                   ${icone("whatsapp", "w-4 h-4")} Pedir orçamento no WhatsApp
+                 </a>`
           }
         </div>
 
@@ -101,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
           ${
             pronta
               ? `${icone("cadeado", "w-3.5 h-3.5 inline-block align-[-2px] mr-1")}Pagamento no ambiente seguro do nosso provedor. Este site nunca vê o número do seu cartão.`
-              : "Peça sob medida tem preço fechado na conversa — por isso ela é combinada pelo WhatsApp, e não pelo checkout."
+              : "Esta peça ainda não tem preço fechado no site. Peça um orçamento pelo WhatsApp."
           }
         </p>
 
@@ -131,10 +143,34 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     </div>`;
 
+  /* A cor é obrigatória: sem ela, ela recebe a venda e não sabe o que fazer. */
+  function corEscolhida() {
+    const select = document.getElementById("cor-produto");
+    if (!select) return { ok: true, cor: null };
+    const aviso = document.getElementById("cor-aviso");
+    if (!select.value) {
+      aviso.classList.remove("hidden");
+      select.focus();
+      return { ok: false, cor: null };
+    }
+    aviso.classList.add("hidden");
+    return { ok: true, cor: select.value };
+  }
+
   // Botão de guardar na sacola, com rótulo escrito por extenso.
   const botao = document.getElementById("favoritar-produto");
   const rotuloGuardar = pronta ? "Adicionar à sacola" : "Guardar na sacola";
-  botao.addEventListener("click", () => {
+  if (botao) botao.addEventListener("click", () => {
+    const escolha = corEscolhida();
+    if (!escolha.ok) return;
+    if (!Favoritos.tem(p.slug)) {
+      Favoritos.adicionar(p.slug, 1, escolha.cor);
+      botao.setAttribute("aria-pressed", "true");
+      document.getElementById("favoritar-icone").innerHTML = icone("confere", "w-4 h-4");
+      document.getElementById("favoritar-texto").textContent = "Na sacola";
+      anunciar(`${p.nome} entrou na sacola`);
+      return;
+    }
     const agora = Favoritos.alternar(p.slug);
     botao.setAttribute("aria-pressed", String(agora));
     document.getElementById("favoritar-icone").innerHTML = icone(agora ? "confere" : "mais", "w-4 h-4");
@@ -146,7 +182,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const comprar = document.getElementById("comprar-agora");
   if (comprar) {
     comprar.addEventListener("click", () => {
-      if (!Favoritos.tem(p.slug)) Favoritos.adicionar(p.slug, 1);
+      const escolha = corEscolhida();
+      if (!escolha.ok) return;
+      if (!Favoritos.tem(p.slug)) Favoritos.adicionar(p.slug, 1, escolha.cor);
       window.location.href = "checkout.html";
     });
   }

@@ -4,7 +4,7 @@
    virar pedido, e-mail ou chamada ao gateway.
    ========================================================================= */
 
-const { UFS } = require("../../frontend/js/dados.js");
+const { UFS, CARTELA } = require("../../frontend/js/dados.js");
 
 /* Remove caracteres de controle, normaliza espaços e corta no limite.
    Serve também para não deixar ninguém injetar quebra de linha em cabeçalho
@@ -136,7 +136,13 @@ function validarItens(bruto, maxQuantidade) {
     let quantidade = Number(linha && linha.quantidade);
     if (!Number.isInteger(quantidade) || quantidade < 1) quantidade = 1;
     if (quantidade > maxQuantidade) quantidade = maxQuantidade;
-    itens.push({ slug, quantidade });
+
+    // A cor tem de existir na cartela. Texto livre aqui viraria pedido que
+    // ela não consegue produzir.
+    const cor = limpar(linha && linha.cor, 40);
+    const corValida = CARTELA.some((c) => c.nome === cor) ? cor : null;
+
+    itens.push({ slug, quantidade, cor: corValida });
   }
   return { campos, itens };
 }

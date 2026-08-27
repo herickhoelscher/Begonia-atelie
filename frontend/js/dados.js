@@ -461,11 +461,22 @@ const PAGAMENTO = {
   maxQuantidadePorPeca: 5,
 };
 
-/* Peça sem preço definido nunca entra no checkout — nem se estiver marcada
-   como pronta entrega. Sem esta trava, um preço zerado por engano viraria
-   uma venda de graça. */
+/* Quem pode ser comprado pelo site.
+
+   Antes só peça de pronta entrega passava, na suposição de que encomenda
+   tinha preço em aberto. No catálogo dela não é assim: o preço é fixo e o
+   que varia é a cor. Então tudo que tem preço fechado é vendido pelo site —
+   "sob encomenda" passou a significar só o prazo, não a forma de fechar.
+
+   A única trava que fica: peça sem preço nunca vira cobrança. */
 function podeComprarOnline(produto) {
-  return produto.disponibilidade === "pronta" && Number(produto.preco) > 0;
+  return Number(produto.preco) > 0;
+}
+
+/* A cor é escolhida por quem compra, então precisa vir junto do pedido —
+   senão ela recebe a venda sem saber o que tricotar. */
+function precisaEscolherCor(produto) {
+  return produto.personalizavel !== false;
 }
 
 /* =========================================================================
@@ -559,5 +570,6 @@ if (typeof module !== "undefined" && module.exports) {
     regiaoPorUF,
     fretePara,
     podeComprarOnline,
+    precisaEscolherCor,
   };
 }

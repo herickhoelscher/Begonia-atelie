@@ -71,10 +71,14 @@ const Favoritos = {
     return bruto
       .map((item) => {
         // Formato antigo: só a string do slug.
-        if (typeof item === "string") return { slug: item, quantidade: 1 };
+        if (typeof item === "string") return { slug: item, quantidade: 1, cor: null };
         if (item && typeof item.slug === "string") {
           const q = Number(item.quantidade);
-          return { slug: item.slug, quantidade: Number.isInteger(q) && q > 0 ? q : 1 };
+          return {
+            slug: item.slug,
+            quantidade: Number.isInteger(q) && q > 0 ? q : 1,
+            cor: typeof item.cor === "string" ? item.cor : null,
+          };
         }
         return null;
       })
@@ -104,11 +108,20 @@ const Favoritos = {
     return i < 0;
   },
 
-  adicionar(slug, quantidade = 1) {
+  adicionar(slug, quantidade = 1, cor = null) {
     const lista = this.ler();
-    const item = lista.find((i) => i.slug === slug);
+    // Cores diferentes da mesma peça viram linhas separadas: ela precisa
+    // saber quantas de cada cor tricotar.
+    const item = lista.find((i) => i.slug === slug && i.cor === cor);
     if (item) item.quantidade = Math.min(item.quantidade + quantidade, LIMITE_POR_PECA);
-    else lista.push({ slug, quantidade: Math.min(quantidade, LIMITE_POR_PECA) });
+    else lista.push({ slug, quantidade: Math.min(quantidade, LIMITE_POR_PECA), cor });
+    this.gravar(lista);
+  },
+
+  definirCor(slug, corAntiga, corNova) {
+    const lista = this.ler();
+    const item = lista.find((i) => i.slug === slug && i.cor === corAntiga);
+    if (item) item.cor = corNova;
     this.gravar(lista);
   },
 
@@ -135,17 +148,19 @@ const Favoritos = {
     return this.ler()
       .map((i) => {
         const produto = produtoPorSlug(i.slug);
-        return produto ? { produto, quantidade: i.quantidade } : null;
+        return produto ? { produto, quantidade: i.quantidade, cor: i.cor } : null;
       })
       .filter(Boolean);
   },
 
-  /* Separado pelo que dá para pagar online e pelo que não dá. */
+  /* Separado pelo que dá para pagar online e pelo que não dá.
+     Quem decide é podeComprarOnline (tem preço fechado?), e não mais o prazo
+     de entrega — peça sob encomenda também é paga pelo site. */
   separados() {
     const itens = this.itens();
     return {
-      compraveis: itens.filter((i) => i.produto.disponibilidade === "pronta"),
-      encomendas: itens.filter((i) => i.produto.disponibilidade !== "pronta"),
+      compraveis: itens.filter((i) => podeComprarOnline(i.produto)),
+      encomendas: itens.filter((i) => !podeComprarOnline(i.produto)),
     };
   },
 
@@ -296,7 +311,7 @@ function fecharTodosPaineis() {
    Gaveta da sacola
    ========================================================================= */
 
-function linhaSacola({ produto, quantidade }, comQuantidade) {
+function linhaSacola({ produto, quantidade, cor }, comQuantidade) {
   const controles = comQuantidade
     ? `
       <div class="flex items-center gap-1 mt-3">
@@ -311,7 +326,18 @@ function linhaSacola({ produto, quantidade }, comQuantidade) {
           ${icone("mais", "w-4 h-4")}
         </button>
       </div>`
-    : `<p class="text-label-sm uppercase tracking-wider text-tertiary mt-3">Fechamos pelo WhatsApp</p>`;
+    : "";
+
+  const seletorCor = precisaEscolherCor(produto)
+    ? `
+      <label class="block mt-3">
+        <span class="sr-only">Cor de ${produto.nome}</span>
+        <select class="js-cor field py-2 text-label-sm" data-slug="${produto.slug}" data-cor-atual="${cor || ""}">
+          <option value="" ${!cor ? "selected" : ""}>Escolha a cor</option>
+          ${CARTELA.map((c) => `<option value="${c.nome}" ${cor === c.nome ? "selected" : ""}>${c.nome}</option>`).join("")}
+        </select>
+      </label>`
+    : "";
 
   return `
     <li class="flex gap-4 py-5 border-b border-outline-variant/40 last:border-0">
@@ -327,6 +353,7 @@ function linhaSacola({ produto, quantidade }, comQuantidade) {
           ${quantidade > 1 ? `<span class="text-label-sm text-on-surface-variant/70">(${formatarPreco(produto.preco)} cada)</span>` : ""}
         </p>
         ${controles}
+        ${seletorCor}
       </div>
       <button type="button" class="js-remover-favorito shrink-0 self-start p-2 -m-2 text-on-surface-variant hover:text-primary transition-colors"
               data-slug="${produto.slug}" aria-label="Tirar ${produto.nome} da sacola">
@@ -377,7 +404,7 @@ function renderizarFavoritos() {
   corpo.innerHTML =
     encomendas.length === 0
       ? compraveis.map((i) => linhaSacola(i, true)).join("")
-      : grupo("Pronta entrega", compraveis, true) + grupo("Sob encomenda", encomendas, false);
+      : grupo("Para pagar no site", compraveis, true) + grupo("Sob orçamento", encomendas, false);
 
   const subtotal = Favoritos.subtotal(compraveis);
   const listaEncomendas = encomendas
@@ -409,10 +436,10 @@ Podemos conversar sobre cores, medidas e prazo?`;
       encomendas.length
         ? `<a href="${linkWhatsApp(mensagemEncomenda)}" target="_blank" rel="noopener"
               class="btn btn-outline w-full ${compraveis.length ? "mt-3" : ""}">
-             ${icone("whatsapp", "w-4 h-4")} Pedir encomendas pelo WhatsApp
+             ${icone("whatsapp", "w-4 h-4")} Pedir orçamento pelo WhatsApp
            </a>
            <p class="text-label-sm text-on-surface-variant text-center mt-4 normal-case tracking-normal">
-             Peça sob medida tem preço fechado na conversa, por isso não entra no checkout.
+             Essas peças ainda não têm preço no site — a gente fecha o valor na conversa.
            </p>`
         : ""
     }`;
@@ -422,6 +449,13 @@ Podemos conversar sobre cores, medidas e prazo?`;
       const p = produtoPorSlug(btn.dataset.slug);
       Favoritos.remover(btn.dataset.slug);
       anunciar(`${p.nome} saiu da sacola`);
+    });
+  });
+
+  corpo.querySelectorAll(".js-cor").forEach((select) => {
+    select.addEventListener("change", () => {
+      Favoritos.definirCor(select.dataset.slug, select.dataset.corAtual || null, select.value || null);
+      anunciar(select.value ? `Cor ${select.value} escolhida` : "Cor removida");
     });
   });
 
