@@ -196,7 +196,7 @@ não para produção.
   - Se sim: preciso de **acesso ao painel de DNS** (Registro.br, GoDaddy, Hostinger…) para
     apontar o site e verificar o e-mail.
   - Se não: decidir o nome e registrar. `.com.br` custa cerca de R$ 40/ano no Registro.br.
-- [ ] **Conta na [Vercel](https://vercel.com)** — plano grátis atende de sobra um ateliê.
+- [ ] **Conta na [Cloudflare](https://dash.cloudflare.com)** — plano grátis atende de sobra um ateliê.
 
 ---
 

@@ -1,0 +1,13 @@
+# Configuração do Cloudflare Pages.
+#
+# O site estático sai de frontend/ e as funções de /functions, que são
+# empacotadas junto no deploy.
+#
+# nodejs_compat é obrigatório: o backend usa crypto (HMAC do webhook,
+# referência do pedido), Buffer e process.env. Sem essa flag, nada disso
+# existe no runtime da Cloudflare e as rotas quebram.
+
+name = "begonia-atelie"
+compatibility_date = "2026-08-01"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "frontend"
