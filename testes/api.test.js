@@ -4,6 +4,9 @@
 const crypto = require("crypto");
 const path = require("path");
 
+// Esta suíte exercita o Mercado Pago, então declara o gateway em vez de
+// depender do padrão da loja — que hoje é a InfinitePay (backend/config.js).
+process.env.GATEWAY = "mercadopago";
 process.env.MP_ACCESS_TOKEN = "TEST-token-falso";
 process.env.MP_WEBHOOK_SECRET = "segredo-de-teste";
 process.env.SITE_URL = "https://begonia.exemplo";

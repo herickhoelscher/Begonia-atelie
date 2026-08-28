@@ -19,6 +19,7 @@
    ========================================================================= */
 
 const { itensParaCobranca } = require("../lib/pedido.js");
+const { handleInfinitePay } = require("../config.js");
 
 const BASE = "https://api.checkout.infinitepay.io";
 
@@ -45,11 +46,7 @@ function extrairNotificacao({ corpo }) {
   };
 }
 
-function handle() {
-  const h = process.env.INFINITEPAY_HANDLE;
-  if (!h) throw new Error("INFINITEPAY_HANDLE não está definido nas variáveis de ambiente.");
-  return h.replace(/^\$/, ""); // a InfiniteTag é usada sem o cifrão
-}
+const handle = handleInfinitePay;
 
 async function chamar(caminho, corpo) {
   const resposta = await fetch(`${BASE}${caminho}`, {
@@ -77,7 +74,7 @@ async function chamar(caminho, corpo) {
         "[infinitepay] ATENÇÃO: o Checkout Integrado não está habilitado na conta %s. " +
           "Ligue em https://app.infinitepay.io/external-checkout#configuracoes " +
           "— até lá nenhuma cobrança pode ser criada.",
-        process.env.INFINITEPAY_HANDLE
+        handle()
       );
     }
 

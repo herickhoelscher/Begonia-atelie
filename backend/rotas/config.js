@@ -12,16 +12,10 @@
 const { rota, json } = require("../lib/http.js");
 const { gateway } = require("../lib/gateway.js");
 const { ENVIO, PAGAMENTO, UFS, DESCONTOS } = require("../../frontend/js/dados.js");
-
-/* Está configurado? Cada gateway pede uma credencial diferente. */
-function pagamentoConfigurado(escolhido) {
-  if (escolhido === "simulado") return true;
-  if (escolhido === "infinitepay") return Boolean(process.env.INFINITEPAY_HANDLE);
-  return Boolean(process.env.MP_ACCESS_TOKEN);
-}
+const { gatewayEscolhido, pagamentoConfigurado } = require("../config.js");
 
 module.exports = rota(["GET"], async (req, res) => {
-  const escolhido = process.env.GATEWAY || "mercadopago";
+  const escolhido = gatewayEscolhido();
 
   // As capacidades vêm do próprio gateway. Se ele nem carregar (credencial
   // ausente, nome errado), o front cai no aviso de indisponível em vez de

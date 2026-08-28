@@ -16,6 +16,7 @@
 const { rota, json, erro, lerCorpo } = require("../lib/http.js");
 const { gateway } = require("../lib/gateway.js");
 const armazenamento = require("../lib/armazenamento.js");
+const { gatewayEscolhido } = require("../config.js");
 
 function urlDoSite(req) {
   if (process.env.SITE_URL) return process.env.SITE_URL.replace(/\/$/, "");
@@ -25,7 +26,7 @@ function urlDoSite(req) {
 }
 
 module.exports = rota(["POST"], async (req, res) => {
-  if ((process.env.GATEWAY || "") !== "simulado") {
+  if (gatewayEscolhido() !== "simulado") {
     return erro(res, 404, "Esta rota só existe com o gateway simulado.");
   }
 

@@ -10,6 +10,8 @@
    Nenhum endpoint precisa mudar.
    ========================================================================= */
 
+const { gatewayEscolhido } = require("../config.js");
+
 const implementacoes = {
   mercadopago: () => require("../gateways/mercadopago.js"),
   infinitepay: () => require("../gateways/infinitepay.js"),
@@ -19,7 +21,7 @@ const implementacoes = {
 };
 
 function gateway() {
-  const escolhido = process.env.GATEWAY || "mercadopago";
+  const escolhido = gatewayEscolhido();
   const carregar = implementacoes[escolhido];
   if (!carregar) {
     throw new Error(

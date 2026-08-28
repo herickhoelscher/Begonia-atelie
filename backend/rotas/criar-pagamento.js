@@ -19,6 +19,7 @@ const { montarPedido, novaReferencia } = require("../lib/pedido.js");
 const { gateway } = require("../lib/gateway.js");
 const armazenamento = require("../lib/armazenamento.js");
 const { PAGAMENTO, DESCONTOS } = require("../../frontend/js/dados.js");
+const { gatewayEscolhido, pagamentoConfigurado } = require("../config.js");
 
 /* URL pública do site, usada nos retornos e no webhook do Mercado Pago. */
 function urlDoSite(req) {
@@ -27,14 +28,6 @@ function urlDoSite(req) {
   const host = req.headers["x-forwarded-host"] || req.headers.host;
   const protocolo = req.headers["x-forwarded-proto"] || "https";
   return `${protocolo}://${host}`;
-}
-
-/* O gateway está configurado? Cada um precisa de uma credencial diferente. */
-function pagamentoConfigurado() {
-  const escolhido = process.env.GATEWAY || "mercadopago";
-  if (escolhido === "simulado") return true;
-  if (escolhido === "infinitepay") return Boolean(process.env.INFINITEPAY_HANDLE);
-  return Boolean(process.env.MP_ACCESS_TOKEN);
 }
 
 module.exports = rota(["POST"], async (req, res) => {
