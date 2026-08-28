@@ -16,11 +16,13 @@
     "teste:infinitepay": "node testes/infinitepay.test.js",
     "teste": "npm run teste:api && npm run teste:infinitepay && npm run teste:descontos",
     "teste:descontos": "node testes/descontos.test.js",
-    "deploy": "wrangler pages deploy frontend"
+    "deploy": "npm run build && wrangler deploy",
+    "cf:dev": "npm run build && wrangler dev --port 8788"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.11",
     "http-server": "^14.1.1",
-    "tailwindcss": "^4.1.11"
+    "tailwindcss": "^4.1.11",
+    "wrangler": "^4.127.0"
   }
 }

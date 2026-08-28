@@ -1,18 +1,26 @@
-# Configuração do Cloudflare Pages.
+# Configuração do Worker da Cloudflare.
 #
-# O site estático sai de frontend/ e as funções de /functions, que são
-# empacotadas junto no deploy.
+# Modelo em uso: Workers com assets estáticos (o painel roda
+# `npx wrangler deploy`). O ponto de entrada é worker.js, que roteia /api/*
+# para backend/rotas/ e devolve o resto para os arquivos de frontend/.
 #
 # nodejs_compat é obrigatório: o backend usa crypto (HMAC do webhook,
 # referência do pedido), Buffer e process.env. Sem essa flag, nada disso
 # existe no runtime da Cloudflare e as rotas quebram.
 #
-# ATENÇÃO ao comando de deploy no painel: este é um projeto Pages, então é
-# `wrangler pages deploy frontend` (ou `npm run deploy`). O `wrangler deploy`
-# sem o `pages` é o de Workers e falha pedindo um "main", que aqui não existe
-# — as rotas são Pages Functions, em /functions.
+# Se um dia este projeto voltar a ser Pages, o caminho de volta é: apagar
+# main e o bloco [assets], pôr `pages_build_output_dir = "frontend"` e
+# trocar o comando de deploy para `wrangler pages deploy frontend`. As
+# pontes de Pages Functions continuam versionadas em /functions justamente
+# para isso.
 
 name = "begonia-atelie"
+main = "worker.js"
 compatibility_date = "2026-08-01"
 compatibility_flags = ["nodejs_compat"]
-pages_build_output_dir = "frontend"
+
+[assets]
+directory = "./frontend"
+binding = "ASSETS"
+# Faz /produto servir produto.html, como o Pages fazia.
+html_handling = "auto-trailing-slash"

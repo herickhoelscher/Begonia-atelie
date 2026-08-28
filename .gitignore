@@ -11,3 +11,6 @@ frontend/css/site.css
 .env.local
 .env*.local
 .vercel
+
+# Cache local do wrangler (bundles temporarios do dev e do deploy).
+.wrangler/
