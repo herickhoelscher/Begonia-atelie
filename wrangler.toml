@@ -6,6 +6,11 @@
 # nodejs_compat é obrigatório: o backend usa crypto (HMAC do webhook,
 # referência do pedido), Buffer e process.env. Sem essa flag, nada disso
 # existe no runtime da Cloudflare e as rotas quebram.
+#
+# ATENÇÃO ao comando de deploy no painel: este é um projeto Pages, então é
+# `wrangler pages deploy frontend` (ou `npm run deploy`). O `wrangler deploy`
+# sem o `pages` é o de Workers e falha pedindo um "main", que aqui não existe
+# — as rotas são Pages Functions, em /functions.
 
 name = "begonia-atelie"
 compatibility_date = "2026-08-01"
