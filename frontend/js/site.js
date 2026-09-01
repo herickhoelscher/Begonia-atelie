@@ -602,6 +602,7 @@ document.addEventListener("DOMContentLoaded", () => {
     el.href = linkWhatsApp(el.dataset.mensagem || "Olá! Vim pelo site do Begônia Ateliê.");
   });
   document.querySelectorAll(".js-instagram").forEach((el) => (el.href = ATELIE.instagram));
+  document.querySelectorAll(".js-grupo-whatsapp").forEach((el) => (el.href = ATELIE.whatsappGrupo));
   document.querySelectorAll(".js-email").forEach((el) => {
     el.href = `mailto:${ATELIE.email}`;
     if (el.dataset.texto === "1") el.textContent = ATELIE.email;

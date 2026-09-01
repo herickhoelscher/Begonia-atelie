@@ -14,6 +14,9 @@ const ATELIE = {
   // abaixo, do jeito que veio.
   whatsapp: "554598524129",
   instagram: "https://www.instagram.com/begonia.ateliee/",
+  // Grupo de avisos: substitui a antiga lista de e-mail da home, que era um
+  // formulário sem back-end nenhum — não mandava nada para lugar algum.
+  whatsappGrupo: "https://chat.whatsapp.com/L5SazGbRWWRFIvrQdqamPM?s=sw&p=i&mlu=4",
   // TROCAR: ainda são exemplos.
   email: "contato@begoniaatelie.com.br",
   cidade: "Marechal Cândido Rondon, PR",
@@ -138,29 +141,6 @@ const PRODUTOS = [
     cuidados: ["Lavar à mão", "Secar na horizontal", "Não usar alvejante"],
     prazo: "Produção sob encomenda",
   },
-  {
-    slug: "sousplat-estrela",
-    nome: "Sousplat Estrela",
-    preco: 40,
-    precoPorQuantidade: { 1: 40, 2: 75, 4: 140, 6: 205 },
-    categoria: "mesa",
-    disponibilidade: "encomenda",
-    destaque: false,
-    tags: [],
-    fotos: [
-      "sousplat-terracota-cru-01.jpeg",
-      "sousplat-terracota-cru-02-detalhe.jpeg",
-      "sousplat-terracota-cru-03-detalhe.jpeg",
-    ],
-    alt: "Sousplat de crochê em terracota com desenho de estrela e borda em bolinhas cruas.",
-    resumo: "Desenho de estrela em duas cores, com borda em bolinhas.",
-    descricao:
-      "Duas cores que se cruzam num desenho de estrela, com a borda em bolinhas fechando a peça. É o modelo que mais chama atenção na mesa posta.",
-    materiais: ["Fio de algodão", "Duas cores à sua escolha", "Borda em bolinhas"],
-    medidas: "Aproximadamente 37 cm de diâmetro.",
-    cuidados: ["Lavar à mão", "Secar na horizontal", "Não usar alvejante"],
-    prazo: "Produção sob encomenda",
-  },
 
   /* ----------------------------------------------------------- DECORAÇÃO */
   {
@@ -260,18 +240,30 @@ const PRODUTOS = [
   {
     slug: "tapete",
     nome: "Tapete de Crochê",
+    // CONFERIR com a Milena: o preço do tapete nunca foi informado. Enquanto
+    // ficar em 0, a peça aparece no site mas não entra no carrinho — é a
+    // trava do podeComprarOnline, que existe para nunca cobrar valor que
+    // ninguém definiu.
     preco: 0,
     categoria: "decoracao",
     disponibilidade: "pronta",
     destaque: false,
     tags: [],
-    fotos: [],
-    alt: "Tapete de crochê retangular, 70 por 50 centímetros.",
-    resumo: "70 × 50 cm, pronta entrega.",
-    descricao: "Combina com qualquer ambiente. Escolha a cor que mais te agrada.",
-    materiais: ["Fio de malha"],
+    // Estas fotos estavam num produto chamado "Sousplat Estrela", na
+    // categoria de mesa posta. São de um tapete: peça grande, no chão, com
+    // borda em ondas — nada a ver com um sousplat de 37 cm.
+    fotos: [
+      "tapete-terracota-cru-01.jpeg",
+      "tapete-terracota-cru-02-detalhe.jpeg",
+      "tapete-terracota-cru-03-detalhe.jpeg",
+    ],
+    alt: "Tapete de crochê em terracota e cru, com desenho radiado do centro e borda em ondas.",
+    resumo: "Desenho radiado em duas cores, com borda em ondas.",
+    descricao:
+      "Duas cores que se abrem do centro para a borda, terminando em ondas. Combina com qualquer ambiente — escolha as duas cores que mais conversam com o seu.",
+    materiais: ["Fio de algodão", "Duas cores à sua escolha", "Borda em ondas"],
     medidas: "70 × 50 cm.",
-    cuidados: ["Lavar à mão", "Secar na horizontal"],
+    cuidados: ["Lavar à mão", "Secar na horizontal", "Não usar alvejante"],
     prazo: "Envio em até 2 dias úteis",
   },
 
@@ -354,14 +346,66 @@ const TAGS = {
 };
 
 /* Cartela de fios oferecida nas encomendas. */
+/* Cartela real do fio, na ordem da tabela que a Milena mandou.
+   Os nomes são os que o cliente vê e são os mesmos que o backend aceita —
+   validacao.js recusa qualquer cor que não esteja nesta lista, para não
+   entrar pedido de cor que ela não tem no estoque.
+   Os hex são aproximação visual da foto da cartela, só para o quadradinho
+   na tela. O fio de verdade manda. */
 const CARTELA = [
-  { nome: "Terracota", cor: "#c0573e" },
-  { nome: "Oliva Seca", cor: "#596338" },
-  { nome: "Mostarda", cor: "#f7bc60" },
-  { nome: "Cru / Natural", cor: "#e3e2e0" },
-  { nome: "Avelã", cor: "#8a726c" },
-  { nome: "Rosa Seco", cor: "#dcae96" },
-  { nome: "Carvão", cor: "#2f312f" },
+  { nome: "Branco", cor: "#f5f3ef" },
+  { nome: "Preto", cor: "#2b2b2b" },
+  { nome: "Prata", cor: "#a8a9ab" },
+  { nome: "Cinza", cor: "#7d7f80" },
+  { nome: "Caramelo Claro", cor: "#b98a52" },
+  { nome: "Caramelo", cor: "#a26a2f" },
+  { nome: "Marrom", cor: "#4a3328" },
+  { nome: "Amarelo Claro", cor: "#f2e08a" },
+  { nome: "Amarelo Canário", cor: "#f5c518" },
+  { nome: "Amarelo Ouro", cor: "#f0a500" },
+  { nome: "Mostarda", cor: "#d99a1c" },
+  { nome: "Laranja", cor: "#f4632a" },
+  { nome: "Telha", cor: "#b5533a" },
+  { nome: "Vermelho", cor: "#d92b2b" },
+  { nome: "Vinho", cor: "#b01c4e" },
+  { nome: "Bordô", cor: "#6e0f2e" },
+  { nome: "Violeta", cor: "#6b2d8f" },
+  { nome: "Rosa Bebê", cor: "#f4a6c0" },
+  { nome: "Rosa Claro", cor: "#ef6e8a" },
+  { nome: "Pink", cor: "#e0338c" },
+  { nome: "Melancia", cor: "#f0554f" },
+  { nome: "Morango", cor: "#c2185b" },
+  { nome: "Azul Claro", cor: "#7fa6c9" },
+  { nome: "Azul Piscina", cor: "#4d90b8" },
+  { nome: "Azul Turquesa", cor: "#1a7fa8" },
+  { nome: "Azul Royal", cor: "#1c4fa1" },
+  { nome: "Azul Marinho", cor: "#14213d" },
+  { nome: "Verde Jade", cor: "#10a89a" },
+  { nome: "Verde Abacate", cor: "#a8c93a" },
+  { nome: "Bandeira", cor: "#12a54a" },
+  { nome: "Verde Musgo", cor: "#2f3b25" },
+  { nome: "Verde Limão", cor: "#5cc24a" },
+  { nome: "Verde Limão Neon", cor: "#a8e02c" },
+  { nome: "Verde Neon", cor: "#c6f024" },
+  { nome: "Salmão", cor: "#f28b7d" },
+  { nome: "Azul Petróleo", cor: "#10505f" },
+  { nome: "Verde Água", cor: "#7ec9ad" },
+  { nome: "Rosa Chá", cor: "#d99aa0" },
+  { nome: "Areia", cor: "#cfc0a8" },
+  { nome: "Rosa Neon", cor: "#ff2e7e" },
+  { nome: "Uva", cor: "#7a3b6b" },
+  { nome: "Amarelo Neon", cor: "#f5e400" },
+  { nome: "Azul Celeste", cor: "#7b83b8" },
+  { nome: "Salmão Neon", cor: "#ff5544" },
+  { nome: "Verde Oliva", cor: "#4a5d32" },
+  { nome: "Laranja Neon", cor: "#ff4500" },
+  { nome: "Lilás", cor: "#b9a6d4" },
+  { nome: "Verde Escuro", cor: "#1f5c4a" },
+  { nome: "Magenta", cor: "#9c1f5e" },
+  { nome: "Cru Premium", cor: "#ece4d4" },
+  { nome: "Camurça", cor: "#c2a273" },
+  { nome: "Castanho", cor: "#6e6152" },
+  { nome: "Bege", cor: "#d9c3a5" },
 ];
 
 function produtoPorSlug(slug) {

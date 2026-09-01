@@ -337,7 +337,14 @@ async function enviar(evento) {
     return;
   }
 
-  const itens = itensCompraveis().map((i) => ({ slug: i.produto.slug, quantidade: i.quantidade }));
+  // A cor tem de ir junto. Sem ela o pedido chega na Milena sem dizer o que
+  // tricotar — e a tela de orçamento, que já mandava a cor, mostraria uma
+  // coisa diferente da que foi cobrada.
+  const itens = itensCompraveis().map((i) => ({
+    slug: i.produto.slug,
+    quantidade: i.quantidade,
+    cor: i.cor,
+  }));
   if (!itens.length) {
     mostrarErroGeral("Sua sacola está vazia.");
     return;

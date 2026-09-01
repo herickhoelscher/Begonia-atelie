@@ -147,7 +147,9 @@ module.exports = rota(["POST"], async (req, res) => {
     frete: pedido.frete,
     descontos: pedido.descontos,
     descontoTotal: pedido.descontoTotal,
-    itens: pedido.itens.map((i) => ({ nome: i.nome, quantidade: i.quantidade, precoTotal: i.precoTotal })),
+    // A cor vai junto: é ela que a tela de confirmação e o e-mail da dona
+    // mostram. O registro salvo já tinha, faltava aparecer na resposta.
+    itens: pedido.itens.map((i) => ({ nome: i.nome, quantidade: i.quantidade, cor: i.cor, precoTotal: i.precoTotal })),
     // Cartão: para onde mandar o cliente. Pix: o que desenhar na tela.
     url: resultado.url || null,
     qrCodeTexto: resultado.qrCodeTexto || null,

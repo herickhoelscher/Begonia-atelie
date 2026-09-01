@@ -193,6 +193,42 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", complem
     checar("CPF vai para o MP", enviado.corpo.payer.identification.number === "11144477735");
   }
 
+  console.log("\n== /api/criar-pagamento: a cor escolhida ==");
+  {
+    // A tela de orçamento sempre mandou a cor, mas o criar-pagamento a
+    // descartava: o pedido chegava na dona sem dizer o que tricotar. Com 53
+    // cores na cartela, esse virou o campo mais importante do pedido.
+    const r = res();
+    await api("criar-pagamento.js")(req({
+      caminho: "/api/criar-pagamento",
+      // IP proprio: o limite e de 10 tentativas por IP, e estes dois testes
+      // comeriam a cota dos que vem depois.
+      cabecalhos: { "x-forwarded-for": "203.0.113.77" },
+      corpo: {
+        metodo: "cartao",
+        itens: [{ slug: "cardigan-outono", quantidade: 1, cor: "Azul Petróleo" }],
+        cliente: CLIENTE, entrega: ENTREGA,
+      },
+    }), r);
+    checar("responde 200", r._status === 200, r.json);
+    checar("a cor volta na resposta", r.json.itens[0].cor === "Azul Petróleo", r.json.itens);
+  }
+  {
+    // Cor que não existe na cartela não pode virar pedido: seria encomenda de
+    // um fio que ela não tem.
+    const r = res();
+    await api("criar-pagamento.js")(req({
+      caminho: "/api/criar-pagamento",
+      cabecalhos: { "x-forwarded-for": "203.0.113.78" },
+      corpo: {
+        metodo: "cartao",
+        itens: [{ slug: "cardigan-outono", quantidade: 1, cor: "Roxo Inventado" }],
+        cliente: CLIENTE, entrega: ENTREGA,
+      },
+    }), r);
+    checar("cor fora da cartela é descartada", r.json.itens[0].cor === null, r.json.itens);
+  }
+
   console.log("\n== /api/criar-pagamento: frete grátis e cartão ==");
   {
     const r = res();
