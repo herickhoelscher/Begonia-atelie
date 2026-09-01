@@ -181,15 +181,15 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", complem
     }), r);
     refPix = r.json.referencia;
     checar("responde 200", r._status === 200, r.json);
-    // 85,00 + frete sudeste 24,90 = 109,90 (abaixo de 120, então paga frete).
-    // Menos 5% de desconto do Pix sobre as peças (4,25) = 105,65.
-    checar("ignora o preço forjado e aplica o desconto do Pix", r.json.total === 105.65, { total: r.json.total });
+    // 85,00 + frete sudeste 29,90 = 114,90 (abaixo de 120, então paga frete).
+    // Menos 5% de desconto do Pix sobre as peças (4,25) = 110,65.
+    checar("ignora o preço forjado e aplica o desconto do Pix", r.json.total === 110.65, { total: r.json.total });
     checar("mostra o desconto do Pix na resposta", r.json.descontos.some((d) => d.id === "pix" && d.valor === 4.25), r.json.descontos);
     checar("devolve copia-e-cola do Pix", typeof r.json.qrCodeTexto === "string" && r.json.qrCodeTexto.length > 10);
     checar("devolve imagem do QR", typeof r.json.qrCodeImagem === "string");
     checar("referência no formato certo", /^BA-[A-Z2-9]{8}$/.test(refPix || ""), refPix);
     const enviado = chamadas.filter((c) => c.url.includes("/v1/payments")).pop();
-    checar("valor enviado ao MP é o do servidor", enviado.corpo.transaction_amount === 105.65, enviado.corpo.transaction_amount);
+    checar("valor enviado ao MP é o do servidor", enviado.corpo.transaction_amount === 110.65, enviado.corpo.transaction_amount);
     checar("CPF vai para o MP", enviado.corpo.payer.identification.number === "11144477735");
   }
 
@@ -224,9 +224,10 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", complem
     await api("criar-pagamento.js")(req({
       caminho: "/api/criar-pagamento",
       // 85,00 fica abaixo do limite de 120: frete do Sudeste é cobrado.
+      // Saindo de Marechal (PR), o Sudeste custa 29,90.
       corpo: { metodo: "cartao", itens: [{ slug: "caneca-rustica", quantidade: 1 }], cliente: CLIENTE, entrega: ENTREGA },
     }), r);
-    checar("abaixo de 120 paga frete", r.json.frete === 24.9 && r.json.total === 109.9, { frete: r.json.frete, total: r.json.total });
+    checar("abaixo de 120 paga frete", r.json.frete === 29.9 && r.json.total === 114.9, { frete: r.json.frete, total: r.json.total });
   }
   {
     const r = res();

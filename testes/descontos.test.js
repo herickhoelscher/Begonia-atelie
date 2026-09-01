@@ -93,7 +93,12 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
 
 (async () => {
   console.log("\n== Frete grátis a partir de R$ 120 ==");
-  checar("119 no Sudeste paga frete", fretePara("SP", 119) === 24.9);
+  checar("119 no Sudeste paga frete", fretePara("SP", 119) === 29.9);
+  // A origem é Marechal Cândido Rondon (PR): o próprio estado é o mais
+  // barato, e o Sul vem antes do Sudeste. Antes esta escada estava invertida.
+  checar("mesmo estado da origem é o mais barato", fretePara("PR", 119) === 19.9);
+  checar("Sul custa menos que Sudeste", fretePara("SC", 119) === 24.9 && fretePara("SC", 119) < fretePara("SP", 119));
+  checar("PR acima de 120 também é grátis", fretePara("PR", 120) === 0);
   checar("120 no Sudeste é grátis", fretePara("SP", 120) === 0);
   checar("120 no Norte também é grátis", fretePara("AM", 120) === 0);
   checar("119 no Norte paga o frete da região", fretePara("AM", 119) === 44.9);
@@ -126,8 +131,8 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
     const r = res();
     await api("orcamento.js")(req({ caminho: "/api/orcamento", corpo: {
       itens: [{ slug: "caneca-rustica", quantidade: 1 }], estado: "SP", metodo: "cartao", email: "ana@exemplo.com" } }), r);
-    // 85 − 8,50 (primeira compra) + 24,90 de frete = 101,40
-    checar("abaixo de 120 soma frete", r.json.total === 101.4, { total: r.json.total, frete: r.json.frete });
+    // 85 − 8,50 (primeira compra) + 29,90 de frete = 106,40
+    checar("abaixo de 120 soma frete", r.json.total === 106.4, { total: r.json.total, frete: r.json.frete });
     checar("avisa quanto falta para o frete grátis", r.json.faltaParaFreteGratis === 35, r.json.faltaParaFreteGratis);
   }
   {

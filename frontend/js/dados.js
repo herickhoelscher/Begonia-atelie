@@ -16,7 +16,7 @@ const ATELIE = {
   instagram: "https://www.instagram.com/begonia.ateliee/",
   // TROCAR: ainda são exemplos.
   email: "contato@begoniaatelie.com.br",
-  cidade: "São Paulo, SP",
+  cidade: "Marechal Cândido Rondon, PR",
   horario: "Segunda a sexta, das 9h às 18h",
 };
 
@@ -404,14 +404,26 @@ function precoPara(produto, quantidade = 1) {
    ========================================================================= */
 
 const ENVIO = {
+  // De onde a encomenda sai. É o que ordena a tabela abaixo: quanto mais
+  // longe daqui, mais caro. Mudar de cidade sem revisar a tabela deixa o
+  // frete errado sem quebrar nada — foi exatamente o que aconteceu quando
+  // esta origem ainda estava como São Paulo.
+  origem: { cidade: "Marechal Cândido Rondon", uf: "PR" },
+
   // Regra da dona: frete grátis a partir de R$ 120, sem restrição de região.
   gratisAcimaDe: 120,
   regioesComFreteGratis: ["norte", "nordeste", "centro-oeste", "sudeste", "sul"],
-  // Valor fixo por região. Trocar por cálculo dos Correios é uma mudança
-  // isolada: só esta tabela e a função fretePara() precisam mudar.
+
+  // Dentro do próprio Paraná é mais barato que o resto do Sul.
+  mesmoEstado: 19.9,
+
+  // Valor fixo por região, do mais perto de Marechal para o mais longe.
+  // CONFERIR com a Milena: estes valores são estimativa, não cotação real
+  // dos Correios. Trocar por cálculo automático é mudança isolada — só esta
+  // tabela e a função fretePara() precisam mudar.
   tabela: {
-    sudeste: 24.9,
-    sul: 29.9,
+    sul: 24.9,
+    sudeste: 29.9,
     "centro-oeste": 34.9,
     nordeste: 39.9,
     norte: 44.9,
@@ -438,9 +450,14 @@ function regiaoPorUF(uf) {
    Se fosse depois, um desconto poderia derrubar o pedido abaixo do limite e
    o frete reapareceria na tela — que é a pior surpresa possível num checkout. */
 function fretePara(uf, subtotalSemDesconto) {
-  const regiao = regiaoPorUF(uf);
+  const alvo = String(uf || "").trim().toUpperCase();
+  const regiao = regiaoPorUF(alvo);
   if (!regiao) return null;
   if (ENVIO.regioesComFreteGratis.includes(regiao) && subtotalSemDesconto >= ENVIO.gratisAcimaDe) return 0;
+  // Mesmo estado da origem sai mais barato que o resto da região. O mapa de
+  // regiões continua sendo só geografia: quem sabe de onde a peça sai é o
+  // ENVIO.origem, não o UF_POR_REGIAO.
+  if (alvo === ENVIO.origem.uf) return ENVIO.mesmoEstado;
   return ENVIO.tabela[regiao];
 }
 

@@ -177,9 +177,9 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
     checar("passa sem CPF", r._status === 200, r.json);
     // 85,00 está abaixo de 120: o frete entra como item na cobrança.
     const enviado = chamadas.filter((c) => c.url.endsWith("/links")).pop();
-    checar("abaixo de 120, frete vira item de 24,90",
-      enviado.corpo.items.some((i) => i.description === "Frete" && i.price === 2490), enviado.corpo.items);
-    checar("total com frete", r.json.total === 109.9, { total: r.json.total });
+    checar("abaixo de 120, frete vira item de 29,90",
+      enviado.corpo.items.some((i) => i.description === "Frete" && i.price === 2990), enviado.corpo.items);
+    checar("total com frete", r.json.total === 114.9, { total: r.json.total });
   }
 
   {
