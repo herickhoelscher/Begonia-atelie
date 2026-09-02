@@ -29,6 +29,13 @@ function nomeProvedor() {
   return capacidades().rotulo || "nosso provedor de pagamento";
 }
 
+/* Escreve o nome do provedor onde o HTML deixou o espaco reservado. O texto
+   estatico dizia "Mercado Pago" mesmo depois da troca para a InfinitePay:
+   o cliente lia o nome de uma empresa que nao processa mais nada aqui. */
+function escreverProvedor() {
+  document.querySelectorAll(".js-provedor").forEach((el) => (el.textContent = nomeProvedor()));
+}
+
 /* --- Máscaras: ajudam a digitar, não substituem validação --------------- */
 
 function mascararCep(valor) {
@@ -584,6 +591,7 @@ Podemos conversar sobre cores, medidas e prazo?`);
   }
 
   conteudo.classList.remove("hidden");
+  escreverProvedor();
 
   // O selo cita o provedor certo, seja qual for o gateway ativo.
   const selo = conteudo.querySelector(".selo-seguro");

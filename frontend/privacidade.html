@@ -89,12 +89,12 @@
         <h2 id="p-cartao" class="font-headline text-headline-md text-on-surface mb-4">Cartão de crédito e débito</h2>
         <p class="text-body-md text-on-surface-variant mb-4">
           Este site <strong class="text-on-surface">nunca vê, transporta ou guarda o número do seu cartão</strong>.
-          Ao escolher cartão, você é levada ao ambiente do Mercado Pago, que é quem coleta e
+          Ao escolher cartão, você é levada ao ambiente da InfinitePay, que é quem coleta e
           processa esses dados. Nós recebemos de volta apenas a confirmação de que o pagamento
           foi aprovado.
         </p>
         <p class="text-body-md text-on-surface-variant">
-          O seu CPF também não fica no nosso histórico: ele é repassado ao Mercado Pago,
+          O seu CPF também não fica no nosso histórico: ele é repassado à InfinitePay,
           que precisa dele por obrigação legal, e é lá que ele permanece.
         </p>
       </section>
@@ -102,7 +102,9 @@
       <section aria-labelledby="p-quem">
         <h2 id="p-quem" class="font-headline text-headline-md text-on-surface mb-4">Com quem compartilhamos</h2>
         <ul class="leaf-list space-y-3 text-body-md text-on-surface-variant">
-          <li><strong class="text-on-surface">Mercado Pago</strong> — processa o pagamento.</li>
+          <!-- Ao trocar de gateway em backend/config.js, este nome precisa mudar junto:
+               é página legal, não pode citar empresa que não processa mais nada. -->
+          <li><strong class="text-on-surface">InfinitePay</strong> — processa o pagamento.</li>
           <li><strong class="text-on-surface">Resend</strong> — entrega os e-mails de confirmação.</li>
           <li><strong class="text-on-surface">Correios ou transportadora</strong> — recebe o endereço para entregar a encomenda.</li>
           <li><strong class="text-on-surface">Vercel</strong> — hospeda o site e o histórico de pedidos.</li>
@@ -183,7 +185,7 @@
   </div>
   <div class="shell border-t border-outline-variant/40 py-6">
     <p class="text-body-md text-on-surface-variant text-center">
-      Begônia Ateliê © <span class="js-ano">2026</span>. Feito com amor à mão.
+      Begônia Ateliê © <span class="js-ano">2026</span>. Todos os direitos reservados.
     </p>
   </div>
 </footer>

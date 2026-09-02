@@ -135,7 +135,7 @@ const PRODUTOS = [
     alt: "Sousplats de crochê em rosa antigo com borda ondulada, empilhados sobre toalha branca.",
     resumo: "Ponto leque com borda ondulada, 37 cm. A cor é você quem escolhe.",
     descricao:
-      "O modelo mais pedido da casa e o mais leve de compor: ponto leque aberto, borda ondulada, e uma cor só. Também sai com a borda em contraste, como na foto em cru com terracota.",
+      "Ponto leque aberto, borda ondulada, uma cor só. Também sai com a borda em contraste, como na foto em cru com terracota.",
     materiais: ["Fio de algodão", "Ponto leque com borda ondulada", "Cor à sua escolha"],
     medidas: "Aproximadamente 37 cm de diâmetro.",
     cuidados: ["Lavar à mão", "Secar na horizontal", "Não usar alvejante"],
@@ -260,7 +260,7 @@ const PRODUTOS = [
     alt: "Tapete de crochê em terracota e cru, com desenho radiado do centro e borda em ondas.",
     resumo: "Desenho radiado em duas cores, com borda em ondas.",
     descricao:
-      "Duas cores que se abrem do centro para a borda, terminando em ondas. Combina com qualquer ambiente — escolha as duas cores que mais conversam com o seu.",
+      "Duas cores que se abrem do centro para a borda, terminando em ondas. Escolha as duas cores.",
     materiais: ["Fio de algodão", "Duas cores à sua escolha", "Borda em ondas"],
     medidas: "70 × 50 cm.",
     cuidados: ["Lavar à mão", "Secar na horizontal", "Não usar alvejante"],
@@ -514,8 +514,8 @@ function fretePara(uf, subtotalSemDesconto) {
 const PAGAMENTO = {
   metodos: [
     { id: "pix", nome: "Pix", descricao: "Aprovação na hora. QR code ou copia-e-cola." },
-    { id: "cartao", nome: "Cartão de crédito", descricao: "Em até 6× sem juros, no ambiente do Mercado Pago." },
-    { id: "debito", nome: "Cartão de débito", descricao: "Débito à vista, no ambiente do Mercado Pago." },
+    { id: "cartao", nome: "Cartão de crédito", descricao: "Parcelamento definido na página da InfinitePay." },
+    { id: "debito", nome: "Cartão de débito", descricao: "Débito à vista, na página da InfinitePay." },
   ],
   maxParcelas: 6,
   // Teto por item, para evitar pedido acidental de 30 peças feitas à mão.
