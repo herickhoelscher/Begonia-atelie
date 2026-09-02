@@ -67,30 +67,57 @@
 
 <main id="conteudo">
 
-  <!-- ===================== HERO ===================== -->
-  <!-- O creme aqui e o mesmo #fffdf9 de dentro do SVG. Isso importa: no
-       celular a ilustracao entra em object-contain, e so nao aparece emenda
-       porque o fundo da secao e exatamente a mesma cor. -->
-  <section class="relative min-h-[520px] h-[68vh] md:min-h-[600px] md:h-[82vh] flex items-center justify-center overflow-hidden bg-[#fffdf9]">
+  <!-- ===================== HERO =====================
+       Reproduz o banner da marca: a ilustracao de fundo e o painel com
+       titulo e selos. O texto e HTML de verdade, e nao parte da imagem --
+       assim ele reflui no celular, da para selecionar, o leitor de tela le,
+       e o h1 conta para busca. As cores e a hierarquia sao as do banner
+       original; as fontes sao as do site (Playfair/Montserrat), a mesma do
+       logo que fica logo acima. -->
+  <section class="relative flex items-center justify-center overflow-hidden bg-[#fffdf9]
+                  py-16 min-h-[560px] md:py-0 md:min-h-[640px] md:h-[86vh]">
     <!-- As flores ficam nas duas laterais e o meio fica limpo, que e onde o
-         texto senta. No celular nao cabe a largura toda: em vez de cortar as
-         flores fora da tela, a ilustracao vai inteira, ancorada embaixo. -->
+         painel senta. No celular nao cabe a largura toda: em vez de cortar
+         as flores fora da tela, a ilustracao vai inteira, ancorada embaixo. -->
     <img src="assets/img/banner-begonia.svg" width="1920" height="620" fetchpriority="high"
-         alt="Ilustração de begônias e novelos de fio em tons quentes, nas laterais."
+         alt="" aria-hidden="true"
          class="absolute inset-0 w-full h-full object-contain object-bottom scale-[1.75] origin-bottom
                 md:scale-100 md:object-cover">
 
-    <div class="relative shell max-w-3xl! text-center flex flex-col items-center gap-6">
-      <p class="text-label-sm uppercase tracking-[0.2em] text-primary">Boutique artesanal</p>
-      <h1 class="font-headline text-headline-lg-mobile md:text-headline-xl text-on-surface">
-        Crochê e macramê feitos à mão
-      </h1>
-      <p class="text-body-lg text-on-surface-variant max-w-xl">
-        Peças para mesa, casa e uso diário. Você escolhe a cor, eu faço.
-      </p>
-      <div class="flex flex-col sm:flex-row items-center gap-4 mt-2">
+    <div class="relative shell flex flex-col items-center gap-8">
+      <div class="flex flex-col items-center gap-5 md:gap-7 rounded-lg bg-[#fffdf9]/90
+                  px-5 py-6 sm:px-10 md:px-14 md:py-8">
+
+        <p class="flex items-center gap-3 md:gap-5 text-[#b06a5c]">
+          <span class="h-px w-8 md:w-[70px] bg-[#d9b3a8]" aria-hidden="true"></span>
+          <span class="text-label-sm uppercase font-medium tracking-[0.3em] md:tracking-[0.42em]">Feito à mão</span>
+          <span class="h-px w-8 md:w-[70px] bg-[#d9b3a8]" aria-hidden="true"></span>
+        </p>
+
+        <h1 class="font-headline text-headline-lg-mobile md:text-headline-xl text-[#4a4038] text-center">
+          Begônia Ateliê
+        </h1>
+
+        <div class="flex flex-col sm:flex-row items-stretch border-y border-[#e2d5c6]
+                    divide-y sm:divide-y-0 sm:divide-x divide-[#e2d5c6]">
+          <div class="flex flex-col items-center gap-1 px-6 py-4 md:px-10 md:py-5">
+            <p class="font-headline text-headline-md text-[#4a4038]">Frete grátis</p>
+            <p class="text-body-md text-[#7d7064] tracking-[0.05em]">acima de R$ 120</p>
+          </div>
+          <div class="flex flex-col items-center gap-1 px-6 py-4 md:px-10 md:py-5">
+            <p class="font-headline text-headline-md text-[#b06a5c]">Desconto no Pix</p>
+            <p class="text-body-md text-[#7d7064] tracking-[0.05em]">pagamento à vista</p>
+          </div>
+          <div class="flex flex-col items-center gap-1 px-6 py-4 md:px-10 md:py-5">
+            <p class="font-headline text-headline-md text-[#4a4038]">Até 3x sem juros</p>
+            <p class="text-body-md text-[#7d7064] tracking-[0.05em]">parcelamos no cartão</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center gap-4">
         <a href="loja.html" class="btn btn-primary">Ver coleção <i data-icone="seta" data-icone-classe="w-4 h-4"></i></a>
-        <a href="sob-encomenda.html" class="btn btn-outline">Encomendar sob medida</a>
+        <a href="sob-encomenda.html" class="btn btn-outline bg-[#fffdf9]/80">Encomendar sob medida</a>
       </div>
     </div>
   </section>
