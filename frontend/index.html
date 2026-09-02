@@ -68,11 +68,17 @@
 <main id="conteudo">
 
   <!-- ===================== HERO ===================== -->
-  <section class="relative min-h-[600px] h-[82vh] flex items-center justify-center overflow-hidden">
-    <img src="assets/img/hero-sala.jpg" width="2000" height="1333" fetchpriority="high"
-         alt="Sala ensolarada com um cardigan de crochê em granny squares sobre uma cadeira de madeira antiga, ao lado de vasos de planta na janela."
-         class="absolute inset-0 w-full h-full object-cover">
-    <div class="absolute inset-0 bg-surface/45 backdrop-blur-[2px]"></div>
+  <!-- O creme aqui e o mesmo #fffdf9 de dentro do SVG. Isso importa: no
+       celular a ilustracao entra em object-contain, e so nao aparece emenda
+       porque o fundo da secao e exatamente a mesma cor. -->
+  <section class="relative min-h-[520px] h-[68vh] md:min-h-[600px] md:h-[82vh] flex items-center justify-center overflow-hidden bg-[#fffdf9]">
+    <!-- As flores ficam nas duas laterais e o meio fica limpo, que e onde o
+         texto senta. No celular nao cabe a largura toda: em vez de cortar as
+         flores fora da tela, a ilustracao vai inteira, ancorada embaixo. -->
+    <img src="assets/img/banner-begonia.svg" width="1920" height="620" fetchpriority="high"
+         alt="Ilustração de begônias e novelos de fio em tons quentes, nas laterais."
+         class="absolute inset-0 w-full h-full object-contain object-bottom scale-[1.75] origin-bottom
+                md:scale-100 md:object-cover">
 
     <div class="relative shell max-w-3xl! text-center flex flex-col items-center gap-6">
       <p class="text-label-sm uppercase tracking-[0.2em] text-primary">Boutique artesanal</p>
@@ -84,8 +90,7 @@
       </p>
       <div class="flex flex-col sm:flex-row items-center gap-4 mt-2">
         <a href="loja.html" class="btn btn-primary">Ver coleção <i data-icone="seta" data-icone-classe="w-4 h-4"></i></a>
-        <!-- Sobre a foto, o contorno sozinho perde legibilidade: leva um véu claro. -->
-        <a href="sob-encomenda.html" class="btn btn-outline bg-surface/70 backdrop-blur-sm">Encomendar sob medida</a>
+        <a href="sob-encomenda.html" class="btn btn-outline">Encomendar sob medida</a>
       </div>
     </div>
   </section>
