@@ -99,37 +99,42 @@
          class="hidden lg:block absolute inset-0 w-full h-full object-cover">
 
     <div class="relative shell flex flex-col items-center gap-6 sm:gap-8">
-      <!-- Sem painel atras: o texto senta direto na arte. Isso obriga uma
-           paleta que funcione nos DOIS fundos, porque eles sao diferentes --
-           no celular o meio da secao e o creme #fffdf9, e do lg para cima e o
-           laranja do banner. Por isso tudo aqui e tom escuro: escuro le bem
-           sobre os dois. O terracota #b06a5c do painel antigo saiu porque
-           sobre o laranja dava 2,2:1 de contraste, ilegivel. -->
+      <!-- Sem painel atras: o texto senta direto na arte. E os fundos sao
+           DIFERENTES conforme a largura -- no celular o meio da secao e o
+           creme #fffdf9, e do lg para cima e o laranja do banner. Por isso
+           cada cor aqui vem em par: tom escuro por padrao (para o creme do
+           celular) e `lg:text-white` do lg para cima (para o laranja).
+
+           Branco no laranja da 1,9:1 de contraste, abaixo do minimo de
+           acessibilidade. Foi escolha da cliente. Se um dia precisar subir,
+           o caminho e escurecer a arte atras do texto, nao mudar a cor da
+           letra. NAO troque isto por uma cor so: branco no creme do celular
+           some por completo. -->
       <div class="flex flex-col items-center gap-4 sm:gap-5 md:gap-7">
 
-        <p class="flex items-center gap-3 md:gap-5 text-[#7a3529]">
-          <span class="h-px w-8 md:w-[70px] bg-[#7a3529]/40" aria-hidden="true"></span>
+        <p class="flex items-center gap-3 md:gap-5 text-[#7a3529] lg:text-white">
+          <span class="h-px w-8 md:w-[70px] bg-[#7a3529]/40 lg:bg-white/60" aria-hidden="true"></span>
           <span class="text-label-sm uppercase font-medium tracking-[0.3em] md:tracking-[0.42em]">Feito à mão</span>
-          <span class="h-px w-8 md:w-[70px] bg-[#7a3529]/40" aria-hidden="true"></span>
+          <span class="h-px w-8 md:w-[70px] bg-[#7a3529]/40 lg:bg-white/60" aria-hidden="true"></span>
         </p>
 
-        <h1 class="font-headline text-headline-lg-mobile md:text-headline-xl text-[#4a4038] text-center">
+        <h1 class="font-headline text-headline-lg-mobile md:text-headline-xl text-[#4a4038] lg:text-white text-center">
           Begônia Ateliê
         </h1>
 
-        <div class="flex flex-col lg:flex-row items-stretch border-y border-[#4a4038]/25
-                    divide-y lg:divide-y-0 lg:divide-x divide-[#4a4038]/25">
+        <div class="flex flex-col lg:flex-row items-stretch border-y border-[#4a4038]/25 lg:border-white/40
+                    divide-y lg:divide-y-0 lg:divide-x divide-[#4a4038]/25 lg:divide-white/40">
           <div class="flex flex-col items-center gap-0.5 px-5 py-2.5 sm:gap-1 sm:px-6 sm:py-4 lg:px-10 lg:py-5">
-            <p class="font-headline text-headline-md text-[#4a4038]">53 cores</p>
-            <p class="text-body-md text-[#4f453c] tracking-[0.05em]">na cartela do fio</p>
+            <p class="font-headline text-headline-md text-[#4a4038] lg:text-white">53 cores</p>
+            <p class="text-body-md text-[#4f453c] lg:text-white/90 tracking-[0.05em]">na cartela do fio</p>
           </div>
           <div class="flex flex-col items-center gap-0.5 px-5 py-2.5 sm:gap-1 sm:px-6 sm:py-4 lg:px-10 lg:py-5">
-            <p class="font-headline text-headline-md text-[#8a3f30]">Desconto no Pix</p>
-            <p class="text-body-md text-[#4f453c] tracking-[0.05em]">pagamento à vista</p>
+            <p class="font-headline text-headline-md text-[#8a3f30] lg:text-white">Desconto no Pix</p>
+            <p class="text-body-md text-[#4f453c] lg:text-white/90 tracking-[0.05em]">pagamento à vista</p>
           </div>
           <div class="flex flex-col items-center gap-0.5 px-5 py-2.5 sm:gap-1 sm:px-6 sm:py-4 lg:px-10 lg:py-5">
-            <p class="font-headline text-headline-md text-[#4a4038]">Até 3x sem juros</p>
-            <p class="text-body-md text-[#4f453c] tracking-[0.05em]">parcelamos no cartão</p>
+            <p class="font-headline text-headline-md text-[#4a4038] lg:text-white">Até 3x sem juros</p>
+            <p class="text-body-md text-[#4f453c] lg:text-white/90 tracking-[0.05em]">parcelamos no cartão</p>
           </div>
         </div>
       </div>
