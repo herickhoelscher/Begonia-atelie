@@ -10,7 +10,7 @@
    ========================================================================= */
 
 const crypto = require("crypto");
-const { PRODUTOS, PAGAMENTO, ENVIO, fretePara, regiaoPorUF, calcularDescontos, precoPara, podeComprarOnline } = require("../../frontend/js/dados.js");
+const { PRODUTOS, PAGAMENTO, ENVIO, RETIRADA, fretePara, regiaoPorUF, calcularDescontos, precoPara, podeComprarOnline, brindePara } = require("../../frontend/js/dados.js");
 
 const emCentavos = (reais) => Math.round(Number(reais) * 100);
 const emReais = (centavos) => Math.round(centavos) / 100;
@@ -88,8 +88,12 @@ function montarPedido(itensPedidos, uf, opcoes = {}) {
 
   const subtotal = emReais(subtotalCent);
 
+  // Retirada em mãos não tem frete: nada é postado. Quando ela está ligada,
+  // a UF nem é consultada — o pedido é retirado na Unioeste, ponto.
+  const retirada = RETIRADA.ativo && opcoes.retirada === true;
+
   // Frete decidido pelo valor das peças, antes de qualquer desconto.
-  const frete = fretePara(uf, subtotal);
+  const frete = retirada ? 0 : fretePara(uf, subtotal);
   if (frete === null) {
     return { campos: { estado: "Não entregamos para esse estado. Fale com a gente." }, pedido: null };
   }
@@ -115,9 +119,24 @@ function montarPedido(itensPedidos, uf, opcoes = {}) {
       frete,
       total: emReais(totalCent),
       totalCentavos: totalCent,
-      regiao: regiaoPorUF(uf),
-      freteGratis: freteCent === 0,
-      faltaParaFreteGratis: freteCent === 0 ? 0 : emReais(Math.max(0, emCentavos(ENVIO.gratisAcimaDe) - subtotalCent)),
+      regiao: retirada ? RETIRADA.uf : regiaoPorUF(uf),
+      retirada,
+      // O brinde olha o subtotal das peças, nunca o total: frete e desconto
+      // não deviam empurrar ninguém para dentro nem para fora do brinde.
+      brinde: brindePara(subtotal),
+      // freteGratis fala de ISENÇÃO de frete numa entrega. Retirada não é
+      // entrega isenta, é ausência de entrega — por isso fica false, senão
+      // o e-mail da dona diria "frete grátis" num pedido que ela vai
+      // entregar na mão.
+      freteGratis: !retirada && freteCent === 0,
+      // null quando não existe frete grátis nenhum: aí não há meta a alcançar
+      // e o checkout não tem o que anunciar.
+      faltaParaFreteGratis:
+        retirada || ENVIO.gratisAcimaDe == null
+          ? null
+          : freteCent === 0
+            ? 0
+            : emReais(Math.max(0, emCentavos(ENVIO.gratisAcimaDe) - subtotalCent)),
     },
   };
 }

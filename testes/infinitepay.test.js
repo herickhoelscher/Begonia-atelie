@@ -153,13 +153,14 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
     const pedidoSalvo = await require(path.join(RAIZ, "backend/lib/armazenamento.js")).lerPedido(referencia);
     checar("não confunde o handle com o slug",
       !String(pedidoSalvo.pagamento.idGateway).startsWith("begoniaatelie|"), pedidoSalvo.pagamento.idGateway);
-    // 389,00 está acima do limite de 120: frete grátis. Sem desconto de
-    // primeira compra porque o histórico não está configurado neste teste.
-    checar("ignora o preço forjado", r.json.total === 389, { total: r.json.total });
+    // 389,00 + 39,90 do Sudeste = 428,90. Todo pedido paga frete agora. Sem
+    // desconto de primeira compra porque o histórico não está configurado aqui.
+    checar("ignora o preço forjado", r.json.total === 428.9, { total: r.json.total });
 
     const enviado = chamadas.filter((c) => c.url.endsWith("/links")).pop();
     checar("valores vão em CENTAVOS", enviado.corpo.items[0].price === 38900, enviado.corpo.items[0]);
-    checar("frete grátis não vira item", !enviado.corpo.items.some((i) => i.description === "Frete"), enviado.corpo.items);
+    checar("o frete vai como item na cobrança",
+      enviado.corpo.items.some((i) => i.description === "Frete" && i.price === 3990), enviado.corpo.items);
     checar("handle vai sem o cifrão", enviado.corpo.handle === "begoniaatelie");
     checar("order_nsu é a nossa referência", enviado.corpo.order_nsu === referencia);
     checar("webhook apontado para o site", enviado.corpo.webhook_url === "https://begonia.exemplo/api/webhook");
@@ -175,11 +176,10 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
       corpo: { metodo: "checkout", itens: [{ slug: "caneca-rustica", quantidade: 1 }], cliente: CLIENTE, entrega: ENTREGA },
     }), r);
     checar("passa sem CPF", r._status === 200, r.json);
-    // 85,00 está abaixo de 120: o frete entra como item na cobrança.
     const enviado = chamadas.filter((c) => c.url.endsWith("/links")).pop();
-    checar("abaixo de 120, frete vira item de 29,90",
-      enviado.corpo.items.some((i) => i.description === "Frete" && i.price === 2990), enviado.corpo.items);
-    checar("total com frete", r.json.total === 114.9, { total: r.json.total });
+    checar("o frete vira item de 39,90",
+      enviado.corpo.items.some((i) => i.description === "Frete" && i.price === 3990), enviado.corpo.items);
+    checar("total com frete", r.json.total === 124.9, { total: r.json.total });
   }
 
   {
@@ -188,11 +188,11 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
       caminho: "/api/criar-pagamento",
       corpo: { metodo: "pix", itens: [{ slug: "cardigan-outono", quantidade: 1 }], cliente: CLIENTE, entrega: ENTREGA },
     }), r);
-    // 389 menos 5% = 369,55, com frete grátis
-    checar("declarar Pix dá 5% de desconto", r.json.total === 369.55, { total: r.json.total });
+    // 389 menos 7% (27,23) = 361,77, mais 39,90 de frete = 401,67
+    checar("declarar Pix dá 7% de desconto", r.json.total === 401.67, { total: r.json.total });
     const enviado = chamadas.filter((c) => c.url.endsWith("/links")).pop();
     const somaItens = enviado.corpo.items.reduce((s, i) => s + i.price * i.quantity, 0);
-    checar("o link é criado já com o desconto aplicado", somaItens === 36955, { somaItens });
+    checar("o link é criado já com o desconto aplicado", somaItens === 40167, { somaItens });
   }
 
   console.log("\n== webhook: as três conferências ==");
@@ -242,8 +242,9 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
     checar("recusa valor divergente", r.json.ignorado === "valor-divergente", r.json);
   }
   {
-    // Pagamento legítimo.
-    FATURAS.get(slug).amountCentavos = 38900;
+    // Pagamento legítimo: o valor tem de bater com o total do pedido, que
+    // agora inclui o frete (389,00 + 39,90 = 428,90).
+    FATURAS.get(slug).amountCentavos = 42890;
     const r = res();
     await api("webhook.js")(req({ caminho: "/api/webhook", corpo: corpoWebhook() }), r);
     checar("confirma pagamento legítimo", r.json.status === "aprovado", r.json);

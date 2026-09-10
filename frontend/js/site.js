@@ -231,7 +231,7 @@ function montarGrades() {
     const excluir = el.dataset.gradeExcluir;
     const categoria = el.dataset.gradeCategoria;
 
-    let lista = PRODUTOS.filter((p) => p.slug !== excluir);
+    let lista = produtosVisiveis().filter((p) => p.slug !== excluir);
     if (modo === "destaque") lista = lista.filter((p) => p.destaque);
     else if (modo === "pronta") lista = lista.filter((p) => p.disponibilidade === "pronta");
     else if (modo === "encomenda") lista = lista.filter((p) => p.disponibilidade === "encomenda");
@@ -494,7 +494,7 @@ function ligarBusca() {
     }
 
     const nomeCategoria = (id) => CATEGORIAS.find((c) => c.id === id)?.nome || "";
-    const achados = PRODUTOS.filter((p) =>
+    const achados = produtosVisiveis().filter((p) =>
       normalizar(`${p.nome} ${p.resumo} ${nomeCategoria(p.categoria)}`).includes(termo)
     );
 

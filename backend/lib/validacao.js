@@ -4,7 +4,7 @@
    virar pedido, e-mail ou chamada ao gateway.
    ========================================================================= */
 
-const { UFS, CARTELA } = require("../../frontend/js/dados.js");
+const { UFS, CARTELA, RETIRADA, cepEhDaCidadeDaRetirada } = require("../../frontend/js/dados.js");
 
 /* Remove caracteres de controle, normaliza espaços e corta no limite.
    Serve também para não deixar ninguém injetar quebra de linha em cabeçalho
@@ -85,9 +85,40 @@ function validarCliente(bruto, { exigirCpf }) {
   return { campos, cliente: { nome, email, whatsapp, cpf: cpf || null } };
 }
 
-function validarEntrega(bruto) {
+/* `opcoes.retirada` muda o que é obrigatório: quem retira na Unioeste não
+   tem para onde postar, então CEP, rua, número e bairro deixam de ser
+   exigidos. Cidade e UF não vêm do formulário nesse caso — são fixadas aqui,
+   a partir de RETIRADA, para que ninguém consiga declarar retirada com uma
+   cidade qualquer e o pedido chegar na dona parecendo entrega normal. */
+function validarEntrega(bruto, opcoes = {}) {
   const dados = bruto && typeof bruto === "object" ? bruto : {};
   const campos = {};
+
+  if (RETIRADA.ativo && opcoes.retirada === true) {
+    // O CEP continua obrigatório na retirada — é ele que prova a cidade.
+    // Sem esta checagem bastaria mandar {"retirada": true} direto na API para
+    // zerar o frete de qualquer lugar do Brasil.
+    const cepRetirada = soDigitos(dados.cep);
+    if (cepRetirada.length !== 8) {
+      campos.cep = `Informe o CEP para confirmarmos que você é de ${RETIRADA.cidade}.`;
+    } else if (!cepEhDaCidadeDaRetirada(cepRetirada)) {
+      campos.cep = `Esse CEP não é de ${RETIRADA.cidade}. A retirada em mãos só vale para quem é da cidade.`;
+    }
+    return {
+      campos,
+      entrega: {
+        retirada: true,
+        cep: cepRetirada,
+        rua: "",
+        numero: "",
+        complemento: limpar(dados.complemento, 80),
+        bairro: "",
+        cidade: RETIRADA.cidade,
+        estado: RETIRADA.uf,
+        local: RETIRADA.local,
+      },
+    };
+  }
 
   const cep = soDigitos(dados.cep);
   if (cep.length !== 8) campos.cep = "CEP deve ter 8 dígitos.";
@@ -109,7 +140,7 @@ function validarEntrega(bruto) {
 
   return {
     campos,
-    entrega: { cep, rua, numero, complemento: limpar(dados.complemento, 80), bairro, cidade, estado },
+    entrega: { retirada: false, cep, rua, numero, complemento: limpar(dados.complemento, 80), bairro, cidade, estado },
   };
 }
 

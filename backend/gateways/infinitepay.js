@@ -164,7 +164,10 @@ async function criarPagamentoUnico({ referencia, pedido, cliente, entrega, urlSi
     },
     // Endereço é campo opcional na API deles, mas gateway usa endereço para
     // antifraude — mandar aumenta a chance de o cartão passar.
-    ...(entrega
+    // Retirada em mãos não tem endereço: mandar o objeto com todos os campos
+    // em branco é pior que não mandar, porque o antifraude leria um endereço
+    // invalido em vez de ausencia de endereco.
+    ...(entrega && !entrega.retirada
       ? {
           address: {
             postal_code: entrega.cep,

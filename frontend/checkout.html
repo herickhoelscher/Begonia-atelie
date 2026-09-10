@@ -148,14 +148,37 @@
         <!-- 2. Entrega -->
         <fieldset data-secao="entrega" class="bg-surface-container-lowest rounded-xl p-6 md:p-8 soft-shadow">
           <legend class="font-headline text-headline-md text-on-surface px-2">Entrega</legend>
-          <div class="grid sm:grid-cols-6 gap-5 mt-4">
-            <div class="sm:col-span-2">
-              <label class="field-label" for="c-cep">CEP</label>
-              <input id="c-cep" name="cep" type="text" class="field" inputmode="numeric"
-                     autocomplete="postal-code" placeholder="00000-000" required>
-              <p id="c-cep-aviso" class="text-label-sm text-on-surface-variant normal-case tracking-normal mt-2 hidden"></p>
-            </div>
-            <div class="sm:col-span-4">
+
+          <!-- O CEP vem antes de tudo e NAO some na retirada: e ele que decide
+               se a retirada existe. Fora da grade do endereco de proposito. -->
+          <div class="mt-4 max-w-[16rem]">
+            <label class="field-label" for="c-cep">CEP</label>
+            <input id="c-cep" name="cep" type="text" class="field" inputmode="numeric"
+                   autocomplete="postal-code" placeholder="00000-000" required>
+            <p id="c-cep-aviso" class="text-label-sm text-on-surface-variant normal-case tracking-normal mt-2 hidden"></p>
+          </div>
+
+          <!-- Retirada em maos. So aparece quando o CEP digitado e de Marechal
+               -- quem e de fora nunca ve esta opcao. Marcar zera o frete e
+               esconde o resto do endereco, porque nada e postado. Quem decide
+               o valor continua sendo o servidor: a caixinha so manda a
+               intencao, e o servidor confere o CEP de novo por conta propria. -->
+          <label id="c-retirada-caixa" class="hidden items-start gap-3 mt-4 p-4 rounded-md bg-surface-container-low cursor-pointer">
+            <input type="checkbox" id="c-retirada" name="retirada" class="mt-0.5 accent-primary w-4 h-4 shrink-0">
+            <span class="min-w-0">
+              <span class="block text-body-md text-on-surface">Sou de Marechal Cândido Rondon (PR) e quero retirar em mãos</span>
+              <span class="block text-label-sm text-on-surface-variant normal-case tracking-normal mt-1">
+                Sem frete: você combina a retirada direto com a Milena.
+              </span>
+            </span>
+          </label>
+
+          <!-- Preenchido por checkout.js, que monta o link do WhatsApp a partir
+               de ATELIE.whatsapp -- o numero nao e escrito aqui. -->
+          <div id="c-retirada-aviso" class="hidden mt-4 p-4 rounded-md bg-surface-container-low border border-secondary/40"></div>
+
+          <div id="c-campos-endereco" class="grid sm:grid-cols-6 gap-5 mt-4">
+            <div class="sm:col-span-6">
               <label class="field-label" for="c-rua">Rua</label>
               <input id="c-rua" name="rua" type="text" class="field" autocomplete="address-line1" required>
             </div>
@@ -209,6 +232,11 @@
           <h2 class="font-headline text-headline-md text-on-surface mb-6">Seu pedido</h2>
 
           <ul id="c-itens" class="space-y-4 mb-6"></ul>
+
+          <!-- Barra do brinde. Fica escondida quando o brinde esta desligado
+               ou quando o servidor ainda nao respondeu -- nunca desenhamos uma
+               barra chutada pelo navegador. -->
+          <div id="c-brinde" class="hidden mb-6" aria-live="polite"></div>
 
           <div class="stitch-rule my-6" role="presentation"></div>
 

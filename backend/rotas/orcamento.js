@@ -15,7 +15,7 @@ const { rota, json, erro, lerCorpo, ipDoPedido } = require("../lib/http.js");
 const { validarItens, limpar, emailValido, metodoValido } = require("../lib/validacao.js");
 const { montarPedido } = require("../lib/pedido.js");
 const armazenamento = require("../lib/armazenamento.js");
-const { PAGAMENTO, DESCONTOS, UFS } = require("../../frontend/js/dados.js");
+const { PAGAMENTO, DESCONTOS, UFS, RETIRADA, cepEhDaCidadeDaRetirada } = require("../../frontend/js/dados.js");
 
 module.exports = rota(["POST"], async (req, res) => {
   // Este endpoint responde a cada digitada no formulário, então o limite é
@@ -34,7 +34,13 @@ module.exports = rota(["POST"], async (req, res) => {
   const { campos, itens } = validarItens(corpo.itens, PAGAMENTO.maxQuantidadePorPeca);
   if (Object.keys(campos).length) return erro(res, 422, campos.itens, campos);
 
-  const estado = limpar(corpo.estado, 2).toUpperCase();
+  // Retirada em mãos. Não basta declarar: o CEP tem de ser de Marechal.
+  // Aqui a divergência não vira erro, vira frete normal — este endpoint só
+  // faz a conta enquanto a pessoa digita, e quem barra de verdade é o
+  // /api/criar-pagamento, que recusa o pedido.
+  const retirada =
+    RETIRADA.ativo && corpo.retirada === true && cepEhDaCidadeDaRetirada(corpo.cep);
+  const estado = retirada ? RETIRADA.uf : limpar(corpo.estado, 2).toUpperCase();
   const metodo = metodoValido(corpo.metodo) ? corpo.metodo : null;
   const email = limpar(corpo.email, 120).toLowerCase();
 
@@ -47,6 +53,7 @@ module.exports = rota(["POST"], async (req, res) => {
   }
 
   // Sem UF ainda não dá para fechar o frete: devolvemos a conta sem ele.
+  // Com retirada isso nunca acontece, porque a UF é fixada acima.
   if (!UFS.includes(estado)) {
     const parcial = montarPedido(itens, "SP", { metodo, primeiraCompra });
     if (!parcial.pedido) return erro(res, 422, parcial.campos.itens || "Não foi possível calcular.", parcial.campos);
@@ -59,10 +66,13 @@ module.exports = rota(["POST"], async (req, res) => {
       freteGratis: null,
       total: null,
       primeiraCompra,
+      retirada: false,
+      // O brinde já pode ser mostrado antes do CEP: ele só depende das peças.
+      brinde: parcial.pedido.brinde,
     });
   }
 
-  const { campos: camposPedido, pedido } = montarPedido(itens, estado, { metodo, primeiraCompra });
+  const { campos: camposPedido, pedido } = montarPedido(itens, estado, { metodo, primeiraCompra, retirada });
   if (Object.keys(camposPedido).length) {
     return erro(res, 422, camposPedido.itens || camposPedido.estado || "Não foi possível calcular.", camposPedido);
   }
@@ -77,5 +87,7 @@ module.exports = rota(["POST"], async (req, res) => {
     faltaParaFreteGratis: pedido.faltaParaFreteGratis,
     total: pedido.total,
     primeiraCompra,
+    retirada: pedido.retirada,
+    brinde: pedido.brinde,
   });
 });

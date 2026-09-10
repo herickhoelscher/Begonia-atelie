@@ -43,6 +43,21 @@ const NOME_METODO = {
 /* -------------------------------------------------------------------------
    Envio pelo Resend
    ------------------------------------------------------------------------- */
+
+/* Um destinatário ou vários, separados por vírgula (ou ponto e vírgula).
+
+   Existe porque o aviso de venda precisa chegar em mais de uma caixa: a da
+   dona e a de quem acompanha a loja. Antes o corpo ia com `to: [para]`, então
+   um EMAIL_DONA com duas pessoas viraria UM endereço inválido com vírgula no
+   meio, e o Resend recusaria o e-mail inteiro — ninguém seria avisado da
+   venda, que é o pior jeito de isso falhar. */
+function listaDeDestinatarios(bruto) {
+  return String(bruto || "")
+    .split(/[,;]/)
+    .map((e) => e.trim())
+    .filter(Boolean);
+}
+
 async function enviarEmail({ para, assunto, html, responderPara }) {
   const chave = process.env.RESEND_API_KEY;
   const remetente = process.env.EMAIL_REMETENTE;
@@ -50,6 +65,12 @@ async function enviarEmail({ para, assunto, html, responderPara }) {
   if (!chave || !remetente) {
     console.warn("[notificacao] RESEND_API_KEY ou EMAIL_REMETENTE ausente: e-mail não enviado para %s", para);
     return { enviado: false, motivo: "configuracao-ausente" };
+  }
+
+  const destinatarios = listaDeDestinatarios(para);
+  if (!destinatarios.length) {
+    console.warn("[notificacao] nenhum destinatário válido em %s", JSON.stringify(para));
+    return { enviado: false, motivo: "destinatario-ausente" };
   }
 
   const resposta = await fetch("https://api.resend.com/emails", {
@@ -60,7 +81,7 @@ async function enviarEmail({ para, assunto, html, responderPara }) {
     },
     body: JSON.stringify({
       from: remetente,
-      to: [para],
+      to: destinatarios,
       subject: assunto,
       html,
       ...(responderPara ? { reply_to: responderPara } : {}),
@@ -345,4 +366,5 @@ async function avisarPedidoPago(registro) {
   return resultados;
 }
 
-module.exports = { avisarPedidoPago, emailParaDona, emailParaCliente, enviarEmail, esc };
+module.exports = {
+  listaDeDestinatarios, avisarPedidoPago, emailParaDona, emailParaCliente, enviarEmail, esc };

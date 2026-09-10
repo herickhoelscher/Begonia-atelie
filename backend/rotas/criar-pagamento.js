@@ -18,7 +18,7 @@ const { validarCliente, validarEntrega, validarItens, limparTexto, metodoValido 
 const { montarPedido, novaReferencia } = require("../lib/pedido.js");
 const { gateway } = require("../lib/gateway.js");
 const armazenamento = require("../lib/armazenamento.js");
-const { PAGAMENTO, DESCONTOS } = require("../../frontend/js/dados.js");
+const { PAGAMENTO, DESCONTOS, RETIRADA } = require("../../frontend/js/dados.js");
 const { gatewayEscolhido, pagamentoConfigurado } = require("../config.js");
 
 /* URL pública do site, usada nos retornos e no webhook do Mercado Pago. */
@@ -60,8 +60,11 @@ module.exports = rota(["POST"], async (req, res) => {
   // Mercado Pago precisa; a InfinitePay coleta o que precisa na página dela.
   const exigirCpf = Boolean(capacidades.exigeCpf) && metodo === "pix";
 
+  // Retirada em mãos: quem marca não informa endereço, e não paga frete.
+  const retirada = RETIRADA.ativo && corpo.retirada === true;
+
   const { campos: camposCliente, cliente } = validarCliente(corpo.cliente, { exigirCpf });
-  const { campos: camposEntrega, entrega } = validarEntrega(corpo.entrega);
+  const { campos: camposEntrega, entrega } = validarEntrega(corpo.entrega, { retirada });
   const { campos: camposItens, itens } = validarItens(corpo.itens, PAGAMENTO.maxQuantidadePorPeca);
 
   const camposComErro = { ...camposCliente, ...camposEntrega, ...camposItens };
@@ -81,6 +84,7 @@ module.exports = rota(["POST"], async (req, res) => {
   const { campos: camposPedido, pedido } = montarPedido(itens, entrega.estado, {
     metodo,
     primeiraCompra,
+    retirada,
   });
   if (Object.keys(camposPedido).length) {
     return erro(res, 422, camposPedido.itens || camposPedido.estado || "Não foi possível montar o pedido.", camposPedido);

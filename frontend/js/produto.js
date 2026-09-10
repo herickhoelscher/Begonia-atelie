@@ -111,7 +111,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         <p class="text-label-sm text-on-surface-variant normal-case tracking-normal mb-10">
           ${
-            pronta
+            // Quem manda aqui e o MESMO `vendavel` que decide o botao acima.
+            // Preso no `pronta`, toda peca sob encomenda COM preco mostrava o
+            // botao "Comprar agora" e, logo abaixo, um aviso dizendo que a
+            // peca nao tinha preco fechado -- as duas coisas na mesma tela.
+            vendavel
               ? `${icone("cadeado", "w-3.5 h-3.5 inline-block align-[-2px] mr-1")}Pagamento no ambiente seguro do nosso provedor. Este site nunca vê o número do seu cartão.`
               : "Esta peça ainda não tem preço fechado no site. Peça um orçamento pelo WhatsApp."
           }

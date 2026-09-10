@@ -4,7 +4,7 @@
    ========================================================================= */
 
 const POR_PAGINA = 8;
-const PRECO_TETO = Math.ceil(Math.max(...PRODUTOS.map((p) => p.preco)) / 50) * 50;
+const PRECO_TETO = Math.ceil(Math.max(...produtosVisiveis().map((p) => p.preco)) / 50) * 50;
 
 const estado = {
   categorias: new Set(),
@@ -41,7 +41,7 @@ function gravarEstadoNaUrl() {
 /* --- Seleção ------------------------------------------------------------- */
 
 function produtosFiltrados() {
-  let lista = PRODUTOS.filter((p) => {
+  let lista = produtosVisiveis().filter((p) => {
     if (estado.categorias.size && !estado.categorias.has(p.categoria)) return false;
     if (estado.disponibilidade.size && !estado.disponibilidade.has(p.disponibilidade)) return false;
     if (p.preco > estado.precoMax) return false;

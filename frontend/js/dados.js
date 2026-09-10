@@ -145,7 +145,7 @@ const PRODUTOS = [
   /* ----------------------------------------------------------- DECORAÇÃO */
   {
     slug: "capa-almofada",
-    nome: "Capa de Almofada",
+    nome: "Capa de Almofada em Crochê",
     preco: 75,
     categoria: "decoracao",
     disponibilidade: "encomenda",
@@ -153,17 +153,22 @@ const PRODUTOS = [
     tags: [],
     fotos: ["almofada-granny-square-01-no-sofa.jpeg", "almofada-granny-square-02.jpeg"],
     alt: "Capa de almofada de crochê em granny square com terracota, rosa, verde e cru, sobre sofá cinza.",
-    resumo: "Granny square 40 × 40 cm. Só a capa, na cor que você quiser.",
+    resumo: "Crochê 40 × 40 cm, em até 4 cores. Só a capa — o enchimento não vai junto.",
     descricao:
-      "Quadrado clássico do crochê, feito de dentro para fora numa peça só. Vai só a capa: o enchimento é o que você já tem em casa, no tamanho padrão de 40 × 40.",
-    materiais: ["Fio de algodão", "Granny square em peça única", "Cores à sua escolha"],
+      "Feita à mão em crochê, para trazer mais aconchego e personalidade para a decoração. Você escolhe a cor na hora da compra, entre até quatro. Atrás tem um fechamento regulável, que facilita pôr o enchimento e deixa ajustar a amarração. Por ser artesanal, pequenas variações acontecem — cada capa sai única.",
+    materiais: ["Fio de algodão", "Até 4 cores à sua escolha", "Fechamento regulável nas costas"],
     medidas: "40 × 40 cm. Enchimento não incluso.",
-    cuidados: ["Lavar à mão", "Secar na horizontal", "Não torcer"],
+    cuidados: [
+      "O ideal é lavar à mão, com sabão neutro",
+      "Máquina só no modo delicado — existe risco de encolher",
+      "Secar na horizontal",
+      "Não torcer",
+    ],
     prazo: "Produção sob encomenda",
   },
   {
     slug: "porta-retrato-coracao",
-    nome: "Porta-retrato Polaroid Coração",
+    nome: "Porta-Retrato Polaroid Coração",
     preco: 39.9,
     categoria: "decoracao",
     disponibilidade: "encomenda",
@@ -171,12 +176,16 @@ const PRODUTOS = [
     tags: [],
     fotos: ["porta-retrato-macrame-01-na-parede.jpeg"],
     alt: "Porta-retrato de macramê em corda crua pendurado na parede, segurando duas fotos polaroid.",
-    resumo: "Macramê de 60 cm que segura duas polaroids.",
+    resumo: "Macramê de cerca de 60 cm que segura duas polaroids.",
     descricao:
-      "Os nós de coração no topo e no pé emolduram duas fotos polaroid, sem cola e sem prego na foto — ela entra e sai quando você quiser trocar.",
-    materiais: ["Fio de macramê", "Nós de coração", "Franja no acabamento"],
-    medidas: "60 cm de comprimento. Cabem 2 fotos polaroid de 8 × 10 cm.",
-    cuidados: ["Espanar com pincel macio", "Manter longe de umidade", "Não lavar"],
+      "Feito à mão em macramê, para deixar as fotos favoritas expostas de um jeito diferente e delicado. Os nós de coração emolduram duas polaroids sem cola e sem prego na foto — ela entra e sai quando você quiser trocar. Por ser feito à mão, cada porta-retrato sai único.",
+    materiais: ["Fio de macramê 85% algodão", "Nós de coração", "Franja no acabamento"],
+    medidas: "Aproximadamente 60 cm de comprimento total. Cabem 2 fotos polaroid de 8 × 10 cm.",
+    cuidados: [
+      "Lavar delicadamente à mão",
+      "Esponja mágica passada de leve tira sujeira pequena",
+      "Não esfregar com força, para não deformar os fios",
+    ],
     prazo: "Produção sob encomenda",
   },
   {
@@ -203,25 +212,28 @@ const PRODUTOS = [
   },
   {
     slug: "cata-vento",
-    nome: "Cata-vento de Crochê",
+    nome: "Catavento em Crochê",
     preco: 34.9,
     categoria: "decoracao",
     disponibilidade: "encomenda",
     destaque: false,
     tags: [],
     fotos: ["mobile-espiral-01-ambiente.jpeg"],
-    alt: "Cata-vento de crochê em espiral pendurado perto da janela, girando com a luz do fim da tarde.",
-    resumo: "Espiral que gira com o vento, tamanho G.",
+    alt: "Catavento de crochê em espiral pendurado perto da janela, girando com a luz do fim da tarde.",
+    resumo: "Gira de verdade com o vento. Cerca de 40 cm, em até 3 cores.",
     descricao:
-      "Pendura perto de uma janela e ele roda sozinho com a corrente de ar. A espiral é fechada com um pingente na ponta.",
-    materiais: ["Fio de algodão", "Espiral em ponto contínuo", "Pingente no acabamento"],
-    medidas: "Tamanho G.",
-    cuidados: ["Espanar com pincel macio", "Não lavar"],
+      "É só pendurar e deixar o vento fazer o trabalho: conforme ele bate, a peça fica girando. Com uns 40 cm, é maior do que parece e cabe em vários cantos da casa. Na parte de baixo vem uma ponteira, que fecha a peça.",
+    materiais: ["Fio de algodão", "Até 3 cores à sua escolha", "Ponteira na parte inferior"],
+    medidas: "Aproximadamente 40 cm.",
+    cuidados: [
+      "Lavar só à mão, com sabão neutro e de forma delicada",
+      "Não lavar na máquina — o movimento deforma a peça",
+    ],
     prazo: "Produção sob encomenda",
   },
   {
     slug: "painel-macrame",
-    nome: "Painel de Macramê",
+    nome: "Painel Macramê Losango",
     preco: 0,
     categoria: "decoracao",
     disponibilidade: "encomenda",
@@ -229,17 +241,90 @@ const PRODUTOS = [
     tags: [],
     fotos: ["painel-macrame-verde-01-na-parede.jpeg"],
     alt: "Painel de macramê em verde sálvia com nós geométricos e franja, pendurado em bastão de madeira.",
-    resumo: "Nós geométricos em bastão de madeira, 20 × 55 cm.",
+    resumo: "Losango em bastão de 20 cm, com cerca de 55 cm de comprimento.",
     descricao:
-      "Peça de parede feita à mão, com os nós desenhando um losango no meio e a franja fechando embaixo.",
-    materiais: ["Fio de macramê", "Bastão de madeira", "Franja no acabamento"],
-    medidas: "20 × 55 cm.",
-    cuidados: ["Espanar com pincel macio", "Manter longe de umidade", "Não lavar"],
+      "Feito à mão em macramê, para preencher aquele cantinho vazio da casa ou dar um toque especial a espaços menores. Os nós desenham um losango no meio e a franja fecha embaixo. O tamanho compacto combina com estilos diferentes e funciona sozinho ou junto de outros elementos.",
+    materiais: ["Fio de macramê 85% algodão", "Bastão de madeira", "Franja no acabamento"],
+    medidas: "Bastão de madeira de 20 cm. Comprimento total de aproximadamente 55 cm, do ponto onde a peça é pendurada até o fim do painel.",
+    cuidados: [
+      "Não lavar",
+      "Limpar só com pano levemente úmido, passando de leve nos fios",
+    ],
+    prazo: "Produção sob encomenda",
+  },
+  /* As duas prateleiras dividem a mesma construção: madeira, macramê de
+     algodão e um punho de rede no topo. Mudam no tamanho da tábua — 40 × 15
+     na primeira, 20 × 20 na quadrada — e é isso que separa o preço.
+     A foto do punho é a mesma peça nas duas, porque o acabamento é igual. */
+  {
+    slug: "prateleira-macrame",
+    nome: "Prateleira de Macramê",
+    preco: 120,
+    categoria: "decoracao",
+    disponibilidade: "encomenda",
+    destaque: true,
+    tags: ["novo"],
+    // O fio do macramê não sai da cartela de crochê: o que existe é o cru das
+    // fotos e o verde da última. Enquanto não houver uma cartela própria do
+    // macramê, a peça é vendida sem escolha de cor no site.
+    personalizavel: false,
+    fotos: [
+      "prateleira-01-na-cozinha.jpeg",
+      "prateleira-02-cozinha-detalhe.jpeg",
+      "prateleira-03-no-banheiro.jpeg",
+      "prateleira-04-banheiro-detalhe.jpeg",
+      "prateleira-05-na-sala.jpeg",
+      "prateleira-06-fio-verde.jpeg",
+      "prateleira-07-detalhe-do-no.jpeg",
+      "prateleira-macrame-punho-de-rede.jpeg",
+    ],
+    alt: "Prateleira de macramê de três níveis, em madeira e fio cru, pendurada na parede da cozinha com potes de mantimentos e um vaso de planta.",
+    resumo: "Três níveis de madeira em macramê, tábua de 40 × 15 cm.",
+    descricao:
+      "Une madeira e macramê numa peça que decora e organiza ao mesmo tempo. Serve no banheiro, no quarto, na sala, no escritório ou na cozinha, para plantas, objetos de decoração e coisas leves do dia a dia. O punho de rede no topo pendura num gancho bem fixado na parede — ela foi feita para ficar rente à parede, e não solta no meio do ambiente, senão inclina. O peso pede bom senso: nada pesado demais, nem tudo concentrado num nível só, senão o fio laceia.",
+    materiais: ["Madeira", "Fio para macramê com 85% algodão", "Punho de rede para instalação"],
+    medidas: "Madeira de 40 × 15 cm. Altura total de aproximadamente 80 cm, com 30 cm até o primeiro nível e cerca de 20 cm entre os demais.",
+    cuidados: [
+      "Limpar o macramê com pano levemente úmido",
+      "Esponja mágica de leve, sem produto abrasivo ou de limpeza forte",
+      "A madeira pode molhar no dia a dia, mas não deixe encharcada nem na chuva",
+      "Evitar sol direto e prolongado",
+      "Com o uso o fio laceia um pouco — é característica do macramê, não é defeito",
+    ],
+    prazo: "Produção sob encomenda",
+  },
+  {
+    slug: "prateleira-macrame-quadrada",
+    nome: "Prateleira Quadrada de Macramê",
+    preco: 100,
+    categoria: "decoracao",
+    disponibilidade: "encomenda",
+    destaque: true,
+    tags: ["novo"],
+    personalizavel: false,
+    fotos: [
+      "prateleira-quadrada-01-na-parede.jpeg",
+      "prateleira-quadrada-02-ambiente.jpeg",
+      "prateleira-macrame-punho-de-rede.jpeg",
+    ],
+    alt: "Prateleira quadrada de macramê de três níveis, em madeira e fio cru, pendurada na parede da sala com uma garrafa e um vaso de planta.",
+    resumo: "A versão compacta, com tábua de 20 × 20 cm.",
+    descricao:
+      "A mesma prateleira, num tamanho que cabe onde a outra não caberia. É a opção para quem quer aproveitar melhor um canto pequeno sem abrir mão da decoração — banheiro, quarto, sala, escritório ou cozinha. O punho de rede no topo pendura num gancho bem fixado na parede, e ela foi feita para ficar rente à parede: solta no ambiente, inclina. Vale o mesmo cuidado com o peso — objetos leves, distribuídos entre os níveis.",
+    materiais: ["Madeira", "Fio para macramê com 85% algodão", "Punho de rede para instalação"],
+    medidas: "Madeira de 20 × 20 cm. Altura total de aproximadamente 80 cm, com 30 cm até o primeiro nível e cerca de 20 cm entre os demais.",
+    cuidados: [
+      "Limpar o macramê com pano levemente úmido",
+      "Esponja mágica de leve, sem produto abrasivo ou de limpeza forte",
+      "A madeira pode molhar no dia a dia, mas não deixe encharcada nem na chuva",
+      "Evitar sol direto e prolongado",
+      "Com o uso o fio laceia um pouco — é característica do macramê, não é defeito",
+    ],
     prazo: "Produção sob encomenda",
   },
   {
     slug: "tapete",
-    nome: "Tapete de Crochê",
+    nome: "Tapete Lavanda",
     // CONFERIR com a Milena: o preço do tapete nunca foi informado. Enquanto
     // ficar em 0, a peça aparece no site mas não entra no carrinho — é a
     // trava do podeComprarOnline, que existe para nunca cobrar valor que
@@ -258,19 +343,23 @@ const PRODUTOS = [
       "tapete-terracota-cru-03-detalhe.jpeg",
     ],
     alt: "Tapete de crochê em terracota e cru, com desenho radiado do centro e borda em ondas.",
-    resumo: "Desenho radiado em duas cores, com borda em ondas.",
+    resumo: "Crochê 70 × 50 cm, em até 2 cores. Serve em qualquer cômodo.",
     descricao:
-      "Duas cores que se abrem do centro para a borda, terminando em ondas. Escolha as duas cores.",
-    materiais: ["Fio de algodão", "Duas cores à sua escolha", "Borda em ondas"],
+      "Peça versátil, que combina com ambientes diferentes da casa: banheiro, cozinha ou onde você quiser. Pode ser feito em até duas cores, para você escolher a combinação que fica melhor no seu espaço. Por ser feito à mão, cada tapete sai único.",
+    materiais: ["Fio de algodão", "Até 2 cores à sua escolha", "Borda em ondas"],
     medidas: "70 × 50 cm.",
-    cuidados: ["Lavar à mão", "Secar na horizontal", "Não usar alvejante"],
+    cuidados: [
+      "Pode ir à máquina, de preferência no modo delicado",
+      "Existe risco de encolher na lavagem",
+      "Secar à sombra, nunca no sol direto",
+    ],
     prazo: "Envio em até 2 dias úteis",
   },
 
   /* ---------------------------------------------------------- ACESSÓRIOS */
   {
     slug: "touca",
-    nome: "Touca de Crochê",
+    nome: "Touca em Crochê",
     preco: 75,
     precoPorQuantidade: { 1: 75, 2: 140 },
     categoria: "acessorios",
@@ -279,11 +368,15 @@ const PRODUTOS = [
     tags: [],
     fotos: ["gorro-02-rosa-na-modelo.jpeg", "gorro-01-preto-e-branco.jpeg"],
     alt: "Touca de crochê em rosa antigo, vestida, com canelado na barra.",
-    resumo: "Lã 100% acrílica, canelado na barra. Qualquer tamanho.",
+    resumo: "Fio 100% acrílico, quentinho e elástico. Nos tamanhos P, M e G.",
     descricao:
-      "Touca de inverno em lã acrílica, com canelado na barra que segura na cabeça sem apertar. Serve em qualquer tamanho — é só dizer o seu.",
-    materiais: ["Lã 100% acrílica", "Canelado na barra", "Cor à sua escolha"],
-    medidas: "Qualquer tamanho, feita sob medida.",
+      "Feita à mão para os dias mais frios. O fio acrílico tem bastante elasticidade, então a touca se ajusta bem à cabeça, e o material segura o calor. É peça atemporal, que combina com vários looks e dura várias temporadas. Não sabe o seu tamanho? Passe uma fita métrica em volta da cabeça, acima das sobrancelhas e das orelhas, na parte mais larga, sem apertar — e, se a medida cair entre dois tamanhos, escolha o maior.",
+    materiais: ["Fio 100% acrílico", "Canelado na barra", "Cor à sua escolha"],
+    // CONFERIR com a Milena: a touca agora tem tamanho (P, M e G), e o site não
+    // tem onde escolher tamanho — o checkout só pergunta a cor. Enquanto não
+    // houver esse campo, o tamanho tem de ser combinado no WhatsApp, e a venda
+    // online sai sem essa informação.
+    medidas: "P: 54 a 56 cm · M: 57 a 59 cm · G: 60 a 62 cm, medidos na circunferência da cabeça.",
     cuidados: ["Lavar à mão em água fria", "Secar na horizontal", "Não usar secadora"],
     prazo: "Produção sob encomenda",
   },
@@ -304,17 +397,21 @@ const PRODUTOS = [
       "bolsa-listrada-06-detalhe.jpeg",
     ],
     alt: "Bolsa de crochê listrada em cru, verde água, pêssego e terracota, com alça longa.",
-    resumo: "Listras em quatro cores, alça longa, 30 × 32 cm.",
+    resumo: "Espaçosa e resistente, 30 × 32 cm. Leva até notebook.",
     descricao:
-      "Listras que mudam de cor a cada carreira, com alça longa de ombro. O ponto é aberto, então ela cede um pouco e acomoda o que entra.",
-    materiais: ["Fio de algodão", "Ponto aberto", "Alça longa de ombro"],
+      "Feita à mão para acompanhar a rotina. Com 30 × 32 cm, tem bastante espaço interno: dá para levar material da escola ou da faculdade e até um notebook, dependendo do tamanho do aparelho. Além de prática para o dia a dia, é versátil e atemporal — combina com estilos diferentes e dura muito tempo.",
+    materiais: ["Fio 85% algodão", "Alça longa de ombro"],
     medidas: "30 × 32 cm.",
-    cuidados: ["Lavar à mão", "Secar na horizontal", "Não torcer"],
+    cuidados: [
+      "Pode ir à máquina, de preferência no modo delicado",
+      "Existe risco de encolher na lavagem",
+      "Secar à sombra",
+    ],
     prazo: "Produção sob encomenda",
   },
   {
     slug: "necessaire",
-    nome: "Necessaire de Crochê",
+    nome: "Necessaire em Crochê",
     preco: 0,
     categoria: "acessorios",
     disponibilidade: "encomenda",
@@ -326,13 +423,54 @@ const PRODUTOS = [
       "necessaire-crua-03-medidas.jpeg",
     ],
     alt: "Necessaire de crochê em fio cru com zíper, segurada na mão.",
-    resumo: "20 × 10 cm, com zíper. Sem forro.",
+    resumo: "20 × 10 cm, com zíper costurado à mão. Sem forro.",
     descricao:
-      "Do tamanho de caber na bolsa e levar maquiagem ou item de higiene. Zíper costurado à mão, sem forro — o crochê é firme o bastante para segurar sozinho.",
-    materiais: ["Fio de algodão", "Zíper costurado à mão", "Sem forro"],
+      "Compacta e prática para organizar as coisas pequenas do dia a dia: maquiagem, itens de higiene, acessórios. O zíper também é costurado à mão, então o acabamento artesanal está em cada detalhe. Cabe na bolsa ou na mala, e é uma boa ideia de presente.",
+    materiais: ["Fio 85% algodão", "Zíper costurado à mão", "Sem forro"],
     medidas: "20 × 10 cm.",
-    cuidados: ["Lavar à mão", "Secar na horizontal"],
+    cuidados: [
+      "O ideal é lavar à mão, com sabão neutro e de forma delicada",
+      "Não esfregar com força, para preservar os pontos e o zíper",
+    ],
     prazo: "Produção sob encomenda",
+  },
+
+  /* ------------------------------------------------------------- TESTE
+     Peça de teste, para conferir de ponta a ponta que a venda funciona:
+     cobrança, webhook e e-mail de aviso.
+
+     `oculto: true` tira ela da loja, da busca, da home e da página de
+     encomenda — ela NÃO nasce na vitrine. Continua existindo para o link
+     direto (produto.html?slug=teste-pagamento) e para o servidor cobrar,
+     que é exatamente o que um teste precisa.
+
+     ATENÇÃO ao valor: o preço é 1 centavo, mas a cobrança sai R$ 1,00. O
+     total tem piso de um real em pedido.js ("Trava de segurança: desconto
+     nunca pode zerar ou inverter a cobrança"). Então este teste custa R$ 1,00,
+     não um centavo.
+
+     APAGAR quando o teste terminar. */
+  {
+    slug: "teste-pagamento",
+    nome: "Teste de Pagamento",
+    preco: 0.01,
+    oculto: true,
+    categoria: "acessorios",
+    disponibilidade: "pronta",
+    destaque: false,
+    tags: [],
+    // Sem cor a escolher: é um teste, não uma peça.
+    personalizavel: false,
+    // Sem foto: caminhoImagem() cai no placeholder sozinho.
+    fotos: [],
+    alt: "Peça de teste, sem foto.",
+    resumo: "Peça de teste. Não é um produto à venda.",
+    descricao:
+      "Existe só para conferir que a compra funciona de ponta a ponta: cobrança, confirmação e e-mail de aviso. Não aparece na loja e não é para ser comprada por cliente.",
+    materiais: ["Nenhum — é um teste"],
+    medidas: "Não se aplica.",
+    cuidados: ["Não se aplica"],
+    prazo: "Não se aplica",
   },
 ];
 
@@ -412,6 +550,19 @@ function produtoPorSlug(slug) {
   return PRODUTOS.find((p) => p.slug === slug) || null;
 }
 
+/* O catálogo que o cliente vê.
+
+   Peça com `oculto: true` continua existindo para produtoPorSlug e para o
+   servidor cobrar — ela só não aparece em vitrine, busca, filtro ou página de
+   encomenda. É o que permite ter uma peça de teste comprável por link direto
+   sem ela nascer na loja no meio dos sousplats.
+
+   Toda listagem passa por aqui. Ler PRODUTOS direto numa tela nova é o jeito
+   de a peça de teste vazar para a loja sem ninguém perceber. */
+function produtosVisiveis() {
+  return PRODUTOS.filter((p) => !p.oculto);
+}
+
 /* Caminho da foto. `indice` escolhe qual das fotos da peça. Peça sem foto
    cai no placeholder, para a grade não quebrar com imagem faltando. */
 function caminhoImagem(produto, indice = 0) {
@@ -442,9 +593,8 @@ function precoPara(produto, quantidade = 1) {
 
 /* =========================================================================
    Envio
-   Regras derivadas do que a página de contato já promete ao cliente:
-   frete grátis acima de R$ 400 para Sudeste e Sul. Mudar aqui muda o que
-   o cliente vê no checkout E o que o servidor cobra — os dois leem daqui.
+   Todo pedido paga frete, pela tabela de região abaixo. Mudar aqui muda o
+   que o cliente vê no checkout E o que o servidor cobra — os dois leem daqui.
    ========================================================================= */
 
 const ENVIO = {
@@ -454,25 +604,96 @@ const ENVIO = {
   // esta origem ainda estava como São Paulo.
   origem: { cidade: "Marechal Cândido Rondon", uf: "PR" },
 
-  // Regra da dona: frete grátis a partir de R$ 120, sem restrição de região.
-  gratisAcimaDe: 120,
-  regioesComFreteGratis: ["norte", "nordeste", "centro-oeste", "sudeste", "sul"],
+  // Não existe mais frete grátis: todo pedido paga a tabela da região.
+  // `gratisAcimaDe: null` desliga a regra inteira — fretePara() nem chega a
+  // olhar a lista de regiões, e o checkout para de mostrar quanto falta para
+  // ganhar frete. Para religar um dia, basta pôr um valor aqui e as regiões
+  // que valem na lista abaixo.
+  gratisAcimaDe: null,
+  regioesComFreteGratis: [],
 
   // Dentro do próprio Paraná é mais barato que o resto do Sul.
-  mesmoEstado: 19.9,
+  // Cotado 21,42 para Curitiba, que é a ponta mais longe do estado.
+  mesmoEstado: 22.9,
 
   // Valor fixo por região, do mais perto de Marechal para o mais longe.
-  // CONFERIR com a Milena: estes valores são estimativa, não cotação real
-  // dos Correios. Trocar por cálculo automático é mudança isolada — só esta
-  // tabela e a função fretePara() precisam mudar.
+  // É tabela fixa por decisão: nada aqui consulta os Correios em tempo real,
+  // então o site nunca fica na mão de uma API de terceiro para fechar venda.
+  // O custo disso é manutenção na unha — os Correios reajustam por IPCA uma
+  // vez ao ano (o último entrou em 12/04/2026), e nessa data alguém precisa
+  // recotar e mexer nos números abaixo. Sem isso a tabela envelhece calada.
+  //
+  // Estes números vieram do calculador dos Correios em 08/09/2026, com a
+  // origem real (CEP 85960-000). Antes eram chute, e o chute estava barato
+  // demais: o Nordeste custava 80,20 e a tabela cobrava 39,90 — cada venda
+  // para lá saía com 40 reais de prejuízo só no frete.
+  //
+  // O preço usado é o do PAC postado pelo app/site dos Correios, que é mais
+  // barato que o balcão (o balcão em Salvador é 87,50). Para ficar nesse
+  // valor, a postagem tem de ser feita pelo app.
+  //
+  // Em cada região ficou o CEP mais caro que testei, com uma folga de uns 2
+  // reais em cima — assim nenhuma venda sai no prejuízo.
+  //
+  // Uma caixa de 30 × 25 × 10 com 800 g (sousplat, bolsa, tapete) e outra de
+  // 45 × 20 × 12 com 2 kg (a prateleira) deram exatamente o mesmo preço, então
+  // uma tabela só cobre o catálogo inteiro. Peça pequena de 300 g (porta-copos,
+  // necessaire) sai cerca de 8 reais mais barata, ou seja: quem manda só uma
+  // peça pequena paga um pouco mais do que custa.
   tabela: {
-    sul: 24.9,
-    sudeste: 29.9,
-    "centro-oeste": 34.9,
-    nordeste: 39.9,
-    norte: 44.9,
+    sul: 34.9, // cotado 32,31 — Florianópolis e Porto Alegre
+    sudeste: 39.9, // cotado 38,17 — Rio e Belo Horizonte (São Paulo é 32,31)
+    "centro-oeste": 61.9, // cotado 59,77 — Brasília e Cuiabá
+    nordeste: 82.9, // cotado 80,20 — Salvador e Fortaleza
+    norte: 82.9, // cotado 80,20 — Manaus e Belém
   },
 };
+
+/* =========================================================================
+   Retirada em mãos
+
+   Quem mora em Marechal não precisa pagar frete: combina a retirada na
+   Unioeste. Isso é declarado por quem compra, marcando uma caixinha no
+   checkout — não dá para conferir de fora, e não precisa: quem marcar sem
+   ser da cidade fica sem receber, porque nada é postado. O prejuízo de uma
+   marcação errada é uma conversa no WhatsApp, não dinheiro perdido.
+   ========================================================================= */
+
+const RETIRADA = {
+  ativo: true,
+  cidade: "Marechal Cândido Rondon",
+  uf: "PR",
+
+  // Faixa de CEP do município, conferida um prefixo por vez no ViaCEP em
+  // 09/09/2026: 85955 é Maripá, 85960 a 85977 são todos Marechal, e 85980 já
+  // é Guaíra. A faixa abaixo cobre o bloco inteiro com folga nas duas pontas
+  // até o vizinho.
+  //
+  // A conferência é por faixa numérica, e não por consulta ao ViaCEP, de
+  // propósito: consulta externa no caminho do pagamento é uma dependência que
+  // pode cair, e aí sobraria escolher entre travar a venda ou liberar sem
+  // conferir. Faixa de CEP é alocação dos Correios e praticamente não muda.
+  cepDe: 85960000,
+  cepAte: 85979999,
+  // Rótulo da caixinha no checkout.
+  rotulo: "Sou de Marechal Cândido Rondon (PR) e quero retirar em mãos",
+  local: "Unioeste",
+  // O aviso que aparece quando a pessoa marca. O telefone NÃO é escrito aqui:
+  // quem monta a frase pega de ATELIE.whatsapp, para existir um número só no
+  // site inteiro. Repetir o número aqui seria criar um segundo lugar para
+  // errar quando ele mudar.
+  aviso:
+    "Retire seu pedido na Unioeste. Para mais informações ou em caso de dúvidas, entre em contato com a Milena.",
+};
+
+/* O CEP é de Marechal? É isto que decide se a retirada vale, no navegador e
+   no servidor — os dois chamam esta mesma função. */
+function cepEhDaCidadeDaRetirada(cep) {
+  const digitos = String(cep || "").replace(/\D/g, "");
+  if (digitos.length !== 8) return false;
+  const n = Number(digitos);
+  return n >= RETIRADA.cepDe && n <= RETIRADA.cepAte;
+}
 
 const UF_POR_REGIAO = {
   norte: ["AC", "AP", "AM", "PA", "RO", "RR", "TO"],
@@ -490,14 +711,19 @@ function regiaoPorUF(uf) {
 }
 
 /* Frete de um pedido. Devolve 0 quando é grátis, null quando a UF é inválida. */
-/* O frete grátis é decidido pelo valor das PEÇAS, antes dos descontos.
-   Se fosse depois, um desconto poderia derrubar o pedido abaixo do limite e
-   o frete reapareceria na tela — que é a pior surpresa possível num checkout. */
+/* Quando houver frete grátis de novo, quem decide é o valor das PEÇAS, antes
+   dos descontos. Se fosse depois, um desconto poderia derrubar o pedido abaixo
+   do limite e o frete reapareceria na tela — a pior surpresa de um checkout. */
 function fretePara(uf, subtotalSemDesconto) {
   const alvo = String(uf || "").trim().toUpperCase();
   const regiao = regiaoPorUF(alvo);
   if (!regiao) return null;
-  if (ENVIO.regioesComFreteGratis.includes(regiao) && subtotalSemDesconto >= ENVIO.gratisAcimaDe) return 0;
+  if (
+    ENVIO.gratisAcimaDe != null &&
+    ENVIO.regioesComFreteGratis.includes(regiao) &&
+    subtotalSemDesconto >= ENVIO.gratisAcimaDe
+  )
+    return 0;
   // Mesmo estado da origem sai mais barato que o resto da região. O mapa de
   // regiões continua sendo só geografia: quem sabe de onde a peça sai é o
   // ENVIO.origem, não o UF_POR_REGIAO.
@@ -559,13 +785,42 @@ const DESCONTOS = {
   },
   pix: {
     ativo: true,
-    percentual: 5,
+    percentual: 7,
     rotulo: "Desconto no Pix",
   },
-  // true  = os dois somam (10% + 5% = 15%)
+  // true  = os dois somam (10% + 7% = 17%)
   // false = vale só o maior dos dois
   acumulam: true,
 };
+
+/* =========================================================================
+   Brinde por valor de compra
+
+   A barrinha do checkout ("Adicione R$ X e ganhe um brinde") lê daqui.
+
+   A conta é sobre o SUBTOTAL das peças, antes dos descontos — de propósito.
+   Se fosse depois, aplicar o desconto do Pix poderia derrubar o pedido
+   abaixo dos 150 e o brinde sumiria da tela depois de já ter aparecido, que
+   é exatamente o tipo de surpresa que faz gente desistir da compra. É a
+   mesma regra que o frete grátis usava quando existia.
+   ========================================================================= */
+
+const BRINDE = {
+  ativo: true,
+  aPartirDe: 150,
+};
+
+/* Quanto falta para o brinde, e se já ganhou.
+   `null` em falta significa "não há brinde configurado" — aí a tela não
+   desenha barra nenhuma, em vez de desenhar uma barra sempre cheia. */
+function brindePara(subtotalSemDesconto) {
+  if (!BRINDE.ativo || !(BRINDE.aPartirDe > 0)) {
+    return { ativo: false, ganhou: false, falta: null, aPartirDe: null };
+  }
+  const subtotal = Number(subtotalSemDesconto) || 0;
+  const falta = arredondar(Math.max(0, BRINDE.aPartirDe - subtotal));
+  return { ativo: true, ganhou: falta === 0, falta, aPartirDe: BRINDE.aPartirDe };
+}
 
 const arredondar = (valor) => Math.round(valor * 100) / 100;
 
@@ -595,9 +850,9 @@ function calcularDescontos({ subtotal, metodo, primeiraCompra }) {
     ? candidatos
     : [candidatos.reduce((a, b) => (b.percentual > a.percentual ? b : a))];
 
-  // Percentuais somados sobre o subtotal, não em cascata: 10% + 5% tira 15%
-  // do valor cheio, e não 5% do que sobrou depois dos 10%. É o que a cliente
-  // quis dizer e é o que o cliente espera ao ler "10% + 5%".
+  // Percentuais somados sobre o subtotal, não em cascata: 10% + 7% tira 17%
+  // do valor cheio, e não 7% do que sobrou depois dos 10%. É o que a cliente
+  // quis dizer e é o que o cliente espera ao ler "10% + 7%".
   return escolhidos.map((d) => ({
     ...d,
     valor: arredondar((subtotal * d.percentual) / 100),
@@ -618,6 +873,10 @@ if (typeof module !== "undefined" && module.exports) {
     TAGS,
     CARTELA,
     ENVIO,
+    RETIRADA,
+    cepEhDaCidadeDaRetirada,
+    BRINDE,
+    brindePara,
     UF_POR_REGIAO,
     UFS,
     PAGAMENTO,
@@ -626,6 +885,7 @@ if (typeof module !== "undefined" && module.exports) {
     linkWhatsApp,
     formatarPreco,
     produtoPorSlug,
+    produtosVisiveis,
     caminhoImagem,
     precoPara,
     regiaoPorUF,

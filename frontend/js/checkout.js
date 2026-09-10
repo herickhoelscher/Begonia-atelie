@@ -97,8 +97,76 @@ function itensCompraveis() {
   return Favoritos.separados().compraveis;
 }
 
+function retiradaMarcada() {
+  const caixa = document.getElementById("c-retirada");
+  return Boolean(caixa && caixa.checked);
+}
+
 function ufEscolhida() {
+  // Na retirada a UF nao vem do formulario: o campo esta escondido e vazio.
+  // Devolver a UF do atelie aqui evita que o resumo fique preso em
+  // "Informe o CEP" para quem vai buscar a peca em maos.
+  if (retiradaMarcada()) return RETIRADA.uf;
   return document.getElementById("c-estado").value;
+}
+
+/* A opcao de retirar so existe para quem digitou um CEP de Marechal.
+   Quem e de fora nunca ve a caixinha -- e se ela ja estava marcada e o CEP
+   mudou para outra cidade, desmarcamos na hora, senao o frete continuaria
+   zerado na tela ate o servidor recusar la na frente. */
+function avaliarCepParaRetirada() {
+  const caixa = document.getElementById("c-retirada");
+  const rotulo = document.getElementById("c-retirada-caixa");
+  const elegivel = cepEhDaCidadeDaRetirada(document.getElementById("c-cep").value);
+
+  rotulo.classList.toggle("hidden", !elegivel);
+  rotulo.classList.toggle("flex", elegivel);
+
+  if (!elegivel && caixa.checked) {
+    caixa.checked = false;
+    aplicarRetirada();
+    return true; // mudou: quem chamou precisa refazer a conta
+  }
+  return false;
+}
+
+/* Liga e desliga o modo retirada: esconde o resto do endereco, tira o
+   `required` desses campos (senao o formulario nunca envia, travado num campo
+   invisivel) e mostra o aviso da Unioeste com o WhatsApp da Milena.
+   O CEP fica de fora disso: continua visivel e obrigatorio nos dois modos. */
+function aplicarRetirada() {
+  const ligada = retiradaMarcada();
+  const campos = document.getElementById("c-campos-endereco");
+  const aviso = document.getElementById("c-retirada-aviso");
+
+  campos.classList.toggle("hidden", ligada);
+  campos.querySelectorAll("input, select").forEach((el) => {
+    if (el.id === "c-complemento") return; // ja era opcional
+    if (ligada) {
+      // Guarda que ELE era obrigatorio, para devolver certo ao desmarcar.
+      if (el.required) el.dataset.eraObrigatorio = "1";
+      el.required = false;
+    } else if (el.dataset.eraObrigatorio) {
+      el.required = true;
+    }
+  });
+
+  if (ligada) {
+    const msg = `Olá! Vou retirar meu pedido na ${RETIRADA.local}. Pode me passar as informações?`;
+    aviso.innerHTML = `
+      <p class="text-body-md text-on-surface mb-2">
+        <strong>Retire seu pedido na ${RETIRADA.local}.</strong>
+      </p>
+      <p class="text-body-md text-on-surface-variant">
+        Para mais informações ou em caso de dúvidas, entre em contato com a Milena
+        <a href="${linkWhatsApp(msg)}" target="_blank" rel="noopener"
+           class="text-primary underline underline-offset-4 hover:no-underline">pelo WhatsApp</a>.
+      </p>`;
+    aviso.classList.remove("hidden");
+  } else {
+    aviso.classList.add("hidden");
+  }
+  atualizarPassos();
 }
 
 /* A conta é do servidor. Guardamos aqui a última resposta de /api/orcamento
@@ -135,6 +203,9 @@ async function pedirOrcamento() {
     estado: ufEscolhida(),
     metodo: metodoDeclarado(),
     email: document.getElementById("c-email").value.trim(),
+    retirada: retiradaMarcada(),
+    // Vai junto porque a retirada e decidida pelo CEP, no servidor.
+    cep: document.getElementById("c-cep").value,
   };
 
   clearTimeout(consultaPendente);
@@ -207,8 +278,15 @@ function renderizarResumo() {
     aviso.classList.add("hidden");
   }
 
+  desenharBrinde();
+
   const campoFrete = document.getElementById("c-frete");
-  if (frete === null) {
+  // Retirada nao e frete zerado, e ausencia de envio. Escrever "Grátis" aqui
+  // faria parecer promocao de frete, e a pessoa esperaria receber em casa.
+  if (ORCAMENTO && ORCAMENTO.retirada) {
+    campoFrete.textContent = `Retirada na ${RETIRADA.local}`;
+    campoFrete.className = "text-right text-secondary font-semibold";
+  } else if (frete === null) {
     campoFrete.textContent = "Informe o CEP";
     campoFrete.className = "text-right text-on-surface-variant";
   } else if (frete === 0) {
@@ -220,6 +298,38 @@ function renderizarResumo() {
   }
 
   document.getElementById("c-total").textContent = total === null ? "—" : formatarPreco(total);
+}
+
+/* Barra do brinde: "Adicione R$ X e ganhe um brinde".
+
+   Quem calcula quanto falta e o servidor (brindePara, em dados.js), pelo
+   SUBTOTAL das pecas. O navegador so desenha o que veio. Enquanto o servidor
+   nao responde, a barra fica escondida em vez de aparecer chutada. */
+function desenharBrinde() {
+  const caixa = document.getElementById("c-brinde");
+  const brinde = ORCAMENTO && ORCAMENTO.brinde;
+
+  if (!brinde || !brinde.ativo) {
+    caixa.classList.add("hidden");
+    return;
+  }
+
+  const alvo = brinde.aPartirDe;
+  const feito = Math.max(0, alvo - brinde.falta);
+  const porcento = alvo > 0 ? Math.min(100, Math.round((feito / alvo) * 100)) : 0;
+
+  caixa.innerHTML = `
+    <p class="text-body-md text-on-surface mb-2">
+      ${
+        brinde.ganhou
+          ? "Você ganhou um brinde!"
+          : `Adicione ${formatarPreco(brinde.falta)} e ganhe um brinde!`
+      }
+    </p>
+    <div class="h-2 w-full rounded-full bg-outline-variant/40 overflow-hidden">
+      <div class="h-full rounded-full bg-secondary transition-[width] duration-300" style="width: ${porcento}%"></div>
+    </div>`;
+  caixa.classList.remove("hidden");
 }
 
 /* --- Progresso ---------------------------------------------------------- */
@@ -361,6 +471,7 @@ async function enviar(evento) {
   const corpo = {
     metodo,
     itens,
+    retirada: retiradaMarcada(),
     cliente: {
       nome: valor("c-nome"),
       email: valor("c-email"),
@@ -623,7 +734,11 @@ Podemos conversar sobre cores, medidas e prazo?`);
 
   // Máscaras.
   const cep = document.getElementById("c-cep");
-  cep.addEventListener("input", () => (cep.value = mascararCep(cep.value)));
+  cep.addEventListener("input", () => {
+    cep.value = mascararCep(cep.value);
+    // Mudou o CEP: a opcao de retirar aparece, some, ou e desmarcada.
+    if (avaliarCepParaRetirada()) pedirOrcamento();
+  });
   cep.addEventListener("blur", () => buscarCep(cep.value));
 
   const cpf = document.getElementById("c-cpf");
@@ -633,6 +748,14 @@ Podemos conversar sobre cores, medidas e prazo?`);
   tel.addEventListener("input", () => (tel.value = mascararTelefone(tel.value)));
 
   // Frete e progresso reagem ao que a pessoa preenche.
+  const caixaRetirada = document.getElementById("c-retirada");
+  caixaRetirada.addEventListener("change", () => {
+    aplicarRetirada();
+    pedirOrcamento(); // o frete some (ou volta) na hora
+  });
+  avaliarCepParaRetirada(); // o rascunho pode ter trazido um CEP
+  aplicarRetirada(); // estado inicial, respeitando o rascunho restaurado
+
   document.getElementById("c-estado").addEventListener("change", () => {
     pedirOrcamento();
     atualizarPassos();
