@@ -551,11 +551,7 @@ const PRODUTOS = [
   {
     slug: "tapete",
     nome: "Tapete Lavanda",
-    // CONFERIR com a Milena: o preço do tapete nunca foi informado. Enquanto
-    // ficar em 0, a peça aparece no site mas não entra no carrinho — é a
-    // trava do podeComprarOnline, que existe para nunca cobrar valor que
-    // ninguém definiu.
-    preco: 0,
+    preco: 69.9,
     categoria: "decoracao",
     disponibilidade: "pronta",
     destaque: false,
