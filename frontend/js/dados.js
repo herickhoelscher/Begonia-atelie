@@ -43,6 +43,24 @@ const CATEGORIAS = [
   { id: "acessorios", nome: "Acessórios" },
 ];
 
+/* Cartela do MACRAME.
+
+   A CARTELA de baixo tem 53 cores e e do fio de croche. O fio de macrame nao
+   vem nelas: sao tres cores, e so. Antes as pecas de macrame saiam com
+   `personalizavel: false` justamente para nao oferecerem as 53 cores do
+   croche numa peca que nunca teria 50 delas.
+
+   Fica declarada ANTES de PRODUTOS de proposito: as pecas referenciam
+   CORES_MACRAME dentro do array, e `const` nao sobe -- declarar depois quebra
+   o arquivo inteiro com "Cannot access before initialization".
+
+   Os hex sao aproximacao para o quadradinho da tela. O fio de verdade manda. */
+const CORES_MACRAME = [
+  { nome: "Verde Oliva", cor: "#4a5d32" },
+  { nome: "Terracota", cor: "#b5533a" },
+  { nome: "Branco Off-White", cor: "#f2ece1" },
+];
+
 /* Preço por quantidade: ela vende sousplat em jogo, com valor melhor por peça.
    A chave é a quantidade mínima daquele degrau. Quem leva 3 paga o jogo de 2
    mais uma avulsa — ver precoPara() em dados.js. */
@@ -174,6 +192,7 @@ const PRODUTOS = [
     disponibilidade: "encomenda",
     destaque: true,
     tags: [],
+    cores: CORES_MACRAME,
     fotos: ["porta-retrato-macrame-01-na-parede.jpeg"],
     alt: "Porta-retrato de macramê em corda crua pendurado na parede, segurando duas fotos polaroid.",
     resumo: "Macramê de cerca de 60 cm que segura duas polaroids.",
@@ -196,6 +215,7 @@ const PRODUTOS = [
     disponibilidade: "encomenda",
     destaque: false,
     tags: [],
+    cores: CORES_MACRAME,
     fotos: [
       "porta-retrato-macrame-02-avulso.jpeg",
       "porta-retrato-macrame-03-avulso.jpeg",
@@ -239,6 +259,7 @@ const PRODUTOS = [
     disponibilidade: "encomenda",
     destaque: false,
     tags: [],
+    cores: CORES_MACRAME,
     fotos: ["painel-macrame-verde-01-na-parede.jpeg"],
     alt: "Painel de macramê em verde sálvia com nós geométricos e franja, pendurado em bastão de madeira.",
     resumo: "Losango em bastão de 20 cm, com cerca de 55 cm de comprimento.",
@@ -264,10 +285,7 @@ const PRODUTOS = [
     disponibilidade: "encomenda",
     destaque: true,
     tags: ["novo"],
-    // O fio do macramê não sai da cartela de crochê: o que existe é o cru das
-    // fotos e o verde da última. Enquanto não houver uma cartela própria do
-    // macramê, a peça é vendida sem escolha de cor no site.
-    personalizavel: false,
+    cores: CORES_MACRAME,
     fotos: [
       "prateleira-01-na-cozinha.jpeg",
       "prateleira-02-cozinha-detalhe.jpeg",
@@ -301,7 +319,7 @@ const PRODUTOS = [
     disponibilidade: "encomenda",
     destaque: true,
     tags: ["novo"],
-    personalizavel: false,
+    cores: CORES_MACRAME,
     fotos: [
       "prateleira-quadrada-01-na-parede.jpeg",
       "prateleira-quadrada-02-ambiente.jpeg",
@@ -435,6 +453,128 @@ const PRODUTOS = [
     prazo: "Produção sob encomenda",
   },
 
+  {
+    slug: "painel-organizador",
+    nome: "Painel Organizador",
+    preco: 90,
+    categoria: "decoracao",
+    disponibilidade: "encomenda",
+    destaque: true,
+    tags: ["novo"],
+    cores: CORES_MACRAME,
+    fotos: [
+      "painel-organizador-01-na-geladeira.jpeg",
+      "painel-organizador-02-na-parede.jpeg",
+      "painel-organizador-03-detalhe.jpeg",
+      "painel-organizador-04-cavilhas.jpeg",
+    ],
+    alt: "Painel organizador de macramê em fio cru, preso na lateral da geladeira, com papel toalha numa cavilha e pano de prato na outra.",
+    resumo: "Cavilha fixa em cima e duas removíveis de 45 cm, na altura que você quiser.",
+    descricao:
+      "Peça prática para deixar a cozinha organizada aproveitando espaço que normalmente não seria usado. A cavilha de cima é fixa; as duas de 45 cm saem e entram na altura que você preferir — dois rolos de papel toalha, um rolo e um pano de prato, ou só uma cavilha quando a outra não faz falta. A alça é ajustável: regula a altura e prende num parafuso ou apoia num móvel, como ao lado da geladeira com um vaso segurando a ponta.",
+    materiais: ["Fio de macramê 85% algodão", "Cavilha fixa na parte de cima", "Duas cavilhas removíveis de 45 cm", "Alça ajustável"],
+    medidas: "Cavilhas removíveis de 45 cm. A altura total depende de como a alça for regulada.",
+    cuidados: [
+      "Limpar com pano levemente úmido ou esponja mágica, de leve",
+      "Passar delicadamente no macramê e na madeira",
+      "Evitar produtos abrasivos e excesso de água",
+    ],
+    prazo: "Produção sob encomenda",
+  },
+  {
+    /* CONFERIR com a Milena: existem DOIS paineis no catalogo agora. Este e o
+       grande (bastao de 45 cm, franja em V, cru) e o outro e o "Painel Macrame
+       Losango" (bastao de 20 cm, verde), que continua sem preco. Se forem a
+       mesma peca em tamanhos diferentes, vale unificar o nome. */
+    slug: "painel-macrame-grande",
+    nome: "Painel de Macramê",
+    preco: 90,
+    categoria: "decoracao",
+    disponibilidade: "encomenda",
+    destaque: true,
+    tags: ["novo"],
+    cores: CORES_MACRAME,
+    fotos: ["painel-macrame-grande-01.jpeg", "painel-macrame-grande-02-detalhe.jpeg"],
+    alt: "Painel decorativo de macramê em fio cru, com desenho em V e franja longa, pendurado num bastão de madeira.",
+    resumo: "Painel decorativo de 45 cm de largura, com franja longa.",
+    descricao:
+      "Painel feito à mão para dar aquele toque a mais na decoração e deixar o ambiente mais aconchegante. Serve em vários ambientes: preenche espaço vazio, completa uma parede ou incrementa aquele cantinho que estava faltando alguma coisa. Por ser artesanal, pequenas variações acontecem — cada painel sai único.",
+    materiais: ["Fio de macramê 85% algodão", "Bastão de madeira", "Franja no acabamento"],
+    medidas: "45 cm de largura. Cerca de 70 cm de comprimento total, da alça até a ponta — da cavilha até a ponta são aproximadamente 45 cm.",
+    cuidados: [
+      "Não lavar",
+      "Limpar só com pano levemente úmido, de leve no macramê e na madeira",
+      "Evitar produtos abrasivos e excesso de água",
+    ],
+    prazo: "Produção sob encomenda",
+  },
+  {
+    slug: "suporte-papel-toalha",
+    nome: "Suporte Simples para Papel Toalha",
+    preco: 34.9,
+    categoria: "decoracao",
+    disponibilidade: "encomenda",
+    destaque: false,
+    tags: ["novo"],
+    cores: CORES_MACRAME,
+    fotos: [
+      "suporte-papel-toalha-01-com-papel.jpeg",
+      "suporte-papel-toalha-02-com-pano.jpeg",
+      "suporte-papel-toalha-03-detalhe.jpeg",
+      "suporte-papel-toalha-04-com-pano-detalhe.jpeg",
+      "suporte-papel-toalha-05-argola.jpeg",
+    ],
+    alt: "Suporte de macramê em fio cru com argola de madeira no topo e cavilha embaixo, segurando um rolo de papel toalha.",
+    resumo: "Argola e cavilha de 33 cm. Ocupa pouquíssimo espaço.",
+    descricao:
+      "Feito para quem precisa de praticidade e não tem muito espaço. Na cozinha segura o papel toalha ou o pano de prato; no banheiro, uma toalha de rosto. A argola no topo prende na parede e a cavilha embaixo é onde a peça se apoia. Por ser compacto, cabe em cantinhos que normalmente ficariam sem uso.",
+    materiais: ["Fio de macramê 85% algodão", "Argola de madeira para fixação", "Cavilha de 33 cm"],
+    medidas: "Cavilha de 33 cm. Da argola até a ponta, aproximadamente 40 a 43 cm — por ser artesanal, varia um pouco.",
+    cuidados: [
+      "Limpar com pano levemente úmido ou esponja mágica, de leve",
+      "Evitar produtos abrasivos e excesso de água",
+      "Não deixar de molho nem lavar direto na água",
+    ],
+    prazo: "Produção sob encomenda",
+  },
+  {
+    /* O kit e uma peca propria no catalogo, e nao dois slugs amarrados.
+       Assim o preco de 180 e um numero so, que o servidor cobra e o cliente
+       ve -- sem precisar de logica de "se levou A e B, desconta C", que e
+       onde esse tipo de promocao costuma divergir entre tela e cobranca.
+
+       A conta: prateleira 120 + organizador 90 = 210. O kit sai 180, ou seja
+       30 reais abaixo. Mudar o preco de uma das duas pecas NAO muda este
+       numero -- se mexer nelas, revise aqui. */
+    slug: "kit-prateleira-organizador",
+    nome: "Kit Prateleira + Painel Organizador",
+    preco: 180,
+    categoria: "decoracao",
+    disponibilidade: "encomenda",
+    destaque: true,
+    tags: ["novo"],
+    cores: CORES_MACRAME,
+    fotos: [
+      "prateleira-01-na-cozinha.jpeg",
+      "painel-organizador-01-na-geladeira.jpeg",
+      "prateleira-03-no-banheiro.jpeg",
+      "painel-organizador-02-na-parede.jpeg",
+    ],
+    alt: "Prateleira de macramê de três níveis ao lado do painel organizador, os dois em fio cru na cozinha.",
+    resumo: "A Prateleira de Macramê e o Painel Organizador juntos, por R$ 30 a menos.",
+    descricao:
+      "As duas peças da cozinha no mesmo pedido: a Prateleira de Macramê, com três níveis de madeira e tábua de 40 × 15 cm, e o Painel Organizador, com cavilha fixa e duas removíveis de 45 cm. Separadas sairiam R$ 210. As duas vão na mesma cor, escolhida na compra.",
+    materiais: ["Prateleira de Macramê (tábua de 40 × 15 cm)", "Painel Organizador (cavilhas de 45 cm)", "Fio de macramê 85% algodão"],
+    medidas: "Prateleira: madeira de 40 × 15 cm, altura total de aproximadamente 80 cm. Painel: cavilhas removíveis de 45 cm, altura conforme a alça.",
+    cuidados: [
+      "Limpar com pano levemente úmido ou esponja mágica, de leve",
+      "A madeira pode molhar no dia a dia, mas não deixe encharcada nem na chuva",
+      "Evitar produtos abrasivos, excesso de água e sol direto prolongado",
+      "Com o uso o fio laceia um pouco — é característica do macramê",
+    ],
+    prazo: "Produção sob encomenda",
+  },
+
   /* ------------------------------------------------------------- TESTE
      Peça de teste, para conferir de ponta a ponta que a venda funciona:
      cobrança, webhook e e-mail de aviso.
@@ -545,6 +685,17 @@ const CARTELA = [
   { nome: "Castanho", cor: "#6e6152" },
   { nome: "Bege", cor: "#d9c3a5" },
 ];
+
+/* Quais cores esta peca aceita.
+
+   Peca com `cores` propria usa a dela; o resto usa a cartela do croche. E o
+   mesmo calculo na tela e no servidor -- por isso mora aqui, e nao em cada
+   um dos dois. */
+function coresDe(produto) {
+  return produto && Array.isArray(produto.cores) && produto.cores.length
+    ? produto.cores
+    : CARTELA;
+}
 
 function produtoPorSlug(slug) {
   return PRODUTOS.find((p) => p.slug === slug) || null;
@@ -872,6 +1023,8 @@ if (typeof module !== "undefined" && module.exports) {
     PRODUTOS,
     TAGS,
     CARTELA,
+    CORES_MACRAME,
+    coresDe,
     ENVIO,
     RETIRADA,
     cepEhDaCidadeDaRetirada,

@@ -433,6 +433,37 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
     CATALOGO.pop();
   }
 
+  console.log("\n== Cartela do macrame: 3 cores, nao 53 ==");
+  {
+    const { CORES_MACRAME, CARTELA, coresDe } = require(path.join(RAIZ, "frontend/js/dados.js"));
+    checar("sao exatamente tres", CORES_MACRAME.length === 3, CORES_MACRAME.map((c) => c.nome));
+    checar("verde oliva, terracota e off-white",
+      CORES_MACRAME.map((c) => c.nome).join(",") === "Verde Oliva,Terracota,Branco Off-White");
+
+    CATALOGO.push({
+      slug: "peca-macrame", nome: "Macrame", preco: 90, categoria: "decoracao",
+      disponibilidade: "encomenda", destaque: false, tags: [], cores: CORES_MACRAME,
+      fotos: [], alt: "", resumo: "", descricao: "", materiais: [], medidas: "", cuidados: [], prazo: "",
+    });
+    checar("peca de macrame usa a cartela dela", coresDe(CATALOGO[CATALOGO.length - 1]).length === 3);
+    checar("peca de croche continua com as 53", coresDe(CATALOGO[0]).length === CARTELA.length);
+
+    // O ponto do teste: antes a cor era conferida contra a CARTELA global, e
+    // uma peca de macrame aceitaria "Amarelo Neon" -- cor que so existe no fio
+    // de croche e que ela nao tem como produzir em macrame.
+    const { validarItens } = require(path.join(RAIZ, "backend/lib/validacao.js"));
+    const comCor = (slug, cor) => validarItens([{ slug, quantidade: 1, cor }], 5).itens[0].cor;
+
+    checar("macrame aceita Terracota", comCor("peca-macrame", "Terracota") === "Terracota");
+    checar("macrame RECUSA cor do croche", comCor("peca-macrame", "Amarelo Neon") === null);
+    checar("croche aceita Amarelo Neon", comCor("cardigan-outono", "Amarelo Neon") === "Amarelo Neon");
+    checar("croche recusa cor inventada", comCor("cardigan-outono", "Roxo Fluorescente") === null);
+    // Slug desconhecido cai na cartela do croche e a cor e descartada de
+    // qualquer jeito -- montarPedido recusa a peca logo depois.
+    checar("slug desconhecido nao quebra", comCor("nao-existe", "Terracota") === null);
+    CATALOGO.pop();
+  }
+
   console.log(`\n${passou} passaram, ${falhou} falharam\n`);
   process.exit(falhou ? 1 : 0);
 })();

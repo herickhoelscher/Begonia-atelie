@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
                  <label class="field-label" for="cor-produto">Cor do fio</label>
                  <select id="cor-produto" class="field">
                    <option value="">Escolha a cor</option>
-                   ${CARTELA.map((c) => `<option value="${c.nome}">${c.nome}</option>`).join("")}
+                   ${coresDe(p).map((c) => `<option value="${c.nome}">${c.nome}</option>`).join("")}
                  </select>
                  <p id="cor-aviso" class="erro-campo hidden">Escolha a cor antes de continuar.</p>
                </div>`
