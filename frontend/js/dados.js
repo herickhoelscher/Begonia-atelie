@@ -187,16 +187,47 @@ const PRODUTOS = [
     tags: [],
     fotos: ["almofada-granny-square-01-no-sofa.jpeg", "almofada-granny-square-02.jpeg"],
     alt: "Capa de almofada de crochê em granny square com terracota, rosa, verde e cru, sobre sofá cinza.",
-    resumo: "Crochê 40 × 40 cm, em até 4 cores. Só a capa — o enchimento não vai junto.",
-    descricao:
-      "Feita à mão em crochê, para trazer mais aconchego e personalidade para a decoração. Você escolhe a cor na hora da compra, entre até quatro. Atrás tem um fechamento regulável, que facilita pôr o enchimento e deixa ajustar a amarração. Por ser artesanal, pequenas variações acontecem — cada capa sai única.",
-    materiais: ["Fio de algodão", "Até 4 cores à sua escolha", "Fechamento regulável nas costas"],
+    resumo: "Capa de almofada feita à mão em crochê, perfeita para trazer mais aconchego e personalidade para a decoração.",
+    descricao: "Importante: este produto é somente a capa da almofada. O enchimento não acompanha.",
+    materiais: [
+      "Feita em crochê",
+      "Disponível em até 4 cores",
+      "Fechamento regulável na parte de trás",
+    ],
     medidas: "40 × 40 cm. Enchimento não incluso.",
     cuidados: [
-      "O ideal é lavar à mão, com sabão neutro",
-      "Máquina só no modo delicado — existe risco de encolher",
-      "Secar na horizontal",
-      "Não torcer",
+      "O ideal é lavar à mão, utilizando sabão neutro, para conservar melhor a peça",
+      "Também pode ser lavada na máquina, desde que no modo delicado",
+      "Existe o risco de encolhimento nesse tipo de lavagem, por isso não nos responsabilizamos caso a peça encolha",
+    ],
+    secoes: [
+      {
+        titulo: "Detalhes da peça",
+        itens: [
+          "Tamanho: 40 x 40 cm",
+          "Feita em crochê",
+          "Disponível em até 4 cores",
+          "Você pode escolher a cor desejada no momento da compra",
+          "Fechamento regulável na parte de trás, facilitando a colocação do enchimento e permitindo ajustar a amarração",
+        ],
+      },
+      {
+        paragrafos: [
+          "Por ser uma peça artesanal, pequenas variações podem acontecer, tornando cada capa única.",
+        ],
+      },
+      {
+        titulo: "Cuidados com a lavagem",
+        paragrafos: [
+          "O ideal é lavar à mão, utilizando sabão neutro, para conservar melhor a peça.",
+          "Também pode ser lavada na máquina, desde que no modo delicado. Porém, existe o risco de encolhimento nesse tipo de lavagem, por isso não nos responsabilizamos caso a peça encolha.",
+        ],
+      },
+      {
+        paragrafos: [
+          "É também uma ótima opção para presentear.",
+        ],
+      },
     ],
     prazo: "Produção sob encomenda",
   },
@@ -211,15 +242,30 @@ const PRODUTOS = [
     cores: CORES_MACRAME,
     fotos: ["porta-retrato-macrame-01-na-parede.jpeg"],
     alt: "Porta-retrato de macramê em corda crua pendurado na parede, segurando duas fotos polaroid.",
-    resumo: "Macramê de cerca de 60 cm que segura duas polaroids.",
-    descricao:
-      "Feito à mão em macramê, para deixar as fotos favoritas expostas de um jeito diferente e delicado. Os nós de coração emolduram duas polaroids sem cola e sem prego na foto — ela entra e sai quando você quiser trocar. Por ser feito à mão, cada porta-retrato sai único.",
-    materiais: ["Fio de macramê 85% algodão", "Nós de coração", "Franja no acabamento"],
-    medidas: "Aproximadamente 60 cm de comprimento total. Cabem 2 fotos polaroid de 8 × 10 cm.",
+    resumo: "Porta-retrato em formato de coração feito à mão em macramé, pensado para deixar suas fotos favoritas expostas de um jeito diferente e delicado.",
+    descricao: "A peça comporta duas fotos no tamanho Polaroid 8 x 10 cm.",
+    materiais: [
+      "Macramê feito com fio 85% algodão",
+    ],
+    medidas: "Comprimento total: aproximadamente 60 cm, do início ao fim da peça. Capacidade: 2 fotos Polaroid de 8 x 10 cm.",
     cuidados: [
-      "Lavar delicadamente à mão",
-      "Esponja mágica passada de leve tira sujeira pequena",
-      "Não esfregar com força, para não deformar os fios",
+      "Para a limpeza, o ideal é lavar delicadamente à mão",
+      "Também pode ser utilizada uma esponjinha mágica, passando-a delicadamente sobre o macramê para remover pequenas sujeiras",
+      "Evite esfregar com força para não danificar ou deformar os fios",
+    ],
+    secoes: [
+      {
+        titulo: "Cuidados com a peça",
+        paragrafos: [
+          "Para a limpeza, o ideal é lavar delicadamente à mão.",
+          "Também pode ser utilizada uma esponjinha mágica, passando-a delicadamente sobre o macramê para remover pequenas sujeiras. Evite esfregar com força para não danificar ou deformar os fios.",
+        ],
+      },
+      {
+        paragrafos: [
+          "Por ser uma peça feita à mão, pequenas variações podem acontecer, tornando cada porta-retrato único.",
+        ],
+      },
     ],
     prazo: "Produção sob encomenda",
   },
@@ -256,14 +302,41 @@ const PRODUTOS = [
     tags: [],
     fotos: ["mobile-espiral-01-ambiente.jpeg"],
     alt: "Catavento de crochê em espiral pendurado perto da janela, girando com a luz do fim da tarde.",
-    resumo: "Gira de verdade com o vento. Cerca de 40 cm, em até 3 cores.",
-    descricao:
-      "É só pendurar e deixar o vento fazer o trabalho: conforme ele bate, a peça fica girando. Com uns 40 cm, é maior do que parece e cabe em vários cantos da casa. Na parte de baixo vem uma ponteira, que fecha a peça.",
-    materiais: ["Fio de algodão", "Até 3 cores à sua escolha", "Ponteira na parte inferior"],
+    resumo: "Um catavento feito à mão em crochê que realmente se movimenta com o vento. É só pendurar e deixar o vento fazer o trabalho: conforme ele bate, a peça fica girando.",
+    descricao: "Com aproximadamente 40 cm, é uma peça maior que pode ser pendurada em diferentes lugares, trazendo movimento e um toque diferente para a decoração. Na parte inferior, acompanha uma ponteira para completar a peça.",
+    materiais: [
+      "Feito à mão em crochê",
+      "Pode ser feito em até 3 cores",
+      "Acompanha ponteira na parte inferior",
+    ],
     medidas: "Aproximadamente 40 cm.",
     cuidados: [
-      "Lavar só à mão, com sabão neutro e de forma delicada",
-      "Não lavar na máquina — o movimento deforma a peça",
+      "A lavagem deve ser feita somente à mão, com sabão neutro e de forma delicada",
+      "Não é recomendado lavar na máquina, pois o movimento e a força da lavagem podem deformar ou danificar a peça",
+    ],
+    secoes: [
+      {
+        titulo: "Detalhes da peça",
+        itens: [
+          "Tamanho: aproximadamente 40 cm",
+          "Feito à mão em crochê",
+          "Pode ser feito em até 3 cores",
+          "Acompanha ponteira na parte inferior",
+          "Pode ser pendurado em diferentes ambientes",
+        ],
+      },
+      {
+        titulo: "Cuidados com a peça",
+        paragrafos: [
+          "A lavagem deve ser feita somente à mão, com sabão neutro e de forma delicada.",
+          "Não é recomendado lavar na máquina, pois o movimento e a força da lavagem podem deformar ou danificar a peça.",
+        ],
+      },
+      {
+        paragrafos: [
+          "Por ser uma peça artesanal, pequenas variações podem acontecer.",
+        ],
+      },
     ],
     prazo: "Produção sob encomenda",
   },
@@ -278,14 +351,29 @@ const PRODUTOS = [
     cores: CORES_MACRAME,
     fotos: ["painel-macrame-verde-01-na-parede.jpeg"],
     alt: "Painel de macramê em verde sálvia com nós geométricos e franja, pendurado em bastão de madeira.",
-    resumo: "Losango em bastão de 20 cm, com cerca de 55 cm de comprimento.",
-    descricao:
-      "Feito à mão em macramê, para preencher aquele cantinho vazio da casa ou dar um toque especial a espaços menores. Os nós desenham um losango no meio e a franja fecha embaixo. O tamanho compacto combina com estilos diferentes e funciona sozinho ou junto de outros elementos.",
-    materiais: ["Fio de macramê 85% algodão", "Bastão de madeira", "Franja no acabamento"],
-    medidas: "Bastão de madeira de 20 cm. Comprimento total de aproximadamente 55 cm, do ponto onde a peça é pendurada até o fim do painel.",
+    resumo: "Painel feito à mão em macramê, ideal para preencher aquele cantinho vazio da casa ou dar um toque especial a espaços menores.",
+    descricao: "Com um tamanho compacto, ele combina facilmente com diferentes estilos de decoração e pode ser usado sozinho ou junto com outros elementos decorativos.",
+    materiais: [
+      "Fio 85% algodão",
+      "Bastão de madeira",
+    ],
+    medidas: "Bastão de madeira: 20 cm. Comprimento total: aproximadamente 55 cm, medidos desde o ponto onde a peça é pendurada até o final do painel.",
     cuidados: [
-      "Não lavar",
-      "Limpar só com pano levemente úmido, passando de leve nos fios",
+      "Não é recomendado lavar",
+      "Para a limpeza, utilize apenas um pano levemente úmido, passando delicadamente sobre os fios",
+    ],
+    secoes: [
+      {
+        titulo: "Cuidados com a peça",
+        paragrafos: [
+          "Não é recomendado lavar. Para a limpeza, utilize apenas um pano levemente úmido, passando delicadamente sobre os fios.",
+        ],
+      },
+      {
+        paragrafos: [
+          "Por ser uma peça artesanal, pequenas variações podem acontecer, tornando cada painel único.",
+        ],
+      },
     ],
     prazo: "Produção sob encomenda",
   },
@@ -313,17 +401,69 @@ const PRODUTOS = [
       "prateleira-macrame-punho-de-rede.jpeg",
     ],
     alt: "Prateleira de macramê de três níveis, em madeira e fio cru, pendurada na parede da cozinha com potes de mantimentos e um vaso de planta.",
-    resumo: "Três níveis de madeira em macramê, tábua de 40 × 15 cm.",
-    descricao:
-      "Une madeira e macramê numa peça que decora e organiza ao mesmo tempo. Serve no banheiro, no quarto, na sala, no escritório ou na cozinha, para plantas, objetos de decoração e coisas leves do dia a dia. O punho de rede no topo pendura num gancho bem fixado na parede — ela foi feita para ficar rente à parede, e não solta no meio do ambiente, senão inclina. O peso pede bom senso: nada pesado demais, nem tudo concentrado num nível só, senão o fio laceia.",
-    materiais: ["Madeira", "Fio para macramê com 85% algodão", "Punho de rede para instalação"],
-    medidas: "Madeira de 40 × 15 cm. Altura total de aproximadamente 80 cm, com 30 cm até o primeiro nível e cerca de 20 cm entre os demais.",
+    resumo: "Uma peça feita à mão para deixar seu espaço mais bonito, organizado e funcional.",
+    descricao: "A prateleira une madeira e macramê em uma peça versátil, que pode ser usada em diferentes ambientes da casa para acomodar objetos decorativos e itens do dia a dia.",
+    materiais: [
+      "Madeira",
+      "Fio para macramê com 85% algodão",
+      "Punho de rede para instalação",
+    ],
+    medidas: "Madeira: 40 × 15 cm. Altura total: aproximadamente 80 cm. Distância do primeiro nível: 30 cm. Distância entre os demais níveis: aproximadamente 20 cm. Por ser uma peça artesanal, pequenas variações nas medidas e no acabamento podem acontecer.",
     cuidados: [
-      "Limpar o macramê com pano levemente úmido",
-      "Esponja mágica de leve, sem produto abrasivo ou de limpeza forte",
-      "A madeira pode molhar no dia a dia, mas não deixe encharcada nem na chuva",
-      "Evitar sol direto e prolongado",
-      "Com o uso o fio laceia um pouco — é característica do macramê, não é defeito",
+      "Utilize um pano levemente úmido",
+      "Também pode ser utilizada uma esponja mágica, delicadamente",
+      "Não utilize produtos abrasivos ou de limpeza muito fortes",
+      "Evite exposição direta e prolongada ao sol",
+    ],
+    secoes: [
+      {
+        titulo: "Onde usar?",
+        paragrafos: [
+          "A prateleira pode ser usada no banheiro, quarto, sala, escritório, cozinha ou onde mais fizer sentido para você.",
+          "Você pode colocar plantas, pequenos objetos decorativos, produtos de uso diário e outros itens leves. A ideia é que ela se adapte à sua casa e à sua rotina.",
+        ],
+      },
+      {
+        titulo: "Instalação",
+        paragrafos: [
+          "A peça possui um punho de rede na parte superior, que permite sua instalação na parede.",
+          "Recomendamos utilizar um gancho ou suporte adequado e bem fixado na parede, de acordo com o tipo de parede e o peso dos objetos que serão colocados.",
+          "A prateleira foi feita para ficar rente à parede. Ela não foi desenvolvida para ficar suspensa livremente no ambiente. Quando instalada afastada da parede, a peça pode ficar inclinada ou torta, pois sua estrutura foi pensada considerando o apoio da parede.",
+        ],
+      },
+      {
+        titulo: "Sobre o peso",
+        paragrafos: [
+          "A prateleira foi desenvolvida principalmente para objetos leves e de uso cotidiano.",
+          "Evite colocar objetos excessivamente pesados ou concentrar todo o peso em um único nível. O excesso de peso pode fazer com que o fio laceie ou altere a estrutura da peça.",
+          "A capacidade também depende diretamente da forma de instalação, do gancho utilizado e da resistência da parede.",
+        ],
+      },
+      {
+        titulo: "Cuidados e limpeza",
+        paragrafos: [
+          "A madeira utilizada na peça pode ter contato com água e umidade sem problemas no uso cotidiano. Ainda assim, evite deixar a peça constantemente encharcada ou exposta à chuva.",
+          "Para a limpeza do macramê:",
+        ],
+        itens: [
+          "Utilize um pano levemente úmido.",
+          "Também pode ser utilizada uma esponja mágica, delicadamente.",
+          "Não utilize produtos abrasivos ou de limpeza muito fortes.",
+          "Evite exposição direta e prolongada ao sol.",
+        ],
+      },
+      {
+        paragrafos: [
+          "Com o uso, o fio pode lacear levemente, principalmente quando submetido a peso. Isso é uma característica natural do macramê e não significa que a peça esteja se desfazendo.",
+        ],
+      },
+      {
+        titulo: "Decoração que também tem função",
+        paragrafos: [
+          "A proposta dessa peça é justamente unir beleza e praticidade: uma decoração feita à mão que também ajuda a organizar e aproveitar melhor os espaços da sua casa.",
+          "Também é uma opção diferente e especial para presentear alguém que ama decoração e peças artesanais.",
+        ],
+      },
     ],
     prazo: "Produção sob encomenda",
   },
@@ -342,17 +482,69 @@ const PRODUTOS = [
       "prateleira-macrame-punho-de-rede.jpeg",
     ],
     alt: "Prateleira quadrada de macramê de três níveis, em madeira e fio cru, pendurada na parede da sala com uma garrafa e um vaso de planta.",
-    resumo: "A versão compacta, com tábua de 20 × 20 cm.",
-    descricao:
-      "A mesma prateleira, num tamanho que cabe onde a outra não caberia. É a opção para quem quer aproveitar melhor um canto pequeno sem abrir mão da decoração — banheiro, quarto, sala, escritório ou cozinha. O punho de rede no topo pendura num gancho bem fixado na parede, e ela foi feita para ficar rente à parede: solta no ambiente, inclina. Vale o mesmo cuidado com o peso — objetos leves, distribuídos entre os níveis.",
-    materiais: ["Madeira", "Fio para macramê com 85% algodão", "Punho de rede para instalação"],
-    medidas: "Madeira de 20 × 20 cm. Altura total de aproximadamente 80 cm, com 30 cm até o primeiro nível e cerca de 20 cm entre os demais.",
+    resumo: "Uma peça feita à mão para deixar seu espaço mais bonito, organizado e funcional.",
+    descricao: "A prateleira quadrada une madeira e macramê em uma peça versátil, perfeita para aproveitar pequenos espaços e dar um toque especial à decoração.",
+    materiais: [
+      "Madeira",
+      "Fio para macramê com 85% algodão",
+      "Punho de rede para instalação",
+    ],
+    medidas: "Madeira: 20 × 20 cm. Altura total: aproximadamente 80 cm. Distância do primeiro nível: 30 cm. Distância entre os demais níveis: aproximadamente 20 cm. Por ser uma peça artesanal, pequenas variações nas medidas e no acabamento podem acontecer.",
     cuidados: [
-      "Limpar o macramê com pano levemente úmido",
-      "Esponja mágica de leve, sem produto abrasivo ou de limpeza forte",
-      "A madeira pode molhar no dia a dia, mas não deixe encharcada nem na chuva",
-      "Evitar sol direto e prolongado",
-      "Com o uso o fio laceia um pouco — é característica do macramê, não é defeito",
+      "Utilize um pano levemente úmido",
+      "Também pode ser utilizada uma esponja mágica, delicadamente",
+      "Não utilize produtos abrasivos ou de limpeza muito fortes",
+      "Evite exposição direta e prolongada ao sol",
+    ],
+    secoes: [
+      {
+        titulo: "Onde usar?",
+        paragrafos: [
+          "Por ser mais compacta, essa versão é uma ótima opção para quem quer aproveitar melhor os espaços sem abrir mão da decoração.",
+          "Pode ser usada no banheiro, quarto, sala, escritório, cozinha ou onde mais combinar com a sua casa. Você pode colocar plantas, pequenos objetos decorativos, produtos de uso diário e outros itens leves.",
+        ],
+      },
+      {
+        titulo: "Instalação",
+        paragrafos: [
+          "A peça possui um punho de rede na parte superior, que permite sua instalação na parede.",
+          "Recomendamos utilizar um gancho ou suporte adequado e bem fixado na parede, de acordo com o tipo de parede e o peso dos objetos que serão colocados.",
+          "A prateleira foi feita para ficar rente à parede. Ela não foi desenvolvida para ficar suspensa livremente no ambiente. Quando instalada afastada da parede, a peça pode ficar inclinada ou torta, pois sua estrutura foi pensada considerando o apoio da parede.",
+        ],
+      },
+      {
+        titulo: "Sobre o peso",
+        paragrafos: [
+          "A prateleira foi desenvolvida principalmente para objetos leves e de uso cotidiano.",
+          "Evite colocar objetos excessivamente pesados ou concentrar todo o peso em um único nível. O excesso de peso pode fazer com que o fio laceie ou altere a estrutura da peça.",
+          "A capacidade também depende diretamente da forma de instalação, do gancho utilizado e da resistência da parede.",
+        ],
+      },
+      {
+        titulo: "Cuidados e limpeza",
+        paragrafos: [
+          "A madeira utilizada na peça pode ter contato com água e umidade sem problemas no uso cotidiano. Ainda assim, evite deixar a peça constantemente encharcada ou exposta à chuva.",
+          "Para a limpeza do macramê:",
+        ],
+        itens: [
+          "Utilize um pano levemente úmido.",
+          "Também pode ser utilizada uma esponja mágica, delicadamente.",
+          "Não utilize produtos abrasivos ou de limpeza muito fortes.",
+          "Evite exposição direta e prolongada ao sol.",
+        ],
+      },
+      {
+        paragrafos: [
+          "Com o uso, o fio pode lacear levemente, principalmente quando submetido a peso. Isso é uma característica natural do macramê e não significa que a peça esteja se desfazendo.",
+        ],
+      },
+      {
+        titulo: "Decoração que também tem função",
+        paragrafos: [
+          "A ideia é que essa peça não seja apenas bonita, mas que também ajude a organizar e aproveitar melhor os espaços da sua casa.",
+          "Uma opção compacta, versátil e feita à mão — e também uma ótima opção para presentear.",
+        ],
+      },
     ],
     prazo: "Produção sob encomenda",
   },
@@ -377,15 +569,41 @@ const PRODUTOS = [
       "tapete-terracota-cru-03-detalhe.jpeg",
     ],
     alt: "Tapete de crochê em terracota e cru, com desenho radiado do centro e borda em ondas.",
-    resumo: "Crochê 70 × 50 cm, em até 2 cores. Serve em qualquer cômodo.",
-    descricao:
-      "Peça versátil, que combina com ambientes diferentes da casa: banheiro, cozinha ou onde você quiser. Pode ser feito em até duas cores, para você escolher a combinação que fica melhor no seu espaço. Por ser feito à mão, cada tapete sai único.",
-    materiais: ["Fio de algodão", "Até 2 cores à sua escolha", "Borda em ondas"],
-    medidas: "70 × 50 cm.",
+    resumo: "Tapete feito à mão em crochê, com tamanho de 70 x 50 cm. Uma peça versátil que combina com diferentes ambientes da casa, podendo ser usada no banheiro, na cozinha ou onde você quiser.",
+    descricao: "Pode ser feito em até 2 cores, para você escolher a combinação que mais combina com o seu espaço.",
+    materiais: [
+      "Feito à mão em crochê",
+      "Disponível em 2 cores",
+      "Pode ser utilizado em diferentes ambientes",
+    ],
+    medidas: "70 x 50 cm.",
     cuidados: [
-      "Pode ir à máquina, de preferência no modo delicado",
-      "Existe risco de encolher na lavagem",
-      "Secar à sombra, nunca no sol direto",
+      "Pode ser lavado na máquina, preferencialmente no modo delicado",
+      "Existe o risco de a peça encolher durante a lavagem, por isso não nos responsabilizamos caso isso aconteça",
+      "Não deixar secar diretamente ao sol. O ideal é secar à sombra para conservar melhor a peça",
+    ],
+    secoes: [
+      {
+        titulo: "Detalhes da peça",
+        itens: [
+          "Tamanho: 70 x 50 cm",
+          "Feito à mão em crochê",
+          "Disponível em 2 cores",
+          "Pode ser utilizado em diferentes ambientes",
+        ],
+      },
+      {
+        titulo: "Cuidados com a lavagem",
+        paragrafos: [
+          "Pode ser lavado na máquina, preferencialmente no modo delicado. Porém, existe o risco de a peça encolher durante a lavagem, por isso não nos responsabilizamos caso isso aconteça.",
+          "Não deixar secar diretamente ao sol. O ideal é secar à sombra para conservar melhor a peça.",
+        ],
+      },
+      {
+        paragrafos: [
+          "Por ser uma peça feita à mão, pequenas variações podem acontecer, tornando cada tapete único.",
+        ],
+      },
     ],
     prazo: "Envio em até 2 dias úteis",
   },
@@ -402,10 +620,46 @@ const PRODUTOS = [
     tags: [],
     fotos: ["gorro-02-rosa-na-modelo.jpeg", "gorro-01-preto-e-branco.jpeg"],
     alt: "Touca de crochê em rosa antigo, vestida, com canelado na barra.",
-    resumo: "Fio 100% acrílico, quentinho e elástico. Nos tamanhos P, M e G.",
-    descricao:
-      "Feita à mão para os dias mais frios. O fio acrílico tem bastante elasticidade, então a touca se ajusta bem à cabeça, e o material segura o calor. É peça atemporal, que combina com vários looks e dura várias temporadas. Não sabe o seu tamanho? Passe uma fita métrica em volta da cabeça, acima das sobrancelhas e das orelhas, na parte mais larga, sem apertar — e, se a medida cair entre dois tamanhos, escolha o maior.",
-    materiais: ["Fio 100% acrílico", "Canelado na barra", "Cor à sua escolha"],
+    resumo: "Touca feita à mão em crochê, perfeita para os dias mais frios.",
+    descricao: "Confeccionada com fio 100% acrílico, que possui bastante elasticidade e permite que a touca se ajuste bem à cabeça. O material também ajuda a manter o calor, deixando a peça bem quentinha.",
+    materiais: [
+      "Fio 100% acrílico",
+    ],
+    secoes: [
+      {
+        paragrafos: [
+          "É uma peça versátil e atemporal, que combina facilmente com diferentes looks e pode ser usada por várias temporadas.",
+        ],
+      },
+      {
+        titulo: "Tamanho",
+        paragrafos: [
+          "Disponível nos tamanhos P, M e G. O tamanho deve ser escolhido de acordo com a circunferência da sua cabeça.",
+        ],
+      },
+      {
+        titulo: "Não sabe qual é o seu tamanho?",
+        paragrafos: [
+          "É bem simples de descobrir. Pegue uma fita métrica e passe ao redor da cabeça, passando acima das sobrancelhas e das orelhas, pela parte mais larga da cabeça. Não aperte demais a fita.",
+          "Depois, compare a medida com a nossa tabela:",
+        ],
+        itens: ["P: 54 a 56 cm", "M: 57 a 59 cm", "G: 60 a 62 cm"],
+      },
+      {
+        paragrafos: [
+          "Se a sua medida ficar entre dois tamanhos, escolha o maior.",
+        ],
+      },
+      {
+        titulo: "Cores",
+        paragrafos: ["Você pode escolher a cor desejada entre as opções disponíveis."],
+      },
+      {
+        paragrafos: [
+          "Por ser uma peça feita à mão e possuir bastante elasticidade, o ajuste pode variar de acordo com o formato da cabeça e a forma como a touca é usada.",
+        ],
+      },
+    ],
     // CONFERIR com a Milena: a touca agora tem tamanho (P, M e G), e o site não
     // tem onde escolher tamanho — o checkout só pergunta a cor. Enquanto não
     // houver esse campo, o tamanho tem de ser combinado no WhatsApp, e a venda
@@ -431,15 +685,35 @@ const PRODUTOS = [
       "bolsa-listrada-06-detalhe.jpeg",
     ],
     alt: "Bolsa de crochê listrada em cru, verde água, pêssego e terracota, com alça longa.",
-    resumo: "Espaçosa e resistente, 30 × 32 cm. Leva até notebook.",
-    descricao:
-      "Feita à mão para acompanhar a rotina. Com 30 × 32 cm, tem bastante espaço interno: dá para levar material da escola ou da faculdade e até um notebook, dependendo do tamanho do aparelho. Além de prática para o dia a dia, é versátil e atemporal — combina com estilos diferentes e dura muito tempo.",
-    materiais: ["Fio 85% algodão", "Alça longa de ombro"],
-    medidas: "30 × 32 cm.",
+    resumo: "A Bolsa Jasmin é uma bolsa feita à mão, espaçosa e resistente, pensada para acompanhar a rotina.",
+    descricao: "Com 30 x 32 cm, ela possui bastante espaço interno e pode ser usada para diferentes ocasiões. É uma ótima opção para levar materiais para a escola ou faculdade e também comporta um notebook, dependendo do tamanho do aparelho.",
+    materiais: [
+      "Fio 85% algodão",
+    ],
+    medidas: "30 x 32 cm.",
     cuidados: [
-      "Pode ir à máquina, de preferência no modo delicado",
-      "Existe risco de encolher na lavagem",
-      "Secar à sombra",
+      "Pode ser lavada na máquina, preferencialmente no modo delicado",
+      "Existe o risco de a peça encolher durante a lavagem, por isso não nos responsabilizamos caso isso aconteça",
+      "O ideal é deixar secar à sombra para conservar melhor a peça",
+    ],
+    secoes: [
+      {
+        paragrafos: [
+          "Além de prática para o dia a dia, é uma peça versátil e atemporal, que combina com diferentes estilos e pode ser usada por muito tempo.",
+        ],
+      },
+      {
+        titulo: "Cuidados com a lavagem",
+        paragrafos: [
+          "Pode ser lavada na máquina, preferencialmente no modo delicado. Porém, existe o risco de a peça encolher durante a lavagem, por isso não nos responsabilizamos caso isso aconteça.",
+          "O ideal é deixar secar à sombra para conservar melhor a peça.",
+        ],
+      },
+      {
+        paragrafos: [
+          "Por ser uma peça artesanal, pequenas variações podem acontecer, tornando cada bolsa única.",
+        ],
+      },
     ],
     prazo: "Produção sob encomenda",
   },
@@ -457,14 +731,37 @@ const PRODUTOS = [
       "necessaire-crua-03-medidas.jpeg",
     ],
     alt: "Necessaire de crochê em fio cru com zíper, segurada na mão.",
-    resumo: "20 × 10 cm, com zíper costurado à mão. Sem forro.",
-    descricao:
-      "Compacta e prática para organizar as coisas pequenas do dia a dia: maquiagem, itens de higiene, acessórios. O zíper também é costurado à mão, então o acabamento artesanal está em cada detalhe. Cabe na bolsa ou na mala, e é uma boa ideia de presente.",
-    materiais: ["Fio 85% algodão", "Zíper costurado à mão", "Sem forro"],
-    medidas: "20 × 10 cm.",
+    resumo: "Necessaire feita à mão em crochê, compacta e prática para organizar pequenos itens do dia a dia.",
+    descricao: "Com 20 x 10 cm, ela é uma ótima opção para guardar maquiagem, itens de higiene, acessórios ou outros objetos que você queira manter organizados.",
+    materiais: [
+      "Fio 85% algodão",
+      "Zíper costurado à mão",
+      "Sem forro",
+    ],
+    medidas: "20 x 10 cm.",
     cuidados: [
-      "O ideal é lavar à mão, com sabão neutro e de forma delicada",
-      "Não esfregar com força, para preservar os pontos e o zíper",
+      "O ideal é lavar à mão, utilizando sabão neutro e de forma delicada",
+      "Evite esfregar com força para preservar os pontos do crochê e o acabamento do zíper",
+    ],
+    secoes: [
+      {
+        paragrafos: [
+          "A peça possui fechamento com zíper, que também é costurado à mão, garantindo um acabamento artesanal em todos os detalhes.",
+          "É uma opção prática para levar na bolsa ou na mala e também uma ótima ideia para presentear uma amiga ou alguém especial.",
+        ],
+      },
+      {
+        titulo: "Cuidados com a lavagem",
+        paragrafos: [
+          "O ideal é lavar à mão, utilizando sabão neutro e de forma delicada.",
+          "Evite esfregar com força para preservar os pontos do crochê e o acabamento do zíper.",
+        ],
+      },
+      {
+        paragrafos: [
+          "Por ser uma peça feita à mão, pequenas variações podem acontecer, tornando cada necessaire única.",
+        ],
+      },
     ],
     prazo: "Produção sob encomenda",
   },
@@ -485,15 +782,46 @@ const PRODUTOS = [
       "painel-organizador-04-cavilhas.jpeg",
     ],
     alt: "Painel organizador de macramê em fio cru, preso na lateral da geladeira, com papel toalha numa cavilha e pano de prato na outra.",
-    resumo: "Cavilha fixa em cima e duas removíveis de 45 cm, na altura que você quiser.",
-    descricao:
-      "Peça prática para deixar a cozinha organizada aproveitando espaço que normalmente não seria usado. A cavilha de cima é fixa; as duas de 45 cm saem e entram na altura que você preferir — dois rolos de papel toalha, um rolo e um pano de prato, ou só uma cavilha quando a outra não faz falta. A alça é ajustável: regula a altura e prende num parafuso ou apoia num móvel, como ao lado da geladeira com um vaso segurando a ponta.",
-    materiais: ["Fio de macramê 85% algodão", "Cavilha fixa na parte de cima", "Duas cavilhas removíveis de 45 cm", "Alça ajustável"],
-    medidas: "Cavilhas removíveis de 45 cm. A altura total depende de como a alça for regulada.",
+    resumo: "O Painel Organizador é uma peça prática e versátil para deixar a cozinha mais organizada, aproveitando melhor os espaços.",
+    descricao: "Ele possui uma cavilha fixa na parte de cima e duas cavilhas removíveis de 45 cm, que podem ser colocadas na altura que você preferir, de acordo com a sua necessidade.",
+    materiais: [
+      "Fio para macramê com 85% algodão",
+      "Cavilha fixa na parte de cima",
+      "Duas cavilhas removíveis de 45 cm",
+      "Alça ajustável",
+    ],
+    medidas: "Cavilhas removíveis de 45 cm. A altura da peça é regulada pela alça, conforme o espaço disponível.",
     cuidados: [
-      "Limpar com pano levemente úmido ou esponja mágica, de leve",
-      "Passar delicadamente no macramê e na madeira",
-      "Evitar produtos abrasivos e excesso de água",
+      "Utilize um pano levemente úmido ou uma esponja mágica",
+      "Passe delicadamente sobre o macramê e as partes de madeira",
+      "Evite produtos abrasivos e o excesso de água",
+    ],
+    secoes: [
+      {
+        titulo: "Você pode usar as cavilhas de diferentes formas",
+        itens: [
+          "Colocar dois rolos de papel toalha, um em cada cavilha",
+          "Usar uma cavilha para o papel toalha e outra para pendurar um pano de prato",
+          "Remover uma das cavilhas quando não precisar dela",
+        ],
+      },
+      {
+        titulo: "A alça",
+        paragrafos: [
+          "A alça que sustenta o painel é ajustável, permitindo regular a altura da peça conforme o espaço disponível. Ela pode ser presa em um parafuso ou apoiada de outras formas, como em um móvel. Por exemplo, você pode colocá-la ao lado da geladeira e prender a alça utilizando um objeto com peso sobre ela, como um vaso de planta.",
+        ],
+      },
+      {
+        paragrafos: [
+          "Por ser uma peça artesanal, pequenas variações podem acontecer, tornando cada painel único.",
+        ],
+      },
+      {
+        titulo: "Cuidados com a peça",
+        paragrafos: [
+          "Para a limpeza, utilize um pano levemente úmido ou uma esponja mágica, passando delicadamente sobre o macramê e as partes de madeira. Evite produtos abrasivos e o excesso de água.",
+        ],
+      },
     ],
     prazo: "Produção sob encomenda",
   },
@@ -512,15 +840,32 @@ const PRODUTOS = [
     cores: CORES_MACRAME,
     fotos: ["painel-macrame-grande-01.jpeg", "painel-macrame-grande-02-detalhe.jpeg"],
     alt: "Painel decorativo de macramê em fio cru, com desenho em V e franja longa, pendurado num bastão de madeira.",
-    resumo: "Painel decorativo de 45 cm de largura, com franja longa.",
-    descricao:
-      "Painel feito à mão para dar aquele toque a mais na decoração e deixar o ambiente mais aconchegante. Serve em vários ambientes: preenche espaço vazio, completa uma parede ou incrementa aquele cantinho que estava faltando alguma coisa. Por ser artesanal, pequenas variações acontecem — cada painel sai único.",
-    materiais: ["Fio de macramê 85% algodão", "Bastão de madeira", "Franja no acabamento"],
-    medidas: "45 cm de largura. Cerca de 70 cm de comprimento total, da alça até a ponta — da cavilha até a ponta são aproximadamente 45 cm.",
+    resumo: "Painel decorativo feito à mão em macramê, perfeito para dar aquele toque a mais na decoração e deixar o ambiente mais aconchegante e com personalidade.",
+    descricao: "Com 45 cm de largura e aproximadamente 70 cm de comprimento, considerando a medida da alça até a ponta do painel. Da cavilha até a ponta, são aproximadamente 45 cm.",
+    materiais: [
+      "Fio para macramê com 85% algodão",
+      "Bastão de madeira",
+      "Franja no acabamento",
+    ],
+    medidas: "45 cm de largura e aproximadamente 70 cm de comprimento, considerando a medida da alça até a ponta do painel. Da cavilha até a ponta, são aproximadamente 45 cm.",
     cuidados: [
-      "Não lavar",
-      "Limpar só com pano levemente úmido, de leve no macramê e na madeira",
-      "Evitar produtos abrasivos e excesso de água",
+      "O painel não deve ser lavado",
+      "Utilize apenas um pano levemente úmido, passando delicadamente sobre o macramê e a madeira",
+      "Evite produtos abrasivos e o excesso de água",
+    ],
+    secoes: [
+      {
+        paragrafos: [
+          "É uma peça versátil, que pode ser usada em diferentes ambientes para preencher espaços vazios, complementar a decoração ou simplesmente dar uma incrementada naquele cantinho que estava faltando alguma coisa.",
+          "Por ser uma peça artesanal, pequenas variações podem acontecer, tornando cada painel único.",
+        ],
+      },
+      {
+        titulo: "Cuidados com a peça",
+        paragrafos: [
+          "O painel não deve ser lavado. Para a limpeza, utilize apenas um pano levemente úmido, passando delicadamente sobre o macramê e a madeira. Evite produtos abrasivos e o excesso de água.",
+        ],
+      },
     ],
     prazo: "Produção sob encomenda",
   },
@@ -541,15 +886,33 @@ const PRODUTOS = [
       "suporte-papel-toalha-05-argola.jpeg",
     ],
     alt: "Suporte de macramê em fio cru com argola de madeira no topo e cavilha embaixo, segurando um rolo de papel toalha.",
-    resumo: "Argola e cavilha de 33 cm. Ocupa pouquíssimo espaço.",
-    descricao:
-      "Feito para quem precisa de praticidade e não tem muito espaço. Na cozinha segura o papel toalha ou o pano de prato; no banheiro, uma toalha de rosto. A argola no topo prende na parede e a cavilha embaixo é onde a peça se apoia. Por ser compacto, cabe em cantinhos que normalmente ficariam sem uso.",
-    materiais: ["Fio de macramê 85% algodão", "Argola de madeira para fixação", "Cavilha de 33 cm"],
-    medidas: "Cavilha de 33 cm. Da argola até a ponta, aproximadamente 40 a 43 cm — por ser artesanal, varia um pouco.",
+    resumo: "Suporte feito à mão em macramê, pensado para quem precisa de praticidade e não tem muito espaço.",
+    descricao: "Pode ser usado na cozinha como suporte para porta-toalha ou pano de prato, ocupando pouquíssimo espaço. Também pode ser utilizado no banheiro para pendurar uma toalha de rosto.",
+    materiais: [
+      "Fio para macramê com 85% algodão",
+      "Argola para fixação",
+      "Cavilha de 33 cm",
+    ],
+    medidas: "A peça possui uma argola para fixação e uma cavilha de 33 cm, onde a toalha ou o pano de prato fica apoiado. A medida total, da argola até a ponta do suporte, é de aproximadamente 40 a 43 cm, podendo apresentar pequenas variações por ser uma peça artesanal.",
     cuidados: [
-      "Limpar com pano levemente úmido ou esponja mágica, de leve",
-      "Evitar produtos abrasivos e excesso de água",
-      "Não deixar de molho nem lavar direto na água",
+      "Utilize um pano levemente úmido ou uma esponja mágica",
+      "Passe delicadamente sobre o macramê e a madeira",
+      "Evite produtos abrasivos e o excesso de água",
+      "Não é recomendado deixar a peça de molho ou lavá-la diretamente em água",
+    ],
+    secoes: [
+      {
+        paragrafos: [
+          "A peça possui uma argola para fixação e uma cavilha de 33 cm, onde a toalha ou o pano de prato fica apoiado. A medida total, da argola até a ponta do suporte, é de aproximadamente 40 a 43 cm, podendo apresentar pequenas variações por ser uma peça artesanal.",
+          "Por ser compacto e versátil, pode ser colocado em diferentes cantinhos da casa, aproveitando espaços que normalmente não seriam utilizados.",
+        ],
+      },
+      {
+        titulo: "Cuidados com a peça",
+        paragrafos: [
+          "Para a limpeza, utilize um pano levemente úmido ou uma esponja mágica, passando delicadamente sobre o macramê e a madeira. Evite produtos abrasivos e o excesso de água. Não é recomendado deixar a peça de molho ou lavá-la diretamente em água.",
+        ],
+      },
     ],
     prazo: "Produção sob encomenda",
   },

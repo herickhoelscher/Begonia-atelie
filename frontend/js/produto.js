@@ -165,6 +165,30 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </dl>
 
+        ${
+          // Secoes do texto da peca: "Onde usar?", "Instalacao", "Sobre o
+          // peso". Ficam DEPOIS do botao de comprar de proposito -- sao texto
+          // longo, e empurrar a compra para baixo da dobra custa venda.
+          Array.isArray(p.secoes) && p.secoes.length
+            ? p.secoes
+                .map(
+                  (s) => `
+          <section class="mt-8">
+            ${s.titulo ? `<h2 class="font-headline text-body-lg text-on-surface mb-3">${s.titulo}</h2>` : ""}
+            ${(s.paragrafos || []).map((t) => `<p class="text-body-md text-on-surface-variant mb-3">${t}</p>`).join("")}
+            ${
+              (s.itens || []).length
+                ? `<ul class="leaf-list space-y-2 text-body-md text-on-surface-variant mb-3">
+                     ${s.itens.map((i) => `<li>${i}</li>`).join("")}
+                   </ul>`
+                : ""
+            }
+          </section>`
+                )
+                .join("")
+            : ""
+        }
+
         <p class="text-body-md text-on-surface-variant mt-8">
           Quer essa peça em outra cor ou medida?
           <a href="sob-encomenda.html" class="text-primary underline underline-offset-4 hover:no-underline">Faça uma encomenda</a>.
