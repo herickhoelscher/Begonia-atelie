@@ -169,7 +169,7 @@ function limparFiltros() {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Preenche as caixas de categoria a partir de dados.js.
-  document.getElementById("filtro-categorias").innerHTML = CATEGORIAS.map(
+  document.getElementById("filtro-categorias").innerHTML = categoriasVisiveis().map(
     (c) => `
     <li>
       <label class="flex items-center gap-3 cursor-pointer group text-body-md text-on-surface-variant">

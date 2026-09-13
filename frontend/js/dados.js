@@ -68,6 +68,10 @@ const PRODUTOS = [
   /* ---------------------------------------------------------------- MESA */
   {
     slug: "sousplat-trancado",
+    // Mesa posta saiu da loja. `oculto` tira da vitrine, da busca e da
+    // home, mas mantem o texto e as fotos aqui -- para voltar a vender e so
+    // apagar esta linha. Ver categoriasVisiveis() logo abaixo.
+    oculto: true,
     nome: "Sousplat Trançado",
     preco: 45,
     precoPorQuantidade: { 1: 45, 2: 88, 4: 170, 6: 245 },
@@ -92,6 +96,10 @@ const PRODUTOS = [
   },
   {
     slug: "porta-copos-trancado",
+    // Mesa posta saiu da loja. `oculto` tira da vitrine, da busca e da
+    // home, mas mantem o texto e as fotos aqui -- para voltar a vender e so
+    // apagar esta linha. Ver categoriasVisiveis() logo abaixo.
+    oculto: true,
     nome: "Porta-copos Trançado",
     preco: 16,
     precoPorQuantidade: { 1: 16, 2: 30, 4: 60 },
@@ -111,6 +119,10 @@ const PRODUTOS = [
   },
   {
     slug: "sousplat-jade",
+    // Mesa posta saiu da loja. `oculto` tira da vitrine, da busca e da
+    // home, mas mantem o texto e as fotos aqui -- para voltar a vender e so
+    // apagar esta linha. Ver categoriasVisiveis() logo abaixo.
+    oculto: true,
     nome: "Sousplat Jade",
     preco: 40,
     precoPorQuantidade: { 1: 40, 2: 75, 4: 140, 6: 205 },
@@ -135,6 +147,10 @@ const PRODUTOS = [
   },
   {
     slug: "sousplat-tradicional",
+    // Mesa posta saiu da loja. `oculto` tira da vitrine, da busca e da
+    // home, mas mantem o texto e as fotos aqui -- para voltar a vender e so
+    // apagar esta linha. Ver categoriasVisiveis() logo abaixo.
+    oculto: true,
     nome: "Sousplat Tradicional",
     preco: 25,
     precoPorQuantidade: { 1: 25, 2: 45, 4: 95, 6: 140 },
@@ -701,6 +717,17 @@ function produtoPorSlug(slug) {
   return PRODUTOS.find((p) => p.slug === slug) || null;
 }
 
+/* As categorias que ainda tem peca a mostrar.
+
+   CATEGORIAS continua inteira de proposito: a pagina de uma peca escondida
+   ainda precisa achar o nome da categoria dela para montar o caminho de
+   navegacao. O que muda e so o que aparece em menu e filtro -- categoria
+   vazia vira link para uma loja sem nada, que e pior que nao ter o link. */
+function categoriasVisiveis() {
+  const comPeca = new Set(produtosVisiveis().map((p) => p.categoria));
+  return CATEGORIAS.filter((c) => comPeca.has(c.id));
+}
+
 /* O catálogo que o cliente vê.
 
    Peça com `oculto: true` continua existindo para produtoPorSlug e para o
@@ -1039,6 +1066,7 @@ if (typeof module !== "undefined" && module.exports) {
     formatarPreco,
     produtoPorSlug,
     produtosVisiveis,
+    categoriasVisiveis,
     caminhoImagem,
     precoPara,
     regiaoPorUF,

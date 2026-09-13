@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* --- Peças oferecidas como base ---------------------------------------- */
   const tipo = document.getElementById("form-peca");
   if (tipo) {
-    const grupos = CATEGORIAS.map((c) => {
+    const grupos = categoriasVisiveis().map((c) => {
       const itens = produtosVisiveis().filter((p) => p.categoria === c.id);
       return `<optgroup label="${c.nome}">${itens
         .map((p) => `<option value="${p.nome}">${p.nome}</option>`)

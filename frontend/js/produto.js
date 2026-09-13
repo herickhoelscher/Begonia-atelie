@@ -56,12 +56,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
     <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
 
-      <div class="relative rounded-xl overflow-hidden soft-shadow-lg bg-surface-container-lowest">
-        <img src="${caminhoImagem(p)}" alt="${p.alt}" width="1200" height="1500" fetchpriority="high"
-             class="w-full h-auto object-cover aspect-4/5">
-        <div class="absolute top-4 left-4 flex flex-col items-start gap-2">
-          ${etiquetas.map((t) => `<span class="tag ${t.classe}">${t.texto}</span>`).join("")}
+      <div>
+        <div class="relative rounded-xl overflow-hidden soft-shadow-lg bg-surface-container-lowest">
+          <img id="foto-principal" src="${caminhoImagem(p)}" alt="${p.alt}" width="1200" height="1500" fetchpriority="high"
+               class="w-full h-auto object-cover aspect-4/5">
+          <div class="absolute top-4 left-4 flex flex-col items-start gap-2">
+            ${etiquetas.map((t) => `<span class="tag ${t.classe}">${t.texto}</span>`).join("")}
+          </div>
         </div>
+        ${
+          // Miniaturas so aparecem quando ha mais de uma foto: uma miniatura
+          // sozinha embaixo da foto grande nao ajuda ninguem.
+          p.fotos.length > 1
+            ? `<ul class="mt-4 grid grid-cols-4 sm:grid-cols-5 gap-3" id="galeria">
+                 ${p.fotos
+                   .map(
+                     (foto, i) => `
+                   <li>
+                     <button type="button" data-foto="${i}"
+                             aria-label="Ver foto ${i + 1} de ${p.fotos.length}"
+                             class="miniatura block w-full rounded-md overflow-hidden bg-surface-container-lowest
+                                    ring-offset-2 ring-offset-surface transition-shadow
+                                    ${i === 0 ? "ring-2 ring-primary" : "ring-1 ring-outline-variant/60 hover:ring-primary/50"}">
+                       <img src="assets/fotos/${foto}" alt="" loading="lazy" width="240" height="300"
+                            class="w-full h-auto object-cover aspect-4/5">
+                     </button>
+                   </li>`
+                   )
+                   .join("")}
+               </ul>`
+            : ""
+        }
       </div>
 
       <div class="lg:sticky lg:top-40">
@@ -146,6 +171,36 @@ document.addEventListener("DOMContentLoaded", () => {
         </p>
       </div>
     </div>`;
+
+  /* Galeria: clicar numa miniatura troca a foto grande.
+
+     O `alt` da foto grande nao muda junto porque o catalogo tem UM alt por
+     peca, nao um por foto. Trocar por "foto 3 de 8" seria pior para quem usa
+     leitor de tela: perderia a descricao da peca. Quem precisa saber qual
+     foto e esta vendo tem isso no aria-label do proprio botao. */
+  const galeria = document.getElementById("galeria");
+  if (galeria) {
+    const principal = document.getElementById("foto-principal");
+    const botoes = [...galeria.querySelectorAll("button[data-foto]")];
+
+    galeria.addEventListener("click", (evento) => {
+      const botao = evento.target.closest("button[data-foto]");
+      if (!botao) return;
+
+      principal.src = caminhoImagem(p, Number(botao.dataset.foto));
+
+      // O anel marca qual miniatura esta valendo. Sem isso, depois de clicar
+      // duas vezes ninguem sabe mais qual foto esta na tela grande.
+      for (const outro of botoes) {
+        const ativo = outro === botao;
+        outro.classList.toggle("ring-2", ativo);
+        outro.classList.toggle("ring-primary", ativo);
+        outro.classList.toggle("ring-1", !ativo);
+        outro.classList.toggle("ring-outline-variant/60", !ativo);
+        outro.classList.toggle("hover:ring-primary/50", !ativo);
+      }
+    });
+  }
 
   /* A cor é obrigatória: sem ela, ela recebe a venda e não sabe o que fazer. */
   function corEscolhida() {
