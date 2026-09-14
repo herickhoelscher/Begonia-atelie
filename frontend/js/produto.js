@@ -92,7 +92,12 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="lg:sticky lg:top-40">
         <p class="text-label-sm uppercase tracking-[0.2em] text-secondary mb-4">${categoria.nome}</p>
         <h1 class="font-headline text-headline-lg-mobile md:text-headline-lg text-on-surface mb-4">${p.nome}</h1>
-        <p class="font-headline text-headline-md text-primary mb-6">${formatarPreco(p.preco)}</p>
+        <div class="mb-6">
+          <p class="font-headline text-headline-md text-primary">${formatarPreco(precoNoPix(p.preco))} <span class="text-body-lg">no Pix</span></p>
+          <p class="text-body-md text-on-surface-variant mt-1">
+            ou ${formatarPreco(p.preco)} em ${PARCELAS_ANUNCIADAS}x de ${formatarPreco(valorDaParcela(p.preco))} sem juros
+          </p>
+        </div>
 
         <p class="text-body-lg text-on-surface-variant mb-6">${p.resumo}</p>
         <p class="text-body-md text-on-surface-variant mb-8">${p.descricao}</p>

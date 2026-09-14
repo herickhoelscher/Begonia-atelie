@@ -186,9 +186,20 @@ const LIMITE_POR_PECA = typeof PAGAMENTO !== "undefined" ? PAGAMENTO.maxQuantida
    ========================================================================= */
 
 /* Peça sem preço definido não pode mostrar "R$ 0,00" — parece de graça.
-   Enquanto a dona não fecha o valor, a peça se apresenta como orçamento. */
+   Enquanto a dona não fecha o valor, a peça se apresenta como orçamento.
+
+   Com preço, mostra duas linhas: o valor no Pix em destaque e o
+   parcelamento embaixo, sobre o preço CHEIO. Quem parcela não leva o
+   desconto do Pix — juntar os dois seria anunciar um preço que o checkout
+   não cobra. */
 function rotuloPreco(p) {
-  return Number(p.preco) > 0 ? formatarPreco(p.preco) : "Sob consulta";
+  if (!(Number(p.preco) > 0)) return "Sob consulta";
+  const pix = precoNoPix(p.preco);
+  const parcela = valorDaParcela(p.preco);
+  return `<span class="block text-body-lg text-primary font-semibold">${formatarPreco(pix)} no Pix</span>
+          <span class="block text-label-sm text-on-surface-variant normal-case tracking-normal mt-0.5">
+            ${PARCELAS_ANUNCIADAS}x de ${formatarPreco(parcela)} sem juros
+          </span>`;
 }
 
 function cartaoProduto(p) {

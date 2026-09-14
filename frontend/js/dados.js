@@ -1361,6 +1361,40 @@ function brindePara(subtotalSemDesconto) {
 
 const arredondar = (valor) => Math.round(valor * 100) / 100;
 
+/* =========================================================================
+   Preços mostrados na vitrine
+
+   A etiqueta da peça mostra duas linhas: o valor no Pix e, embaixo, o
+   parcelamento. O parcelamento é sobre o preço CHEIO — quem parcela no
+   cartão não leva o desconto do Pix, e somar as duas coisas seria prometer
+   um preço que o checkout não cobra.
+
+   O desconto é calculado do mesmo jeito que calcularDescontos() faz com o
+   pedido: percentual arredondado e subtraído. Se fosse `preco * 0.93` daria
+   diferença de centavo em alguns valores, e a vitrine discordaria da
+   cobrança — que é o tipo de divergência que faz o cliente desistir na
+   última tela.
+   ========================================================================= */
+
+/* Em quantas vezes a loja anuncia o parcelamento. Muda aqui, muda em toda a
+   vitrine. Não é o mesmo que PAGAMENTO.maxParcelas, que é o teto técnico do
+   gateway — este é o que a loja PROMETE sem juros. */
+const PARCELAS_ANUNCIADAS = 3;
+
+function precoNoPix(preco) {
+  const cheio = Number(preco) || 0;
+  if (!DESCONTOS.pix.ativo || cheio <= 0) return cheio;
+  return arredondar(cheio - arredondar((cheio * DESCONTOS.pix.percentual) / 100));
+}
+
+/* Valor de cada parcela, sobre o preço cheio. A última parcela absorve a
+   sobra do arredondamento na cobrança real — aqui é só a vitrine. */
+function valorDaParcela(preco, vezes = PARCELAS_ANUNCIADAS) {
+  const cheio = Number(preco) || 0;
+  if (cheio <= 0 || vezes < 1) return 0;
+  return arredondar(cheio / vezes);
+}
+
 /* Devolve a lista de descontos aplicáveis e o quanto cada um vale em reais.
    `metodo` é "pix" quando a pessoa declarou que vai pagar no Pix. */
 function calcularDescontos({ subtotal, metodo, primeiraCompra }) {
@@ -1421,6 +1455,9 @@ if (typeof module !== "undefined" && module.exports) {
     PAGAMENTO,
     DESCONTOS,
     calcularDescontos,
+    PARCELAS_ANUNCIADAS,
+    precoNoPix,
+    valorDaParcela,
     linkWhatsApp,
     formatarPreco,
     produtoPorSlug,
