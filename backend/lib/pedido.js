@@ -156,7 +156,14 @@ function montarPedido(itensPedidos, uf, opcoes = {}) {
 function itensParaCobranca(pedido) {
   const subtotalCent = emCentavos(pedido.subtotal);
   const descontoCent = emCentavos(pedido.descontoTotal || 0);
-  const alvoCent = subtotalCent - descontoCent;
+
+  // O alvo sai do TOTAL menos o frete, e nao de "subtotal menos desconto".
+  // Nos pedidos normais da na mesma, porque total = subtotal - desconto +
+  // frete. A diferenca aparece quando a trava de R$ 1,00 la de cima entra:
+  // ela levanta o total, mas nao levantava os itens -- entao a tela dizia
+  // R$ 1,00 e o gateway era mandado cobrar 1 centavo. A InfinitePay recusou
+  // com "Total price must be greater than 1", que foi como isto apareceu.
+  const alvoCent = emCentavos(pedido.total) - emCentavos(pedido.frete || 0);
 
   const linhas = pedido.itens.map((i) => ({
     slug: i.slug,
@@ -165,7 +172,11 @@ function itensParaCobranca(pedido) {
     totalCent: emCentavos(i.precoTotal),
   }));
 
-  if (descontoCent > 0 && subtotalCent > 0) {
+  // Roda sempre que o alvo diferir do subtotal -- nao so quando ha desconto.
+  // Preso em `descontoCent > 0`, o caso da trava de R$ 1,00 escapava: sem
+  // desconto nenhum, as linhas ficavam com o preco original e o gateway
+  // recebia menos do que a tela prometeu.
+  if (alvoCent !== subtotalCent && subtotalCent > 0) {
     let distribuido = 0;
     linhas.forEach((linha, indice) => {
       if (indice === linhas.length - 1) {

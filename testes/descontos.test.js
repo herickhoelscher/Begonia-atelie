@@ -464,6 +464,53 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
     CATALOGO.pop();
   }
 
+  console.log("\n== A trava de R$ 1,00 nao pode divergir do gateway ==");
+  {
+    const { montarPedido, itensParaCobranca, emCentavos } = require(path.join(RAIZ, "backend/lib/pedido.js"));
+
+    // Peca de 1 centavo com retirada: o total cai na trava de R$ 1,00.
+    CATALOGO.push({
+      slug: "peca-um-centavo", nome: "Um centavo", preco: 0.01, categoria: "acessorios",
+      disponibilidade: "pronta", destaque: false, tags: [], fotos: [],
+      alt: "", resumo: "", descricao: "", materiais: [], medidas: "", cuidados: [], prazo: "",
+    });
+
+    const p = montarPedido([{ slug: "peca-um-centavo", quantidade: 1 }], "PR", { retirada: true }).pedido;
+    checar("a trava levanta o total para R$ 1,00", p.total === 1, { total: p.total });
+
+    const linhas = itensParaCobranca(p);
+    const somaItens = linhas.reduce((s, l) => s + l.totalCent, 0);
+    // ESTE e o ponto: antes a trava subia o total mas nao os itens, entao a
+    // tela dizia R$ 1,00 e o gateway era mandado cobrar 1 centavo. A
+    // InfinitePay recusou com "Total price must be greater than 1" -- mas se
+    // tivesse aceitado, o cliente pagaria 1 centavo por um pedido de R$ 1,00.
+    checar("o gateway recebe os mesmos R$ 1,00 da tela", somaItens === 100, { somaItens });
+    checar("nenhum preco zerado ou negativo", linhas.every((l) => l.unitarioCent > 0), linhas);
+
+    CATALOGO.pop();
+  }
+  {
+    // A regra geral, em todo o catalogo de teste: o que vai ao gateway e
+    // sempre o total menos o frete, porque o frete vai como item separado.
+    const { montarPedido, itensParaCobranca, emCentavos } = require(path.join(RAIZ, "backend/lib/pedido.js"));
+    const cenarios = [
+      ["SP", {}],
+      ["SP", { metodo: "pix", primeiraCompra: true }],
+      ["PR", { retirada: true, metodo: "pix", primeiraCompra: true }],
+      ["AM", { metodo: "pix" }],
+    ];
+    let divergiu = 0;
+    for (const peca of CATALOGO) {
+      for (const [uf, opcoes] of cenarios) {
+        const p = montarPedido([{ slug: peca.slug, quantidade: 1 }], uf, opcoes).pedido;
+        if (!p) continue;
+        const soma = itensParaCobranca(p).reduce((s, l) => s + l.totalCent, 0);
+        if (soma !== emCentavos(p.total) - emCentavos(p.frete || 0)) divergiu++;
+      }
+    }
+    checar("itens batem com total menos frete em todo o catalogo", divergiu === 0, { divergiu });
+  }
+
   console.log(`\n${passou} passaram, ${falhou} falharam\n`);
   process.exit(falhou ? 1 : 0);
 })();
