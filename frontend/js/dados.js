@@ -343,7 +343,7 @@ const PRODUTOS = [
   {
     slug: "painel-macrame",
     nome: "Painel Macramê Losango",
-    preco: 0,
+    preco: 69.9,
     categoria: "decoracao",
     disponibilidade: "encomenda",
     destaque: false,
@@ -667,7 +667,7 @@ const PRODUTOS = [
   {
     slug: "bolsa-jasmin",
     nome: "Bolsa Jasmin",
-    preco: 0,
+    preco: 89.9,
     categoria: "acessorios",
     disponibilidade: "encomenda",
     destaque: true,
@@ -716,7 +716,7 @@ const PRODUTOS = [
   {
     slug: "necessaire",
     nome: "Necessaire em Crochê",
-    preco: 0,
+    preco: 49.9,
     categoria: "acessorios",
     disponibilidade: "encomenda",
     destaque: false,
