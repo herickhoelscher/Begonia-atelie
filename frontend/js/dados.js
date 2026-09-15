@@ -58,6 +58,7 @@ const CATEGORIAS = [
 const CORES_MACRAME = [
   { nome: "Verde Oliva", cor: "#4a5d32" },
   { nome: "Terracota", cor: "#b5533a" },
+  { nome: "Castanho Claro", cor: "#a08b70" },
   { nome: "Branco Off-White", cor: "#f2ece1" },
 ];
 
