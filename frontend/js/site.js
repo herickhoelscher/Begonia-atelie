@@ -214,8 +214,13 @@ function cartaoProduto(p) {
   const etiquetas = [...p.tags.map((t) => TAGS[t]).filter(Boolean), etiquetaDisponibilidade];
   const favoritado = Favoritos.tem(p.slug);
 
+  /* O "relative" do <article> e obrigatorio, nao e enfeite. O link do titulo
+     usa after:absolute/after:inset-0 para deixar o cartao inteiro clicavel no
+     celular. Sem um ancestral posicionado, esse ::after mede contra a VIEWPORT:
+     cada cartao passa a cobrir a tela inteira e o ultimo do DOM rouba o clique
+     de todos os outros -- clicar em qualquer foto abria sempre a mesma peca. */
   return `
-    <article class="group">
+    <article class="group relative">
       <div class="relative bg-surface-container-lowest rounded-xl overflow-hidden aspect-4/5 mb-4 soft-shadow transition-transform duration-500 group-hover:-translate-y-1">
         <a href="produto.html?slug=${p.slug}" class="block w-full h-full">
           <img src="${caminhoImagem(p)}" alt="${p.alt}" loading="lazy" width="1200" height="1500"
