@@ -92,7 +92,7 @@ const PRODUTOS = [
     materiais: ["Fio de algodão", "Borda trançada em relevo", "Cor à sua escolha"],
     medidas: "Aproximadamente 37 cm de diâmetro.",
     cuidados: ["Lavar à mão", "Secar na horizontal", "Não usar alvejante"],
-    prazo: "Produção sob encomenda",
+    prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
   },
   {
     slug: "porta-copos-trancado",
@@ -115,7 +115,7 @@ const PRODUTOS = [
     materiais: ["Fio de algodão", "Borda trançada em relevo", "Cor à sua escolha"],
     medidas: "Aproximadamente 11 cm de diâmetro.",
     cuidados: ["Lavar à mão", "Secar na horizontal"],
-    prazo: "Produção sob encomenda",
+    prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
   },
   {
     slug: "sousplat-jade",
@@ -143,7 +143,7 @@ const PRODUTOS = [
     materiais: ["Fio de algodão", "Acabamento em fio metálico", "Cor à sua escolha"],
     medidas: "Aproximadamente 37 cm de diâmetro.",
     cuidados: ["Lavar à mão", "Secar na horizontal", "Não usar alvejante"],
-    prazo: "Produção sob encomenda",
+    prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
   },
   {
     slug: "sousplat-tradicional",
@@ -173,7 +173,7 @@ const PRODUTOS = [
     materiais: ["Fio de algodão", "Ponto leque com borda ondulada", "Cor à sua escolha"],
     medidas: "Aproximadamente 37 cm de diâmetro.",
     cuidados: ["Lavar à mão", "Secar na horizontal", "Não usar alvejante"],
-    prazo: "Produção sob encomenda",
+    prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
   },
 
   /* ----------------------------------------------------------- DECORAÇÃO */
@@ -229,7 +229,7 @@ const PRODUTOS = [
         ],
       },
     ],
-    prazo: "Produção sob encomenda",
+    prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
   },
   {
     slug: "porta-retrato-coracao",
@@ -267,7 +267,7 @@ const PRODUTOS = [
         ],
       },
     ],
-    prazo: "Produção sob encomenda",
+    prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
   },
   {
     slug: "porta-retrato-simples",
@@ -290,7 +290,7 @@ const PRODUTOS = [
     materiais: ["Fio de macramê", "Argola de madeira", "Franja no acabamento"],
     medidas: "27 cm da argola até a ponta. Cabe 1 foto polaroid de 8 × 10 cm.",
     cuidados: ["Espanar com pincel macio", "Manter longe de umidade", "Não lavar"],
-    prazo: "Produção sob encomenda",
+    prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
   },
   {
     slug: "cata-vento",
@@ -338,7 +338,7 @@ const PRODUTOS = [
         ],
       },
     ],
-    prazo: "Produção sob encomenda",
+    prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
   },
   {
     slug: "painel-macrame",
@@ -375,7 +375,7 @@ const PRODUTOS = [
         ],
       },
     ],
-    prazo: "Produção sob encomenda",
+    prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
   },
   /* As duas prateleiras dividem a mesma construção: madeira, macramê de
      algodão e um punho de rede no topo. Mudam no tamanho da tábua — 40 × 15
@@ -465,7 +465,7 @@ const PRODUTOS = [
         ],
       },
     ],
-    prazo: "Produção sob encomenda",
+    prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
   },
   {
     slug: "prateleira-macrame-quadrada",
@@ -546,7 +546,7 @@ const PRODUTOS = [
         ],
       },
     ],
-    prazo: "Produção sob encomenda",
+    prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
   },
   {
     slug: "tapete",
@@ -601,7 +601,7 @@ const PRODUTOS = [
         ],
       },
     ],
-    prazo: "Envio em até 2 dias úteis",
+    prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
   },
 
   /* ---------------------------------------------------------- ACESSÓRIOS */
@@ -662,7 +662,7 @@ const PRODUTOS = [
     // online sai sem essa informação.
     medidas: "P: 54 a 56 cm · M: 57 a 59 cm · G: 60 a 62 cm, medidos na circunferência da cabeça.",
     cuidados: ["Lavar à mão em água fria", "Secar na horizontal", "Não usar secadora"],
-    prazo: "Produção sob encomenda",
+    prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
   },
   {
     slug: "bolsa-jasmin",
@@ -711,7 +711,7 @@ const PRODUTOS = [
         ],
       },
     ],
-    prazo: "Produção sob encomenda",
+    prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
   },
   {
     slug: "necessaire",
@@ -759,7 +759,7 @@ const PRODUTOS = [
         ],
       },
     ],
-    prazo: "Produção sob encomenda",
+    prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
   },
 
   {
@@ -819,7 +819,7 @@ const PRODUTOS = [
         ],
       },
     ],
-    prazo: "Produção sob encomenda",
+    prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
   },
   {
     /* CONFERIR com a Milena: existem DOIS paineis no catalogo agora. Este e o
@@ -863,7 +863,7 @@ const PRODUTOS = [
         ],
       },
     ],
-    prazo: "Produção sob encomenda",
+    prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
   },
   {
     slug: "suporte-papel-toalha",
@@ -910,7 +910,7 @@ const PRODUTOS = [
         ],
       },
     ],
-    prazo: "Produção sob encomenda",
+    prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
   },
   {
     /* O kit e uma peca propria no catalogo, e nao dois slugs amarrados.
@@ -947,7 +947,7 @@ const PRODUTOS = [
       "Evitar produtos abrasivos, excesso de água e sol direto prolongado",
       "Com o uso o fio laceia um pouco — é característica do macramê",
     ],
-    prazo: "Produção sob encomenda",
+    prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
   },
 
   /* ------------------------------------------------------------- TESTE
@@ -1008,15 +1008,11 @@ const TAGS = {
 const CARTELA = [
   { nome: "Branco", cor: "#f5f3ef" },
   { nome: "Preto", cor: "#2b2b2b" },
-  { nome: "Prata", cor: "#a8a9ab" },
   { nome: "Cinza", cor: "#7d7f80" },
-  { nome: "Caramelo Claro", cor: "#b98a52" },
   { nome: "Caramelo", cor: "#a26a2f" },
   { nome: "Marrom", cor: "#4a3328" },
   { nome: "Amarelo Claro", cor: "#f2e08a" },
   { nome: "Amarelo Canário", cor: "#f5c518" },
-  { nome: "Amarelo Ouro", cor: "#f0a500" },
-  { nome: "Mostarda", cor: "#d99a1c" },
   { nome: "Laranja", cor: "#f4632a" },
   { nome: "Telha", cor: "#b5533a" },
   { nome: "Vermelho", cor: "#d92b2b" },
@@ -1024,22 +1020,14 @@ const CARTELA = [
   { nome: "Bordô", cor: "#6e0f2e" },
   { nome: "Violeta", cor: "#6b2d8f" },
   { nome: "Rosa Bebê", cor: "#f4a6c0" },
-  { nome: "Rosa Claro", cor: "#ef6e8a" },
   { nome: "Pink", cor: "#e0338c" },
   { nome: "Melancia", cor: "#f0554f" },
-  { nome: "Morango", cor: "#c2185b" },
-  { nome: "Azul Claro", cor: "#7fa6c9" },
-  { nome: "Azul Piscina", cor: "#4d90b8" },
   { nome: "Azul Turquesa", cor: "#1a7fa8" },
   { nome: "Azul Royal", cor: "#1c4fa1" },
-  { nome: "Azul Marinho", cor: "#14213d" },
   { nome: "Verde Jade", cor: "#10a89a" },
   { nome: "Verde Abacate", cor: "#a8c93a" },
   { nome: "Bandeira", cor: "#12a54a" },
   { nome: "Verde Musgo", cor: "#2f3b25" },
-  { nome: "Verde Limão", cor: "#5cc24a" },
-  { nome: "Verde Limão Neon", cor: "#a8e02c" },
-  { nome: "Verde Neon", cor: "#c6f024" },
   { nome: "Salmão", cor: "#f28b7d" },
   { nome: "Azul Petróleo", cor: "#10505f" },
   { nome: "Verde Água", cor: "#7ec9ad" },
@@ -1049,7 +1037,6 @@ const CARTELA = [
   { nome: "Uva", cor: "#7a3b6b" },
   { nome: "Amarelo Neon", cor: "#f5e400" },
   { nome: "Azul Celeste", cor: "#7b83b8" },
-  { nome: "Salmão Neon", cor: "#ff5544" },
   { nome: "Verde Oliva", cor: "#4a5d32" },
   { nome: "Laranja Neon", cor: "#ff4500" },
   { nome: "Lilás", cor: "#b9a6d4" },
@@ -1058,7 +1045,6 @@ const CARTELA = [
   { nome: "Cru Premium", cor: "#ece4d4" },
   { nome: "Camurça", cor: "#c2a273" },
   { nome: "Castanho", cor: "#6e6152" },
-  { nome: "Bege", cor: "#d9c3a5" },
 ];
 
 /* Quais cores esta peca aceita.
@@ -1311,8 +1297,22 @@ function precisaEscolherCor(produto) {
    ========================================================================= */
 
 const DESCONTOS = {
-  primeiraCompra: {
+  /* Oferta de lançamento do site: 10% em tudo, para todo mundo, sem depender
+     de forma de pagamento nem de ser cliente novo. Soma com o Pix (10 + 7 =
+     17%), e por isso o de primeira compra foi DESLIGADO enquanto ela durar —
+     três descontos empilhados chegariam a 27%, que é margem que a peça
+     artesanal não tem.
+
+     Para encerrar a oferta: `ativo: false` aqui e `ativo: true` no de
+     primeira compra. A vitrine para de riscar o preço sozinha. */
+  lancamento: {
     ativo: true,
+    percentual: 10,
+    rotulo: "Oferta de lançamento",
+  },
+  primeiraCompra: {
+    // Desligado enquanto a oferta de lançamento estiver no ar — ver acima.
+    ativo: false,
     percentual: 10,
     rotulo: "Primeira compra",
     // Só é oferecido quando dá para verificar de verdade, ou seja, quando o
@@ -1381,18 +1381,41 @@ const arredondar = (valor) => Math.round(valor * 100) / 100;
    gateway — este é o que a loja PROMETE sem juros. */
 const PARCELAS_ANUNCIADAS = 3;
 
+/* Quanto sai a peça com os descontos que NÃO dependem de nada — hoje, só o
+   de lançamento. É o preço que vale no cartão, e é sobre ele que o
+   parcelamento é calculado. */
+function precoComOferta(preco) {
+  const cheio = Number(preco) || 0;
+  if (cheio <= 0 || !DESCONTOS.lancamento.ativo) return cheio;
+  return arredondar(cheio - arredondar((cheio * DESCONTOS.lancamento.percentual) / 100));
+}
+
+/* Tem oferta rolando? A vitrine usa isto para decidir se risca o preço. */
+function temOferta() {
+  return DESCONTOS.lancamento.ativo && DESCONTOS.lancamento.percentual > 0;
+}
+
+/* Preço no Pix: lançamento + Pix, os dois calculados sobre o preço CHEIO e
+   somados — exatamente como calcularDescontos() faz com o pedido. Aplicar um
+   sobre o outro em cascata daria alguns centavos de diferença, e a etiqueta
+   discordaria do total no checkout. */
 function precoNoPix(preco) {
   const cheio = Number(preco) || 0;
-  if (!DESCONTOS.pix.ativo || cheio <= 0) return cheio;
-  return arredondar(cheio - arredondar((cheio * DESCONTOS.pix.percentual) / 100));
+  if (cheio <= 0) return cheio;
+  let desconto = 0;
+  if (DESCONTOS.lancamento.ativo) desconto += arredondar((cheio * DESCONTOS.lancamento.percentual) / 100);
+  if (DESCONTOS.pix.ativo) desconto += arredondar((cheio * DESCONTOS.pix.percentual) / 100);
+  return arredondar(cheio - desconto);
 }
 
 /* Valor de cada parcela, sobre o preço cheio. A última parcela absorve a
    sobra do arredondamento na cobrança real — aqui é só a vitrine. */
 function valorDaParcela(preco, vezes = PARCELAS_ANUNCIADAS) {
-  const cheio = Number(preco) || 0;
-  if (cheio <= 0 || vezes < 1) return 0;
-  return arredondar(cheio / vezes);
+  // Sobre o preço COM a oferta, porque a oferta vale no cartão também. O que
+  // o parcelamento não leva é o desconto do Pix.
+  const base = precoComOferta(preco);
+  if (base <= 0 || vezes < 1) return 0;
+  return arredondar(base / vezes);
 }
 
 /* Devolve a lista de descontos aplicáveis e o quanto cada um vale em reais.
@@ -1400,6 +1423,16 @@ function valorDaParcela(preco, vezes = PARCELAS_ANUNCIADAS) {
 function calcularDescontos({ subtotal, metodo, primeiraCompra }) {
   const candidatos = [];
 
+  // O de lançamento não tem condição: vale para todo pedido enquanto estiver
+  // ativo. É o que permite a vitrine anunciar o preço com desconto sem saber
+  // quem está olhando nem como vai pagar.
+  if (DESCONTOS.lancamento.ativo) {
+    candidatos.push({
+      id: "lancamento",
+      rotulo: DESCONTOS.lancamento.rotulo,
+      percentual: DESCONTOS.lancamento.percentual,
+    });
+  }
   if (DESCONTOS.primeiraCompra.ativo && primeiraCompra) {
     candidatos.push({
       id: "primeira-compra",
@@ -1457,6 +1490,8 @@ if (typeof module !== "undefined" && module.exports) {
     calcularDescontos,
     PARCELAS_ANUNCIADAS,
     precoNoPix,
+    precoComOferta,
+    temOferta,
     valorDaParcela,
     linkWhatsApp,
     formatarPreco,

@@ -134,7 +134,8 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", complem
     // /api/config precisa dizer isso para o checkout não prometer o que não há.
     checar("traz regras de frete", r.json.envio.gratisAcimaDe === null && r.json.envio.tabela.sudeste === 39.9, r.json.envio);
     checar("expõe o desconto do Pix", r.json.descontoPix === 7);
-    checar("expõe o desconto de primeira compra", r.json.descontoPrimeiraCompra === 10);
+    // Desligado enquanto a oferta de lancamento estiver no ar.
+    checar("primeira compra desligada na oferta", r.json.descontoPrimeiraCompra === null, r.json.descontoPrimeiraCompra);
     checar("marca pagamento disponível", r.json.pagamentoDisponivel === true);
   }
 
@@ -183,15 +184,15 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", complem
     }), r);
     refPix = r.json.referencia;
     checar("responde 200", r._status === 200, r.json);
-    // 85,00 + frete sudeste 39,90 = 124,90.
-    // Menos 7% de desconto do Pix sobre as peças (5,95) = 118,95.
-    checar("ignora o preço forjado e aplica o desconto do Pix", r.json.total === 118.95, { total: r.json.total });
+    // 85,00 menos 10% de lancamento (8,50) e 7% de Pix (5,95) = 70,55.
+    // Mais 39,90 de frete do Sudeste = 110,45.
+    checar("ignora o preço forjado e aplica os descontos", r.json.total === 110.45, { total: r.json.total });
     checar("mostra o desconto do Pix na resposta", r.json.descontos.some((d) => d.id === "pix" && d.valor === 5.95), r.json.descontos);
     checar("devolve copia-e-cola do Pix", typeof r.json.qrCodeTexto === "string" && r.json.qrCodeTexto.length > 10);
     checar("devolve imagem do QR", typeof r.json.qrCodeImagem === "string");
     checar("referência no formato certo", /^BA-[A-Z2-9]{8}$/.test(refPix || ""), refPix);
     const enviado = chamadas.filter((c) => c.url.includes("/v1/payments")).pop();
-    checar("valor enviado ao MP é o do servidor", enviado.corpo.transaction_amount === 118.95, enviado.corpo.transaction_amount);
+    checar("valor enviado ao MP é o do servidor", enviado.corpo.transaction_amount === 110.45, enviado.corpo.transaction_amount);
     checar("CPF vai para o MP", enviado.corpo.payer.identification.number === "11144477735");
   }
 
@@ -236,12 +237,13 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", complem
     const r = res();
     await api("criar-pagamento.js")(req({
       caminho: "/api/criar-pagamento",
-      // 389,00 + 85,00 = 474,00. Pedido alto não isenta mais de frete:
-      // 474,00 + 39,90 do Sudeste = 513,90.
+      // 389,00 + 85,00 = 474,00, menos 10% de lancamento (47,40) = 426,60.
+      // Mais 39,90 do Sudeste = 466,50. Pedido alto nao isenta de frete.
       corpo: { metodo: "cartao", itens: [{ slug: "cardigan-outono", quantidade: 1 }, { slug: "caneca-rustica", quantidade: 1 }], cliente: CLIENTE, entrega: ENTREGA },
     }), r);
-    checar("pedido alto também paga frete", r.json.frete === 39.9 && r.json.total === 513.9, { frete: r.json.frete, total: r.json.total });
-    checar("cartão não ganha o desconto do Pix", r.json.descontos.length === 0, r.json.descontos);
+    checar("pedido alto também paga frete", r.json.frete === 39.9 && r.json.total === 466.5, { frete: r.json.frete, total: r.json.total });
+    // O de lancamento vale para todos; o que o cartao NAO pode ganhar e o do Pix.
+    checar("cartão não ganha o desconto do Pix", !r.json.descontos.some((d) => d.id === "pix"), r.json.descontos);
     checar("devolve URL do checkout", String(r.json.url || "").startsWith("https://"));
     const pref = chamadas.filter((c) => c.url.includes("preferences")).pop();
     checar("crédito exclui débito", pref.corpo.payment_methods.excluded_payment_types.some((t) => t.id === "debit_card"));
@@ -262,29 +264,29 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", complem
     const r = res();
     await api("criar-pagamento.js")(req({
       caminho: "/api/criar-pagamento",
-      // Saindo de Marechal (PR), o Sudeste custa 39,90: 85,00 + 39,90 = 124,90.
+      // 85,00 menos 10% = 76,50, mais 39,90 do Sudeste = 116,40.
       corpo: { metodo: "cartao", itens: [{ slug: "caneca-rustica", quantidade: 1 }], cliente: CLIENTE, entrega: ENTREGA },
     }), r);
-    checar("pedido pequeno paga frete", r.json.frete === 39.9 && r.json.total === 124.9, { frete: r.json.frete, total: r.json.total });
+    checar("pedido pequeno paga frete", r.json.frete === 39.9 && r.json.total === 116.4, { frete: r.json.frete, total: r.json.total });
   }
   {
     const r = res();
     await api("criar-pagamento.js")(req({
       caminho: "/api/criar-pagamento",
-      // O Norte é o degrau mais caro da tabela: 389,00 + 82,90 = 471,90.
+      // 389,00 menos 10% = 350,10, mais 82,90 do Norte = 433,00.
       corpo: { metodo: "cartao", itens: [{ slug: "cardigan-outono", quantidade: 1 }], cliente: CLIENTE, entrega: { ...ENTREGA, estado: "AM", cidade: "Manaus" } },
     }), r);
-    checar("Norte paga o frete mais caro da tabela", r.json.frete === 82.9 && r.json.total === 471.9, { frete: r.json.frete, total: r.json.total });
+    checar("Norte paga o frete mais caro da tabela", r.json.frete === 82.9 && r.json.total === 433, { frete: r.json.frete, total: r.json.total });
   }
   {
     const r = res();
     await api("criar-pagamento.js")(req({
       caminho: "/api/criar-pagamento",
-      // 85,00 no Norte: 85,00 + 82,90 = 167,90. O frete passa do valor da
-      // peça — é o degrau mais caro da tabela e a peça é das mais baratas.
+      // 85,00 menos 10% = 76,50, mais 82,90 do Norte = 159,40. O frete passa
+      // do valor da peca -- degrau mais caro da tabela, peca das mais baratas.
       corpo: { metodo: "cartao", itens: [{ slug: "caneca-rustica", quantidade: 1 }], cliente: CLIENTE, entrega: { ...ENTREGA, estado: "AM", cidade: "Manaus" } },
     }), r);
-    checar("Norte paga o frete cheio da região", r.json.frete === 82.9 && r.json.total === 167.9, { frete: r.json.frete, total: r.json.total });
+    checar("Norte paga o frete cheio da região", r.json.frete === 82.9 && r.json.total === 159.4, { frete: r.json.frete, total: r.json.total });
   }
 
   console.log("\n== /api/status-pagamento ==");

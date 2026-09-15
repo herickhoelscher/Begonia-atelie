@@ -196,7 +196,13 @@ function rotuloPreco(p) {
   if (!(Number(p.preco) > 0)) return "Sob consulta";
   const pix = precoNoPix(p.preco);
   const parcela = valorDaParcela(p.preco);
-  return `<span class="block text-body-lg text-primary font-semibold">${formatarPreco(pix)} no Pix</span>
+  // Com oferta no ar, o preço cheio aparece riscado em cima. Sem oferta, a
+  // linha some sozinha — nada aqui precisa mudar quando a promoção acabar.
+  const riscado = temOferta()
+    ? `<span class="block text-label-sm text-on-surface-variant/70 line-through normal-case tracking-normal">${formatarPreco(p.preco)}</span>`
+    : "";
+  return `${riscado}
+          <span class="block text-body-lg text-primary font-semibold">${formatarPreco(pix)} no Pix</span>
           <span class="block text-label-sm text-on-surface-variant normal-case tracking-normal mt-0.5">
             ${PARCELAS_ANUNCIADAS}x de ${formatarPreco(parcela)} sem juros
           </span>`;
@@ -235,6 +241,15 @@ function cartaoProduto(p) {
 
 /* Preenche qualquer <div data-grade="destaque|pronta|encomenda|tudo">.
    Usado na home e nos relacionados da página de produto. */
+/* O total de cores aparece em texto corrido em mais de uma pagina. Preencher
+   por JS evita o que ja aconteceu: tirar cores da CARTELA e o site continuar
+   anunciando o numero velho. */
+function preencherTotalDaCartela() {
+  for (const el of document.querySelectorAll("[data-total-cartela]")) {
+    el.textContent = String(CARTELA.length);
+  }
+}
+
 function montarGrades() {
   document.querySelectorAll("[data-grade]").forEach((el) => {
     const modo = el.dataset.grade;
@@ -619,6 +634,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (el.dataset.texto === "1") el.textContent = ATELIE.email;
   });
 
+  preencherTotalDaCartela();
   montarGrades();
   renderizarFavoritos();
   document.addEventListener("favoritos:mudou", renderizarFavoritos);

@@ -109,17 +109,21 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
 
   console.log("\n== Percentuais ==");
   {
+    // Durante a oferta: lancamento 10% + Pix 7%. O de primeira compra esta
+    // desligado, entao mandar primeiraCompra: true nao muda nada.
     const d = calcularDescontos({ subtotal: 200, metodo: "pix", primeiraCompra: true });
-    checar("os dois descontos somam", d.length === 2);
+    checar("lancamento e Pix somam", d.length === 2, d.map((x) => x.id));
     checar("10% + 7% = 34,00 em 200,00", d.reduce((s, x) => s + x.valor, 0) === 34, d);
     // Em cascata o Pix cairia sobre os 180 que sobraram (12,60). Aqui ele é
     // 7% dos 200 cheios.
     checar("não é em cascata", d.find((x) => x.id === "pix").valor === 14, d);
+    checar("primeira compra nao entra na oferta", !d.some((x) => x.id === "primeira-compra"), d);
   }
+  // No cartao sobra so o lancamento -- o do Pix nao pode aparecer.
   checar("cartão não ganha o desconto do Pix",
-    calcularDescontos({ subtotal: 200, metodo: "cartao", primeiraCompra: false }).length === 0);
-  checar("segunda compra no cartão não ganha nada",
-    calcularDescontos({ subtotal: 200, metodo: "cartao", primeiraCompra: false }).length === 0);
+    !calcularDescontos({ subtotal: 200, metodo: "cartao", primeiraCompra: false }).some((x) => x.id === "pix"));
+  checar("cartão ganha a oferta de lancamento",
+    calcularDescontos({ subtotal: 200, metodo: "cartao", primeiraCompra: false }).some((x) => x.id === "lancamento"));
 
   console.log("\n== /api/orcamento ==");
   {
@@ -127,9 +131,9 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
     await api("orcamento.js")(req({ caminho: "/api/orcamento", corpo: {
       itens: [{ slug: "cardigan-outono", quantidade: 1 }], estado: "SP", metodo: "pix", email: "ana@exemplo.com" } }), r);
     checar("responde 200", r._status === 200, r.json);
-    checar("primeira compra reconhecida", r.json.primeiraCompra === true);
+    // 389 − 38,90 (lancamento) − 27,23 (Pix) + 39,90 de frete = 362,77
     checar("dois descontos", r.json.descontos.length === 2, r.json.descontos);
-    // 389 − 38,90 (primeira compra) − 27,23 (Pix) + 39,90 de frete = 362,77
+    checar("sao lancamento e Pix", r.json.descontos.map((x) => x.id).sort().join(",") === "lancamento,pix", r.json.descontos);
     checar("total com os dois descontos", r.json.total === 362.77, { total: r.json.total });
     checar("frete cobrado mesmo num pedido alto", r.json.frete === 39.9, { frete: r.json.frete });
   }
@@ -137,7 +141,7 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
     const r = res();
     await api("orcamento.js")(req({ caminho: "/api/orcamento", corpo: {
       itens: [{ slug: "caneca-rustica", quantidade: 1 }], estado: "SP", metodo: "cartao", email: "ana@exemplo.com" } }), r);
-    // 85 − 8,50 (primeira compra) + 39,90 de frete = 116,40
+    // 85 − 8,50 (lancamento) + 39,90 de frete = 116,40
     checar("pedido pequeno soma frete", r.json.total === 116.4, { total: r.json.total, frete: r.json.frete });
     // Sem frete grátis não há meta a alcançar: o checkout não tem o que anunciar.
     checar("não anuncia meta de frete grátis", r.json.faltaParaFreteGratis === null, r.json.faltaParaFreteGratis);
@@ -169,10 +173,14 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
     const r = res();
     await api("criar-pagamento.js")(req({ caminho: "/api/criar-pagamento", corpo: {
       metodo: "pix", itens: [{ slug: "cardigan-outono", quantidade: 1 }], cliente: CLIENTE, entrega: ENTREGA } }), r);
-    checar("segunda compra perde o desconto de primeira", r.json.descontos.length === 1, r.json.descontos);
-    checar("mas mantém o do Pix", r.json.descontos[0].id === "pix");
-    // 389 − 27,23 (só o Pix) + 39,90 de frete = 401,67
-    checar("cobra 401,67", r.json.total === 401.67, { total: r.json.total });
+    // Com a oferta no ar ninguem ganha desconto de primeira compra -- nem
+    // quem nunca comprou. Sobram lancamento e Pix.
+    checar("nenhum pedido ganha desconto de primeira compra",
+      !r.json.descontos.some((d) => d.id === "primeira-compra"), r.json.descontos);
+    checar("mantem Pix e lancamento",
+      r.json.descontos.map((d) => d.id).sort().join(",") === "lancamento,pix", r.json.descontos);
+    // 389 − 38,90 (lancamento) − 27,23 (Pix) + 39,90 de frete = 362,77
+    checar("cobra 362,77", r.json.total === 362.77, { total: r.json.total });
   }
   {
     const r = res();
@@ -193,8 +201,11 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
       descontos: [{ id: "forjado", rotulo: "100% off", percentual: 100, valor: 389 }],
       descontoTotal: 389, total: 0, primeiraCompra: true,
     } }), r);
-    checar("desconto forjado é ignorado", r.json.total === 401.67, { total: r.json.total });
-    checar("primeiraCompra forjada é ignorada", r.json.descontos.length === 1, r.json.descontos);
+    checar("desconto forjado é ignorado", r.json.total === 362.77, { total: r.json.total });
+    // Mandar primeiraCompra: true do navegador nao acrescenta desconto --
+    // o de primeira compra esta desligado durante a oferta.
+    checar("primeiraCompra forjada é ignorada",
+      !r.json.descontos.some((d) => d.id === "primeira-compra"), r.json.descontos);
   }
 
   console.log("");
@@ -226,7 +237,8 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
 
     checar("entrega normal cobra frete", entrega.frete === 39.9, { frete: entrega.frete });
     checar("retirada não cobra frete", retira.frete === 0, { frete: retira.frete });
-    checar("retirada some do total", retira.total === 85, { total: retira.total });
+    // 85 menos 10% de lancamento = 76,50, sem frete.
+    checar("retirada some do total", retira.total === 76.5, { total: retira.total });
     checar("pedido sai marcado como retirada", retira.retirada === true);
     // Retirada NAO e "frete gratis": e ausencia de envio. Se viesse true, o
     // e-mail da dona anunciaria frete gratis num pedido que ela entrega na mao.
@@ -235,7 +247,7 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
 
     // A UF deixa de importar: quem retira nao posta nada.
     const longe = montarPedido([{ slug: "caneca-rustica", quantidade: 1 }], "AM", { retirada: true }).pedido;
-    checar("retirada ignora a UF mais cara", longe.frete === 0 && longe.total === 85, { total: longe.total });
+    checar("retirada ignora a UF mais cara", longe.frete === 0 && longe.total === 76.5, { total: longe.total });
   }
 
   console.log("\n== /api/orcamento com retirada ==");
