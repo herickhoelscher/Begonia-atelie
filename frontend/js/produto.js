@@ -202,6 +202,15 @@ document.addEventListener("DOMContentLoaded", () => {
             : ""
         }
 
+        <!-- Prazo, dentro do texto da peca. Sai do MESMO campo p.prazo que a
+             caixa la em cima usa -- escrever de novo aqui abriria a chance de
+             a caixa dizer um prazo e a descricao dizer outro. Vale para toda
+             peca, entao nao precisa ser repetido em cada uma no catalogo. -->
+        <section class="mt-8">
+          <h2 class="font-headline text-body-lg text-on-surface mb-3">Prazo de produção e envio</h2>
+          <p class="text-body-md text-on-surface-variant mb-3">${p.prazo}.</p>
+        </section>
+
         <p class="text-body-md text-on-surface-variant mt-8">
           Quer essa peça em outra cor ou medida?
           <a href="sob-encomenda.html" class="text-primary underline underline-offset-4 hover:no-underline">Faça uma encomenda</a>.
