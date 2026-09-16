@@ -919,12 +919,12 @@ const PRODUTOS = [
        ve -- sem precisar de logica de "se levou A e B, desconta C", que e
        onde esse tipo de promocao costuma divergir entre tela e cobranca.
 
-       A conta: prateleira 120 + organizador 90 = 210. O kit sai 180, ou seja
-       30 reais abaixo. Mudar o preco de uma das duas pecas NAO muda este
+       A conta: prateleira 120 + organizador 90 = 210. O kit sai 194,90, ou
+       seja 15,10 abaixo. Mudar o preco de uma das duas pecas NAO muda este
        numero -- se mexer nelas, revise aqui. */
     slug: "kit-prateleira-organizador",
     nome: "Kit Prateleira + Painel Organizador",
-    preco: 180,
+    preco: 194.9,
     categoria: "decoracao",
     disponibilidade: "encomenda",
     destaque: true,
@@ -937,11 +937,45 @@ const PRODUTOS = [
       "painel-organizador-02-na-parede.jpeg",
     ],
     alt: "Prateleira de macramê de três níveis ao lado do painel organizador, os dois em fio cru na cozinha.",
-    resumo: "A Prateleira de Macramê e o Painel Organizador juntos, por R$ 30 a menos.",
+    resumo: "A Prateleira de Macramê e o Painel Organizador juntos, por R$ 15,10 a menos.",
     descricao:
       "As duas peças da cozinha no mesmo pedido: a Prateleira de Macramê, com três níveis de madeira e tábua de 40 × 15 cm, e o Painel Organizador, com cavilha fixa e duas removíveis de 45 cm. Separadas sairiam R$ 210. As duas vão na mesma cor, escolhida na compra.",
     materiais: ["Prateleira de Macramê (tábua de 40 × 15 cm)", "Painel Organizador (cavilhas de 45 cm)", "Fio de macramê 85% algodão"],
     medidas: "Prateleira: madeira de 40 × 15 cm, altura total de aproximadamente 80 cm. Painel: cavilhas removíveis de 45 cm, altura conforme a alça.",
+    cuidados: [
+      "Limpar com pano levemente úmido ou esponja mágica, de leve",
+      "A madeira pode molhar no dia a dia, mas não deixe encharcada nem na chuva",
+      "Evitar produtos abrasivos, excesso de água e sol direto prolongado",
+      "Com o uso o fio laceia um pouco — é característica do macramê",
+    ],
+    prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
+  },
+
+  {
+    /* Kit menor. A conta: prateleira quadrada 100 + suporte 34,90 = 134,90.
+       O kit sai 129,90, ou seja 5 reais abaixo. Como o kit grande, e uma
+       peca propria no catalogo: o preco e um numero so, que o servidor cobra
+       e o cliente ve, sem logica de "se levou A e B, desconta C". */
+    slug: "kit-prateleira-quadrada-suporte",
+    nome: "Kit Prateleira Quadrada + Suporte",
+    preco: 129.9,
+    categoria: "decoracao",
+    disponibilidade: "encomenda",
+    destaque: true,
+    tags: ["novo"],
+    cores: CORES_MACRAME,
+    fotos: [
+      "prateleira-quadrada-01-na-parede.jpeg",
+      "suporte-papel-toalha-01-com-papel.jpeg",
+      "prateleira-quadrada-02-ambiente.jpeg",
+      "suporte-papel-toalha-02-com-pano.jpeg",
+    ],
+    alt: "Prateleira quadrada de macramê ao lado do suporte para papel toalha, os dois em fio cru.",
+    resumo: "A Prateleira Quadrada e o Suporte para Papel Toalha juntos, por R$ 5 a menos.",
+    descricao:
+      "As duas peças compactas no mesmo pedido: a Prateleira Quadrada, com três níveis e tábua de 20 × 20 cm, e o Suporte Simples para Papel Toalha, com argola de fixação e cavilha de 33 cm. Separadas sairiam R$ 134,90. As duas vão na mesma cor, escolhida na compra.",
+    materiais: ["Prateleira Quadrada de Macramê (tábua de 20 × 20 cm)", "Suporte Simples para Papel Toalha (cavilha de 33 cm)", "Fio para macramê com 85% algodão"],
+    medidas: "Prateleira: madeira de 20 × 20 cm, altura total de aproximadamente 80 cm. Suporte: cavilha de 33 cm, de 40 a 43 cm da argola até a ponta.",
     cuidados: [
       "Limpar com pano levemente úmido ou esponja mágica, de leve",
       "A madeira pode molhar no dia a dia, mas não deixe encharcada nem na chuva",

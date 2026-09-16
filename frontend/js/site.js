@@ -263,6 +263,13 @@ function montarGrades() {
     const categoria = el.dataset.gradeCategoria;
 
     let lista = produtosVisiveis().filter((p) => p.slug !== excluir);
+    // `data-grade-slugs` monta uma grade com pecas escolhidas a dedo, na
+    // ordem em que forem escritas. Serve para a vitrine de kits da home, que
+    // nao e "os 3 primeiros de uma categoria" e sim uma lista curada.
+    const escolhidas = (el.dataset.gradeSlugs || "").split(",").map((s) => s.trim()).filter(Boolean);
+    if (escolhidas.length) {
+      lista = escolhidas.map((slug) => lista.find((p) => p.slug === slug)).filter(Boolean);
+    }
     if (modo === "destaque") lista = lista.filter((p) => p.destaque);
     else if (modo === "pronta") lista = lista.filter((p) => p.disponibilidade === "pronta");
     else if (modo === "encomenda") lista = lista.filter((p) => p.disponibilidade === "encomenda");
