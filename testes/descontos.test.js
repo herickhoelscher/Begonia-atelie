@@ -113,10 +113,11 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
     // desligado, entao mandar primeiraCompra: true nao muda nada.
     const d = calcularDescontos({ subtotal: 200, metodo: "pix", primeiraCompra: true });
     checar("lancamento e Pix somam", d.length === 2, d.map((x) => x.id));
-    checar("10% + 7% = 34,00 em 200,00", d.reduce((s, x) => s + x.valor, 0) === 34, d);
-    // Em cascata o Pix cairia sobre os 180 que sobraram (12,60). Aqui ele é
-    // 7% dos 200 cheios.
-    checar("não é em cascata", d.find((x) => x.id === "pix").valor === 14, d);
+    // EM CASCATA: 10% de 200 = 20, sobram 180; 7% de 180 = 12,60. Total 32,60.
+    checar("10% e depois 7% = 32,60 em 200,00", d.reduce((s, x) => s + x.valor, 0) === 32.6, d);
+    // Somados dariam 14 no Pix (7% dos 200 cheios). Em cascata sao 12,60,
+    // porque o Pix incide sobre os 180 que sobraram do lancamento.
+    checar("e cascata, nao soma", d.find((x) => x.id === "pix").valor === 12.6, d);
     checar("primeira compra nao entra na oferta", !d.some((x) => x.id === "primeira-compra"), d);
   }
   // No cartao sobra so o lancamento -- o do Pix nao pode aparecer.
@@ -131,10 +132,10 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
     await api("orcamento.js")(req({ caminho: "/api/orcamento", corpo: {
       itens: [{ slug: "cardigan-outono", quantidade: 1 }], estado: "SP", metodo: "pix", email: "ana@exemplo.com" } }), r);
     checar("responde 200", r._status === 200, r.json);
-    // 389 − 38,90 (lancamento) − 27,23 (Pix) + 39,90 de frete = 362,77
+    // 389 -10% = 350,10; -7% desses 350,10 (24,51) = 325,59; +39,90 = 365,49
     checar("dois descontos", r.json.descontos.length === 2, r.json.descontos);
     checar("sao lancamento e Pix", r.json.descontos.map((x) => x.id).sort().join(",") === "lancamento,pix", r.json.descontos);
-    checar("total com os dois descontos", r.json.total === 362.77, { total: r.json.total });
+    checar("total com os dois descontos", r.json.total === 365.49, { total: r.json.total });
     checar("frete cobrado mesmo num pedido alto", r.json.frete === 39.9, { frete: r.json.frete });
   }
   {
@@ -163,7 +164,7 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
       metodo: "pix", itens: [{ slug: "cardigan-outono", quantidade: 1 }], cliente: CLIENTE, entrega: ENTREGA } }), r);
     referencia = r.json.referencia;
     checar("primeira compra ganha os dois descontos", r.json.descontos.length === 2, r.json.descontos);
-    checar("cobra 362,77", r.json.total === 362.77, { total: r.json.total });
+    checar("cobra 365,49", r.json.total === 365.49, { total: r.json.total });
   }
   {
     // O webhook marca o e-mail como cliente. Simulamos direto o registro.
@@ -180,7 +181,7 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
     checar("mantem Pix e lancamento",
       r.json.descontos.map((d) => d.id).sort().join(",") === "lancamento,pix", r.json.descontos);
     // 389 − 38,90 (lancamento) − 27,23 (Pix) + 39,90 de frete = 362,77
-    checar("cobra 362,77", r.json.total === 362.77, { total: r.json.total });
+    checar("cobra 365,49", r.json.total === 365.49, { total: r.json.total });
   }
   {
     const r = res();
@@ -201,7 +202,7 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
       descontos: [{ id: "forjado", rotulo: "100% off", percentual: 100, valor: 389 }],
       descontoTotal: 389, total: 0, primeiraCompra: true,
     } }), r);
-    checar("desconto forjado é ignorado", r.json.total === 362.77, { total: r.json.total });
+    checar("desconto forjado é ignorado", r.json.total === 365.49, { total: r.json.total });
     // Mandar primeiraCompra: true do navegador nao acrescenta desconto --
     // o de primeira compra esta desligado durante a oferta.
     checar("primeiraCompra forjada é ignorada",

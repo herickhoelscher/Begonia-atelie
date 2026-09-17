@@ -985,6 +985,62 @@ const PRODUTOS = [
     prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
   },
 
+  {
+    slug: "suporte-planta-eco",
+    nome: "Suporte de Planta Eco",
+    preco: 49.9,
+    categoria: "decoracao",
+    disponibilidade: "encomenda",
+    destaque: true,
+    tags: ["novo"],
+    cores: CORES_MACRAME,
+    fotos: [
+      "suporte-planta-01-com-vaso.jpeg",
+      "suporte-planta-02-inteiro.jpeg",
+      "suporte-planta-03-ambiente.jpeg",
+      "suporte-planta-04-detalhe.jpeg",
+      "suporte-planta-05-punho-de-rede.jpeg",
+    ],
+    alt: "Suporte de planta em macramê cru pendurado na varanda, segurando um vaso preto com uma planta de folhas roxas.",
+    resumo: "O Suporte de Planta Eco é feito à mão em macramê e foi pensado para acomodar vasos de plantas de diferentes tamanhos, trazendo mais charme e personalidade para a decoração.",
+    descricao:
+      "Ele comporta vasos médios e grandes, mas também pode ser usado com vasos pequenos. É uma peça prática para aproveitar melhor os espaços e deixar as plantas ainda mais bonitas na decoração.",
+    materiais: ["Feito à mão em macramê", "Punho de rede para sustentação"],
+    medidas: "Comprimento: aproximadamente 100 cm. A medida pode apresentar pequenas variações por ser uma peça artesanal.",
+    cuidados: [
+      "Na hora de regar, retire o vaso do suporte",
+      "Espere a água escorrer completamente antes de recolocá-lo",
+      "Para lavar, faça a limpeza delicadamente, de preferência à mão",
+      "Também pode ser utilizada uma esponja mágica, passando com cuidado sobre a peça",
+    ],
+    secoes: [
+      {
+        titulo: "Detalhes da peça",
+        itens: [
+          "Feito à mão em macramê",
+          "Comprimento: aproximadamente 100 cm",
+          "Possui punho de rede para sustentação",
+          "Comporta vasos pequenos, médios e grandes",
+          "A medida pode apresentar pequenas variações por ser uma peça artesanal",
+        ],
+      },
+      {
+        titulo: "Cuidados com a planta e o suporte",
+        paragrafos: [
+          "Na hora de regar a planta, recomendamos retirar o vaso do suporte. Depois de molhar, espere a água escorrer completamente antes de colocá-lo novamente no suporte. Isso ajuda a conservar melhor o macramê.",
+          "Para lavar o suporte, faça a limpeza delicadamente, de preferência à mão. Também pode ser utilizada uma esponja mágica, passando com cuidado sobre a peça.",
+        ],
+      },
+      {
+        paragrafos: [
+          "Por ser uma peça artesanal, pequenas variações podem acontecer, tornando cada suporte único.",
+          "Além de ser útil para acomodar suas plantas, o suporte é uma forma simples de dar um charme a mais para a casa e deixar aquele cantinho ainda mais bonito.",
+        ],
+      },
+    ],
+    prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
+  },
+
   /* ------------------------------------------------------------- TESTE
      Peça de teste, para conferir de ponta a ponta que a venda funciona:
      cobrança, webhook e e-mail de aviso.
@@ -1435,12 +1491,14 @@ function temOferta() {
    sobre o outro em cascata daria alguns centavos de diferença, e a etiqueta
    discordaria do total no checkout. */
 function precoNoPix(preco) {
-  const cheio = Number(preco) || 0;
-  if (cheio <= 0) return cheio;
-  let desconto = 0;
-  if (DESCONTOS.lancamento.ativo) desconto += arredondar((cheio * DESCONTOS.lancamento.percentual) / 100);
-  if (DESCONTOS.pix.ativo) desconto += arredondar((cheio * DESCONTOS.pix.percentual) / 100);
-  return arredondar(cheio - desconto);
+  let base = Number(preco) || 0;
+  if (base <= 0) return base;
+  // Mesma cascata do calcularDescontos, na mesma ordem. Se as duas contas
+  // divergirem, a etiqueta da vitrine promete um preço que o checkout não
+  // cobra -- e o cliente descobre na ultima tela.
+  if (DESCONTOS.lancamento.ativo) base = arredondar(base - arredondar((base * DESCONTOS.lancamento.percentual) / 100));
+  if (DESCONTOS.pix.ativo) base = arredondar(base - arredondar((base * DESCONTOS.pix.percentual) / 100));
+  return base;
 }
 
 /* Valor de cada parcela, sobre o preço cheio. A última parcela absorve a
@@ -1489,13 +1547,19 @@ function calcularDescontos({ subtotal, metodo, primeiraCompra }) {
     ? candidatos
     : [candidatos.reduce((a, b) => (b.percentual > a.percentual ? b : a))];
 
-  // Percentuais somados sobre o subtotal, não em cascata: 10% + 7% tira 17%
-  // do valor cheio, e não 7% do que sobrou depois dos 10%. É o que a cliente
-  // quis dizer e é o que o cliente espera ao ler "10% + 7%".
-  return escolhidos.map((d) => ({
-    ...d,
-    valor: arredondar((subtotal * d.percentual) / 100),
-  }));
+  // EM CASCATA, na ordem em que entraram: o lançamento tira 10% do valor
+  // cheio, e o Pix tira 7% do que SOBROU. Numa peça de 120: -12,00 leva a
+  // 108,00, e os 7% do Pix saem desses 108,00 (-7,56), fechando em 100,44.
+  //
+  // Antes eram somados (17% dos 120 = 99,60). A cliente pediu a cascata, que
+  // e como loja costuma anunciar "10% OFF e mais 7% no Pix": o segundo
+  // desconto incide sobre o preço já promocional, não sobre o de tabela.
+  let base = subtotal;
+  return escolhidos.map((d) => {
+    const valor = arredondar((base * d.percentual) / 100);
+    base = arredondar(base - valor);
+    return { ...d, valor };
+  });
 }
 
 /* =========================================================================

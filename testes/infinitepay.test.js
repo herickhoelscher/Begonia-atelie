@@ -188,11 +188,12 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
       caminho: "/api/criar-pagamento",
       corpo: { metodo: "pix", itens: [{ slug: "cardigan-outono", quantidade: 1 }], cliente: CLIENTE, entrega: ENTREGA },
     }), r);
-    // 389 menos 10% (38,90) e 7% (27,23) = 322,87, mais 39,90 = 362,77
-    checar("declarar Pix soma com o lancamento", r.json.total === 362.77, { total: r.json.total });
+    // Em CASCATA: 389 -10% = 350,10; -7% desses 350,10 (24,51) = 325,59.
+    // Mais 39,90 de frete = 365,49.
+    checar("Pix incide sobre o preco ja com a oferta", r.json.total === 365.49, { total: r.json.total });
     const enviado = chamadas.filter((c) => c.url.endsWith("/links")).pop();
     const somaItens = enviado.corpo.items.reduce((s, i) => s + i.price * i.quantity, 0);
-    checar("o link é criado já com o desconto aplicado", somaItens === 36277, { somaItens });
+    checar("o link é criado já com o desconto aplicado", somaItens === 36549, { somaItens });
   }
 
   console.log("\n== webhook: as três conferências ==");

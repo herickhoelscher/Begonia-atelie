@@ -202,13 +202,27 @@ document.addEventListener("DOMContentLoaded", () => {
             : ""
         }
 
-        <!-- Prazo, dentro do texto da peca. Sai do MESMO campo p.prazo que a
-             caixa la em cima usa -- escrever de novo aqui abriria a chance de
-             a caixa dizer um prazo e a descricao dizer outro. Vale para toda
-             peca, entao nao precisa ser repetido em cada uma no catalogo. -->
+        <!-- Resumo de medidas, cores, valores e envio, no formato que a
+             cliente pediu.
+
+             TUDO aqui e calculado, nada e escrito a mao no catalogo: os
+             valores saem de p.preco pelas mesmas funcoes que a vitrine e o
+             checkout usam. Escrever "R$ 108,00" no texto de cada peca faria
+             o preco envelhecer calado na primeira vez que ela mexesse num
+             valor -- e o site passaria a anunciar um numero que a cobranca
+             nao pratica. -->
         <section class="mt-8">
-          <h2 class="font-headline text-body-lg text-on-surface mb-3">Prazo de produção e envio</h2>
-          <p class="text-body-md text-on-surface-variant mb-3">${p.prazo}.</p>
+          <h2 class="font-headline text-body-lg text-on-surface mb-3">Valores e envio</h2>
+          <ul class="leaf-list space-y-2 text-body-md text-on-surface-variant mb-3">
+            <li>${p.medidas}</li>
+            <li>Disponível em ${coresDe(p).length} cores</li>
+            <li>${formatarPreco(p.preco)}</li>
+            ${temOferta() ? `<li>${DESCONTOS.lancamento.percentual}% OFF: ${formatarPreco(precoComOferta(p.preco))}</li>` : ""}
+            ${DESCONTOS.pix.ativo ? `<li>Pix: mais ${DESCONTOS.pix.percentual}% OFF &rarr; ${formatarPreco(precoNoPix(p.preco))}</li>` : ""}
+            <li>Cartão: ${PARCELAS_ANUNCIADAS}x de ${formatarPreco(valorDaParcela(p.preco))} sem juros</li>
+          </ul>
+          <p class="text-body-md text-on-surface-variant mb-3">Prazo de montagem: ${p.prazo}.</p>
+          <p class="text-body-md text-on-surface-variant mb-3">Envios para todo o Brasil.</p>
         </section>
 
         <p class="text-body-md text-on-surface-variant mt-8">

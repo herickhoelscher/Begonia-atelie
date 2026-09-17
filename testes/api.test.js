@@ -184,15 +184,17 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", complem
     }), r);
     refPix = r.json.referencia;
     checar("responde 200", r._status === 200, r.json);
-    // 85,00 menos 10% de lancamento (8,50) e 7% de Pix (5,95) = 70,55.
-    // Mais 39,90 de frete do Sudeste = 110,45.
-    checar("ignora o preço forjado e aplica os descontos", r.json.total === 110.45, { total: r.json.total });
-    checar("mostra o desconto do Pix na resposta", r.json.descontos.some((d) => d.id === "pix" && d.valor === 5.95), r.json.descontos);
+    // Em CASCATA: 85,00 -10% = 76,50; depois -7% desses 76,50 (5,36) = 71,14.
+    // Mais 39,90 de frete do Sudeste = 111,04.
+    checar("ignora o preço forjado e aplica os descontos", r.json.total === 111.04, { total: r.json.total });
+    // 5,36 e 7% de 76,50 -- o valor JA descontado, nao os 85,00 cheios.
+    checar("o Pix incide sobre o preco ja com a oferta",
+      r.json.descontos.some((d) => d.id === "pix" && d.valor === 5.36), r.json.descontos);
     checar("devolve copia-e-cola do Pix", typeof r.json.qrCodeTexto === "string" && r.json.qrCodeTexto.length > 10);
     checar("devolve imagem do QR", typeof r.json.qrCodeImagem === "string");
     checar("referência no formato certo", /^BA-[A-Z2-9]{8}$/.test(refPix || ""), refPix);
     const enviado = chamadas.filter((c) => c.url.includes("/v1/payments")).pop();
-    checar("valor enviado ao MP é o do servidor", enviado.corpo.transaction_amount === 110.45, enviado.corpo.transaction_amount);
+    checar("valor enviado ao MP é o do servidor", enviado.corpo.transaction_amount === 111.04, enviado.corpo.transaction_amount);
     checar("CPF vai para o MP", enviado.corpo.payer.identification.number === "11144477735");
   }
 
