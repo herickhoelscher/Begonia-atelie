@@ -233,38 +233,55 @@ const PRODUTOS = [
     prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
   },
   {
-    slug: "porta-retrato-coracao",
-    nome: "Porta-Retrato Polaroid Coração",
-    preco: 39.9,
+    slug: "suporte-planta-eco",
+    nome: "Suporte de Planta Eco",
+    preco: 49.9,
     categoria: "decoracao",
     disponibilidade: "encomenda",
     destaque: true,
-    tags: [],
+    tags: ["novo"],
     cores: CORES_MACRAME,
-    fotos: ["porta-retrato-macrame-01-na-parede.jpeg"],
-    alt: "Porta-retrato de macramê em corda crua pendurado na parede, segurando duas fotos polaroid.",
-    resumo: "Porta-retrato em formato de coração feito à mão em macramé, pensado para deixar suas fotos favoritas expostas de um jeito diferente e delicado.",
-    descricao: "A peça comporta duas fotos no tamanho Polaroid 8 x 10 cm.",
-    materiais: [
-      "Macramê feito com fio 85% algodão",
+    fotos: [
+      "suporte-planta-01-com-vaso.jpeg",
+      "suporte-planta-02-inteiro.jpeg",
+      "suporte-planta-03-ambiente.jpeg",
+      "suporte-planta-04-detalhe.jpeg",
+      "suporte-planta-05-punho-de-rede.jpeg",
     ],
-    medidas: "Comprimento total: aproximadamente 60 cm, do início ao fim da peça. Capacidade: 2 fotos Polaroid de 8 x 10 cm.",
+    alt: "Suporte de planta em macramê cru pendurado na varanda, segurando um vaso preto com uma planta de folhas roxas.",
+    resumo: "O Suporte de Planta Eco é feito à mão em macramê e foi pensado para acomodar vasos de plantas de diferentes tamanhos, trazendo mais charme e personalidade para a decoração.",
+    descricao:
+      "Ele comporta vasos médios e grandes, mas também pode ser usado com vasos pequenos. É uma peça prática para aproveitar melhor os espaços e deixar as plantas ainda mais bonitas na decoração.",
+    materiais: ["Feito à mão em macramê", "Punho de rede para sustentação"],
+    medidas: "Comprimento: aproximadamente 100 cm. A medida pode apresentar pequenas variações por ser uma peça artesanal.",
     cuidados: [
-      "Para a limpeza, o ideal é lavar delicadamente à mão",
-      "Também pode ser utilizada uma esponjinha mágica, passando-a delicadamente sobre o macramê para remover pequenas sujeiras",
-      "Evite esfregar com força para não danificar ou deformar os fios",
+      "Na hora de regar, retire o vaso do suporte",
+      "Espere a água escorrer completamente antes de recolocá-lo",
+      "Para lavar, faça a limpeza delicadamente, de preferência à mão",
+      "Também pode ser utilizada uma esponja mágica, passando com cuidado sobre a peça",
     ],
     secoes: [
       {
-        titulo: "Cuidados com a peça",
+        titulo: "Detalhes da peça",
+        itens: [
+          "Feito à mão em macramê",
+          "Comprimento: aproximadamente 100 cm",
+          "Possui punho de rede para sustentação",
+          "Comporta vasos pequenos, médios e grandes",
+          "A medida pode apresentar pequenas variações por ser uma peça artesanal",
+        ],
+      },
+      {
+        titulo: "Cuidados com a planta e o suporte",
         paragrafos: [
-          "Para a limpeza, o ideal é lavar delicadamente à mão.",
-          "Também pode ser utilizada uma esponjinha mágica, passando-a delicadamente sobre o macramê para remover pequenas sujeiras. Evite esfregar com força para não danificar ou deformar os fios.",
+          "Na hora de regar a planta, recomendamos retirar o vaso do suporte. Depois de molhar, espere a água escorrer completamente antes de colocá-lo novamente no suporte. Isso ajuda a conservar melhor o macramê.",
+          "Para lavar o suporte, faça a limpeza delicadamente, de preferência à mão. Também pode ser utilizada uma esponja mágica, passando com cuidado sobre a peça.",
         ],
       },
       {
         paragrafos: [
-          "Por ser uma peça feita à mão, pequenas variações podem acontecer, tornando cada porta-retrato único.",
+          "Por ser uma peça artesanal, pequenas variações podem acontecer, tornando cada suporte único.",
+          "Além de ser útil para acomodar suas plantas, o suporte é uma forma simples de dar um charme a mais para a casa e deixar aquele cantinho ainda mais bonito.",
         ],
       },
     ],
@@ -517,7 +534,11 @@ const PRODUTOS = [
     nome: "Tapete Lavanda",
     preco: 69.9,
     categoria: "decoracao",
-    disponibilidade: "pronta",
+    // Era "pronta", mas o prazo dele ja dizia "5 a 10 dias para montar a
+    // peca" -- as duas coisas nao podiam ser verdade ao mesmo tempo. Com
+    // isso nenhuma peca e mais pronta entrega, e o filtro que apontava para
+    // ela saiu do site.
+    disponibilidade: "encomenda",
     destaque: false,
     tags: [],
     // Estas fotos estavam num produto chamado "Sousplat Estrela", na
@@ -986,55 +1007,38 @@ const PRODUTOS = [
   },
 
   {
-    slug: "suporte-planta-eco",
-    nome: "Suporte de Planta Eco",
-    preco: 49.9,
+    slug: "porta-retrato-coracao",
+    nome: "Porta-Retrato Polaroid Coração",
+    preco: 39.9,
     categoria: "decoracao",
     disponibilidade: "encomenda",
     destaque: true,
-    tags: ["novo"],
+    tags: [],
     cores: CORES_MACRAME,
-    fotos: [
-      "suporte-planta-01-com-vaso.jpeg",
-      "suporte-planta-02-inteiro.jpeg",
-      "suporte-planta-03-ambiente.jpeg",
-      "suporte-planta-04-detalhe.jpeg",
-      "suporte-planta-05-punho-de-rede.jpeg",
+    fotos: ["porta-retrato-macrame-01-na-parede.jpeg"],
+    alt: "Porta-retrato de macramê em corda crua pendurado na parede, segurando duas fotos polaroid.",
+    resumo: "Porta-retrato em formato de coração feito à mão em macramé, pensado para deixar suas fotos favoritas expostas de um jeito diferente e delicado.",
+    descricao: "A peça comporta duas fotos no tamanho Polaroid 8 x 10 cm.",
+    materiais: [
+      "Macramê feito com fio 85% algodão",
     ],
-    alt: "Suporte de planta em macramê cru pendurado na varanda, segurando um vaso preto com uma planta de folhas roxas.",
-    resumo: "O Suporte de Planta Eco é feito à mão em macramê e foi pensado para acomodar vasos de plantas de diferentes tamanhos, trazendo mais charme e personalidade para a decoração.",
-    descricao:
-      "Ele comporta vasos médios e grandes, mas também pode ser usado com vasos pequenos. É uma peça prática para aproveitar melhor os espaços e deixar as plantas ainda mais bonitas na decoração.",
-    materiais: ["Feito à mão em macramê", "Punho de rede para sustentação"],
-    medidas: "Comprimento: aproximadamente 100 cm. A medida pode apresentar pequenas variações por ser uma peça artesanal.",
+    medidas: "Comprimento total: aproximadamente 60 cm, do início ao fim da peça. Capacidade: 2 fotos Polaroid de 8 x 10 cm.",
     cuidados: [
-      "Na hora de regar, retire o vaso do suporte",
-      "Espere a água escorrer completamente antes de recolocá-lo",
-      "Para lavar, faça a limpeza delicadamente, de preferência à mão",
-      "Também pode ser utilizada uma esponja mágica, passando com cuidado sobre a peça",
+      "Para a limpeza, o ideal é lavar delicadamente à mão",
+      "Também pode ser utilizada uma esponjinha mágica, passando-a delicadamente sobre o macramê para remover pequenas sujeiras",
+      "Evite esfregar com força para não danificar ou deformar os fios",
     ],
     secoes: [
       {
-        titulo: "Detalhes da peça",
-        itens: [
-          "Feito à mão em macramê",
-          "Comprimento: aproximadamente 100 cm",
-          "Possui punho de rede para sustentação",
-          "Comporta vasos pequenos, médios e grandes",
-          "A medida pode apresentar pequenas variações por ser uma peça artesanal",
-        ],
-      },
-      {
-        titulo: "Cuidados com a planta e o suporte",
+        titulo: "Cuidados com a peça",
         paragrafos: [
-          "Na hora de regar a planta, recomendamos retirar o vaso do suporte. Depois de molhar, espere a água escorrer completamente antes de colocá-lo novamente no suporte. Isso ajuda a conservar melhor o macramê.",
-          "Para lavar o suporte, faça a limpeza delicadamente, de preferência à mão. Também pode ser utilizada uma esponja mágica, passando com cuidado sobre a peça.",
+          "Para a limpeza, o ideal é lavar delicadamente à mão.",
+          "Também pode ser utilizada uma esponjinha mágica, passando-a delicadamente sobre o macramê para remover pequenas sujeiras. Evite esfregar com força para não danificar ou deformar os fios.",
         ],
       },
       {
         paragrafos: [
-          "Por ser uma peça artesanal, pequenas variações podem acontecer, tornando cada suporte único.",
-          "Além de ser útil para acomodar suas plantas, o suporte é uma forma simples de dar um charme a mais para a casa e deixar aquele cantinho ainda mais bonito.",
+          "Por ser uma peça feita à mão, pequenas variações podem acontecer, tornando cada porta-retrato único.",
         ],
       },
     ],
