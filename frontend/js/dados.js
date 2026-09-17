@@ -469,81 +469,44 @@ const PRODUTOS = [
     prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
   },
   {
-    slug: "prateleira-macrame-quadrada",
-    nome: "Prateleira Quadrada de Macramê",
-    preco: 100,
+    /* CONFERIR com a Milena: existem DOIS paineis no catalogo agora. Este e o
+       grande (bastao de 45 cm, franja em V, cru) e o outro e o "Painel Macrame
+       Losango" (bastao de 20 cm, verde), que continua sem preco. Se forem a
+       mesma peca em tamanhos diferentes, vale unificar o nome. */
+    slug: "painel-macrame-grande",
+    nome: "Painel de Macramê",
+    preco: 90,
     categoria: "decoracao",
     disponibilidade: "encomenda",
     destaque: true,
     tags: ["novo"],
     cores: CORES_MACRAME,
-    fotos: [
-      "prateleira-quadrada-01-na-parede.jpeg",
-      "prateleira-quadrada-02-ambiente.jpeg",
-      "prateleira-macrame-punho-de-rede.jpeg",
-    ],
-    alt: "Prateleira quadrada de macramê de três níveis, em madeira e fio cru, pendurada na parede da sala com uma garrafa e um vaso de planta.",
-    resumo: "Uma peça feita à mão para deixar seu espaço mais bonito, organizado e funcional.",
-    descricao: "A prateleira quadrada une madeira e macramê em uma peça versátil, perfeita para aproveitar pequenos espaços e dar um toque especial à decoração.",
+    fotos: ["painel-macrame-grande-01.jpeg", "painel-macrame-grande-02-detalhe.jpeg"],
+    alt: "Painel decorativo de macramê em fio cru, com desenho em V e franja longa, pendurado num bastão de madeira.",
+    resumo: "Painel decorativo feito à mão em macramê, perfeito para dar aquele toque a mais na decoração e deixar o ambiente mais aconchegante e com personalidade.",
+    descricao: "Com 45 cm de largura e aproximadamente 70 cm de comprimento, considerando a medida da alça até a ponta do painel. Da cavilha até a ponta, são aproximadamente 45 cm.",
     materiais: [
-      "Madeira",
       "Fio para macramê com 85% algodão",
-      "Punho de rede para instalação",
+      "Bastão de madeira",
+      "Franja no acabamento",
     ],
-    medidas: "Madeira: 20 × 20 cm. Altura total: aproximadamente 80 cm. Distância do primeiro nível: 30 cm. Distância entre os demais níveis: aproximadamente 20 cm. Por ser uma peça artesanal, pequenas variações nas medidas e no acabamento podem acontecer.",
+    medidas: "45 cm de largura e aproximadamente 70 cm de comprimento, considerando a medida da alça até a ponta do painel. Da cavilha até a ponta, são aproximadamente 45 cm.",
     cuidados: [
-      "Utilize um pano levemente úmido",
-      "Também pode ser utilizada uma esponja mágica, delicadamente",
-      "Não utilize produtos abrasivos ou de limpeza muito fortes",
-      "Evite exposição direta e prolongada ao sol",
+      "O painel não deve ser lavado",
+      "Utilize apenas um pano levemente úmido, passando delicadamente sobre o macramê e a madeira",
+      "Evite produtos abrasivos e o excesso de água",
     ],
     secoes: [
       {
-        titulo: "Onde usar?",
         paragrafos: [
-          "Por ser mais compacta, essa versão é uma ótima opção para quem quer aproveitar melhor os espaços sem abrir mão da decoração.",
-          "Pode ser usada no banheiro, quarto, sala, escritório, cozinha ou onde mais combinar com a sua casa. Você pode colocar plantas, pequenos objetos decorativos, produtos de uso diário e outros itens leves.",
+          "É uma peça versátil, que pode ser usada em diferentes ambientes para preencher espaços vazios, complementar a decoração ou simplesmente dar uma incrementada naquele cantinho que estava faltando alguma coisa.",
+          "Por ser uma peça artesanal, pequenas variações podem acontecer, tornando cada painel único.",
         ],
       },
       {
-        titulo: "Instalação",
+        titulo: "Cuidados com a peça",
         paragrafos: [
-          "A peça possui um punho de rede na parte superior, que permite sua instalação na parede.",
-          "Recomendamos utilizar um gancho ou suporte adequado e bem fixado na parede, de acordo com o tipo de parede e o peso dos objetos que serão colocados.",
-          "A prateleira foi feita para ficar rente à parede. Ela não foi desenvolvida para ficar suspensa livremente no ambiente. Quando instalada afastada da parede, a peça pode ficar inclinada ou torta, pois sua estrutura foi pensada considerando o apoio da parede.",
-        ],
-      },
-      {
-        titulo: "Sobre o peso",
-        paragrafos: [
-          "A prateleira foi desenvolvida principalmente para objetos leves e de uso cotidiano.",
-          "Evite colocar objetos excessivamente pesados ou concentrar todo o peso em um único nível. O excesso de peso pode fazer com que o fio laceie ou altere a estrutura da peça.",
-          "A capacidade também depende diretamente da forma de instalação, do gancho utilizado e da resistência da parede.",
-        ],
-      },
-      {
-        titulo: "Cuidados e limpeza",
-        paragrafos: [
-          "A madeira utilizada na peça pode ter contato com água e umidade sem problemas no uso cotidiano. Ainda assim, evite deixar a peça constantemente encharcada ou exposta à chuva.",
-          "Para a limpeza do macramê:",
-        ],
-        itens: [
-          "Utilize um pano levemente úmido.",
-          "Também pode ser utilizada uma esponja mágica, delicadamente.",
-          "Não utilize produtos abrasivos ou de limpeza muito fortes.",
-          "Evite exposição direta e prolongada ao sol.",
-        ],
-      },
-      {
-        paragrafos: [
-          "Com o uso, o fio pode lacear levemente, principalmente quando submetido a peso. Isso é uma característica natural do macramê e não significa que a peça esteja se desfazendo.",
-        ],
-      },
-      {
-        titulo: "Decoração que também tem função",
-        paragrafos: [
-          "A ideia é que essa peça não seja apenas bonita, mas que também ajude a organizar e aproveitar melhor os espaços da sua casa.",
-          "Uma opção compacta, versátil e feita à mão — e também uma ótima opção para presentear.",
+          "O painel não deve ser lavado. Para a limpeza, utilize apenas um pano levemente úmido, passando delicadamente sobre o macramê e a madeira. Evite produtos abrasivos e o excesso de água.",
         ],
       },
     ],
@@ -823,44 +786,81 @@ const PRODUTOS = [
     prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
   },
   {
-    /* CONFERIR com a Milena: existem DOIS paineis no catalogo agora. Este e o
-       grande (bastao de 45 cm, franja em V, cru) e o outro e o "Painel Macrame
-       Losango" (bastao de 20 cm, verde), que continua sem preco. Se forem a
-       mesma peca em tamanhos diferentes, vale unificar o nome. */
-    slug: "painel-macrame-grande",
-    nome: "Painel de Macramê",
-    preco: 90,
+    slug: "prateleira-macrame-quadrada",
+    nome: "Prateleira Quadrada de Macramê",
+    preco: 100,
     categoria: "decoracao",
     disponibilidade: "encomenda",
     destaque: true,
     tags: ["novo"],
     cores: CORES_MACRAME,
-    fotos: ["painel-macrame-grande-01.jpeg", "painel-macrame-grande-02-detalhe.jpeg"],
-    alt: "Painel decorativo de macramê em fio cru, com desenho em V e franja longa, pendurado num bastão de madeira.",
-    resumo: "Painel decorativo feito à mão em macramê, perfeito para dar aquele toque a mais na decoração e deixar o ambiente mais aconchegante e com personalidade.",
-    descricao: "Com 45 cm de largura e aproximadamente 70 cm de comprimento, considerando a medida da alça até a ponta do painel. Da cavilha até a ponta, são aproximadamente 45 cm.",
-    materiais: [
-      "Fio para macramê com 85% algodão",
-      "Bastão de madeira",
-      "Franja no acabamento",
+    fotos: [
+      "prateleira-quadrada-01-na-parede.jpeg",
+      "prateleira-quadrada-02-ambiente.jpeg",
+      "prateleira-macrame-punho-de-rede.jpeg",
     ],
-    medidas: "45 cm de largura e aproximadamente 70 cm de comprimento, considerando a medida da alça até a ponta do painel. Da cavilha até a ponta, são aproximadamente 45 cm.",
+    alt: "Prateleira quadrada de macramê de três níveis, em madeira e fio cru, pendurada na parede da sala com uma garrafa e um vaso de planta.",
+    resumo: "Uma peça feita à mão para deixar seu espaço mais bonito, organizado e funcional.",
+    descricao: "A prateleira quadrada une madeira e macramê em uma peça versátil, perfeita para aproveitar pequenos espaços e dar um toque especial à decoração.",
+    materiais: [
+      "Madeira",
+      "Fio para macramê com 85% algodão",
+      "Punho de rede para instalação",
+    ],
+    medidas: "Madeira: 20 × 20 cm. Altura total: aproximadamente 80 cm. Distância do primeiro nível: 30 cm. Distância entre os demais níveis: aproximadamente 20 cm. Por ser uma peça artesanal, pequenas variações nas medidas e no acabamento podem acontecer.",
     cuidados: [
-      "O painel não deve ser lavado",
-      "Utilize apenas um pano levemente úmido, passando delicadamente sobre o macramê e a madeira",
-      "Evite produtos abrasivos e o excesso de água",
+      "Utilize um pano levemente úmido",
+      "Também pode ser utilizada uma esponja mágica, delicadamente",
+      "Não utilize produtos abrasivos ou de limpeza muito fortes",
+      "Evite exposição direta e prolongada ao sol",
     ],
     secoes: [
       {
+        titulo: "Onde usar?",
         paragrafos: [
-          "É uma peça versátil, que pode ser usada em diferentes ambientes para preencher espaços vazios, complementar a decoração ou simplesmente dar uma incrementada naquele cantinho que estava faltando alguma coisa.",
-          "Por ser uma peça artesanal, pequenas variações podem acontecer, tornando cada painel único.",
+          "Por ser mais compacta, essa versão é uma ótima opção para quem quer aproveitar melhor os espaços sem abrir mão da decoração.",
+          "Pode ser usada no banheiro, quarto, sala, escritório, cozinha ou onde mais combinar com a sua casa. Você pode colocar plantas, pequenos objetos decorativos, produtos de uso diário e outros itens leves.",
         ],
       },
       {
-        titulo: "Cuidados com a peça",
+        titulo: "Instalação",
         paragrafos: [
-          "O painel não deve ser lavado. Para a limpeza, utilize apenas um pano levemente úmido, passando delicadamente sobre o macramê e a madeira. Evite produtos abrasivos e o excesso de água.",
+          "A peça possui um punho de rede na parte superior, que permite sua instalação na parede.",
+          "Recomendamos utilizar um gancho ou suporte adequado e bem fixado na parede, de acordo com o tipo de parede e o peso dos objetos que serão colocados.",
+          "A prateleira foi feita para ficar rente à parede. Ela não foi desenvolvida para ficar suspensa livremente no ambiente. Quando instalada afastada da parede, a peça pode ficar inclinada ou torta, pois sua estrutura foi pensada considerando o apoio da parede.",
+        ],
+      },
+      {
+        titulo: "Sobre o peso",
+        paragrafos: [
+          "A prateleira foi desenvolvida principalmente para objetos leves e de uso cotidiano.",
+          "Evite colocar objetos excessivamente pesados ou concentrar todo o peso em um único nível. O excesso de peso pode fazer com que o fio laceie ou altere a estrutura da peça.",
+          "A capacidade também depende diretamente da forma de instalação, do gancho utilizado e da resistência da parede.",
+        ],
+      },
+      {
+        titulo: "Cuidados e limpeza",
+        paragrafos: [
+          "A madeira utilizada na peça pode ter contato com água e umidade sem problemas no uso cotidiano. Ainda assim, evite deixar a peça constantemente encharcada ou exposta à chuva.",
+          "Para a limpeza do macramê:",
+        ],
+        itens: [
+          "Utilize um pano levemente úmido.",
+          "Também pode ser utilizada uma esponja mágica, delicadamente.",
+          "Não utilize produtos abrasivos ou de limpeza muito fortes.",
+          "Evite exposição direta e prolongada ao sol.",
+        ],
+      },
+      {
+        paragrafos: [
+          "Com o uso, o fio pode lacear levemente, principalmente quando submetido a peso. Isso é uma característica natural do macramê e não significa que a peça esteja se desfazendo.",
+        ],
+      },
+      {
+        titulo: "Decoração que também tem função",
+        paragrafos: [
+          "A ideia é que essa peça não seja apenas bonita, mas que também ajude a organizar e aproveitar melhor os espaços da sua casa.",
+          "Uma opção compacta, versátil e feita à mão — e também uma ótima opção para presentear.",
         ],
       },
     ],
