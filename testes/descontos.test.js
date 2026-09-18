@@ -88,7 +88,7 @@ function checar(nome, condicao, extra) {
   else { falhou++; console.log("  FALHA " + nome + (extra ? "  ->  " + JSON.stringify(extra) : "")); }
 }
 
-const CLIENTE = { nome: "Ana Souza", email: "ana@exemplo.com", whatsapp: "(11) 98888-7777" };
+const CLIENTE = { nome: "Ana Souza", email: "ana@exemplo.com", whatsapp: "(11) 98888-7777", cpf: "111.444.777-35" };
 const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro: "Bela Vista", cidade: "São Paulo", estado: "SP" };
 
 (async () => {

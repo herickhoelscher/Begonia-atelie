@@ -5,7 +5,8 @@
    Canal preparado: WhatsApp — o link já vem montado dentro do e-mail, e o
    envio automático está escrito e comentado no fim do arquivo.
 
-   Nada de cartão entra aqui. O CPF também não: ele fica só no Mercado Pago.
+   Nada de cartão entra aqui. O CPF entra: o ateliê precisa dele para emitir
+   nota e para postar. Dado pessoal — não repassar este e-mail adiante.
    ========================================================================= */
 
 const { ATELIE, formatarPreco, linkWhatsApp } = require("../../frontend/js/dados.js");
@@ -26,6 +27,11 @@ function telefoneLegivel(numero) {
   if (d.length === 13) return `+${d.slice(0, 2)} (${d.slice(2, 4)}) ${d.slice(4, 9)}-${d.slice(9)}`;
   if (d.length === 12) return `+${d.slice(0, 2)} (${d.slice(2, 4)}) ${d.slice(4, 8)}-${d.slice(8)}`;
   return d;
+}
+
+function cpfLegivel(cpf) {
+  const d = String(cpf || "");
+  return d.length === 11 ? `${d.slice(0, 3)}.${d.slice(3, 6)}.${d.slice(6, 9)}-${d.slice(9)}` : d;
 }
 
 function cepLegivel(cep) {
@@ -219,6 +225,7 @@ function emailParaDona(registro) {
     ${tabelaItens(pedido)}
     ${blocoDados("Cliente", [
       ["Nome", cliente.nome],
+      ["CPF", cpfLegivel(cliente.cpf)],
       ["WhatsApp", telefoneLegivel(cliente.whatsapp)],
       ["E-mail", cliente.email],
     ])}
@@ -252,8 +259,9 @@ function emailParaDona(registro) {
       </a>
     </p>
     <p style="margin:20px 0 0;font-size:12px;color:${COR.suave}">
-      O CPF do cliente não é guardado por aqui — ele está no painel do Mercado Pago,
-      no pagamento ${esc(pagamento.idGateway)}.
+      Pagamento ${esc(pagamento.idGateway)} no painel da processadora.
+      Este e-mail traz dados pessoais do cliente, inclusive o CPF — guarde só
+      enquanto precisar e não repasse adiante.
     </p>`;
 
   return {

@@ -6,10 +6,11 @@
    e avisa no log: o site continua vendendo, só perde o histórico entre
    execuções. Nunca deixamos o pagamento falhar por causa do histórico.
 
-   O que é guardado: cliente, endereço, itens, valores e status.
-   O que NUNCA é guardado: qualquer dado de cartão (nem os últimos dígitos
-   entram no registro) e o CPF — ele é enviado só ao Mercado Pago, que é
-   quem precisa dele por obrigação legal.
+   O que é guardado: cliente (nome, e-mail, WhatsApp e CPF), endereço,
+   itens, valores e status. O CPF entrou porque o ateliê precisa dele no
+   pedido; ele sai junto com o resto na expiração de DIAS_RETENCAO.
+   O que NUNCA é guardado: qualquer dado de cartão — nem os últimos dígitos
+   entram no registro.
    ========================================================================= */
 
 const crypto = require("crypto");

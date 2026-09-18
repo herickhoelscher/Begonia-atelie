@@ -337,7 +337,13 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", complem
     checar("avisou a dona", emails.some((e) => e.corpo.to[0] === "dona@exemplo.com"));
     checar("mandou recibo ao cliente", emails.some((e) => e.corpo.to[0] === "ana@exemplo.com"));
     checar("e-mail traz o endereço", emails[0].corpo.html.includes("Paulista"));
-    checar("e-mail NÃO traz CPF", !emails[0].corpo.html.includes("11144477735"));
+    // O e-mail da dona LEVA o CPF, formatado. Procurar pelos digitos crus
+    // aqui daria um "ok" falso, porque o e-mail pontua o numero.
+    const paraDona = emails.find((e) => e.corpo.to[0] === "dona@exemplo.com");
+    checar("e-mail da dona traz o CPF", paraDona.corpo.html.includes("111.444.777-35"));
+    const recibo = emails.find((e) => e.corpo.to[0] === "ana@exemplo.com");
+    checar("recibo do cliente nao repete o CPF",
+      !recibo.corpo.html.includes("111.444.777-35") && !recibo.corpo.html.includes("11144477735"));
   }
   {
     const antes = chamadas.filter((c) => c.url.includes("resend")).length;

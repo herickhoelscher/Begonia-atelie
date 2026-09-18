@@ -111,7 +111,7 @@ function checar(nome, condicao, extra) {
   else { falhou++; console.log("  FALHA " + nome + (extra ? "  ->  " + JSON.stringify(extra) : "")); }
 }
 
-const CLIENTE = { nome: "Ana Souza", email: "ana@exemplo.com", whatsapp: "(11) 98888-7777" };
+const CLIENTE = { nome: "Ana Souza", email: "ana@exemplo.com", whatsapp: "(11) 98888-7777", cpf: "111.444.777-35" };
 const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro: "Bela Vista", cidade: "São Paulo", estado: "SP" };
 
 (async () => {
@@ -125,7 +125,9 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
     checar("não oferece débito", !r.json.metodos.some((m) => m.id === "debito"), r.json.metodos.map((m) => m.id));
     checar("oferece Pix e crédito", r.json.metodos.length === 2);
     checar("escolha acontece no gateway", r.json.capacidades.escolhaNoGateway === true);
-    checar("não exige CPF", r.json.capacidades.exigeCpf === false);
+    // exigeCpf diz se o CPF vai SER ENVIADO ao gateway -- nao se o site pede.
+    // O site pede sempre; a InfinitePay so nao recebe o numero.
+    checar("o CPF não é repassado ao gateway", r.json.capacidades.exigeCpf === false);
     checar("não desenha QR no site", r.json.capacidades.pixInline === false);
     checar("não vaza o handle", !r._corpo.includes("begoniaatelie"));
   }
@@ -168,14 +170,23 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
     checar("não manda CPF", !JSON.stringify(enviado.corpo).includes("cpf"));
   }
 
-  console.log("\n== CPF não é exigido ==");
+  console.log("\n== CPF é sempre exigido, e não vai para a InfinitePay ==");
+  {
+    const r = res();
+    await api("criar-pagamento.js")(req({
+      caminho: "/api/criar-pagamento",
+      corpo: { metodo: "checkout", itens: [{ slug: "caneca-rustica", quantidade: 1 }], cliente: { ...CLIENTE, cpf: "" }, entrega: ENTREGA },
+    }), r);
+    // A InfinitePay nao precisa do CPF, mas o atelie precisa dele no pedido.
+    checar("recusa pedido sem CPF", r._status === 422 && Boolean(r.json.campos.cpf), r.json);
+  }
   {
     const r = res();
     await api("criar-pagamento.js")(req({
       caminho: "/api/criar-pagamento",
       corpo: { metodo: "checkout", itens: [{ slug: "caneca-rustica", quantidade: 1 }], cliente: CLIENTE, entrega: ENTREGA },
     }), r);
-    checar("passa sem CPF", r._status === 200, r.json);
+    checar("passa com CPF", r._status === 200, r.json);
     const enviado = chamadas.filter((c) => c.url.endsWith("/links")).pop();
     checar("o frete vira item de 39,90",
       enviado.corpo.items.some((i) => i.description === "Frete" && i.price === 3990), enviado.corpo.items);

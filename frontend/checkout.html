@@ -132,12 +132,12 @@
             </div>
             <div class="sm:col-span-2">
               <label class="field-label" for="c-cpf">
-                CPF <span class="normal-case tracking-normal font-normal text-on-surface-variant/80" id="c-cpf-nota">— obrigatório para pagar no Pix</span>
+                CPF <span class="normal-case tracking-normal font-normal text-on-surface-variant/80" id="c-cpf-nota"></span>
               </label>
-              <input id="c-cpf" name="cpf" type="text" class="field" inputmode="numeric" placeholder="000.000.000-00">
+              <input id="c-cpf" name="cpf" type="text" class="field" inputmode="numeric" placeholder="000.000.000-00" required>
               <p class="text-label-sm text-on-surface-variant normal-case tracking-normal mt-2">
-                O CPF vai direto para a <span class="js-provedor">nossa processadora de pagamento</span>, que precisa dele para emitir a cobrança.
-                A gente não guarda esse número.
+                O ateliê usa o CPF para emitir a nota do seu pedido. Ele fica guardado junto com o
+                pedido e é apagado com ele.
               </p>
             </div>
           </div>

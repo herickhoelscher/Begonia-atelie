@@ -626,26 +626,18 @@ function montarEstados() {
     '<option value="">UF</option>' + lista.map((uf) => `<option value="${uf}">${uf}</option>`).join("");
 }
 
-/* O CPF só aparece quando o gateway precisa dele. O Mercado Pago exige para
-   emitir o Pix; a InfinitePay coleta o que precisa na página dela, então o
-   campo some — um dado sensível a menos passando por aqui. */
+/* O CPF é sempre pedido: o ateliê precisa dele no pedido, em qualquer forma
+   de pagamento. `capacidades().exigeCpf` diz outra coisa — se o número TAMBÉM
+   vai ser enviado ao gateway —, e é só isso que muda a nota ao lado do campo. */
 function ajustarCpf() {
   const campo = document.getElementById("c-cpf");
   const nota = document.getElementById("c-cpf-nota");
-  const bloco = campo.closest("div");
+  campo.closest("div").classList.remove("hidden");
+  campo.required = true;
 
-  if (!capacidades().exigeCpf) {
-    campo.required = false;
-    campo.value = "";
-    bloco.classList.add("hidden");
-    return;
-  }
-
-  bloco.classList.remove("hidden");
   const metodo = document.querySelector('input[name="metodo"]:checked');
   const ehPix = metodo && metodo.value === "pix";
-  campo.required = ehPix;
-  nota.textContent = ehPix ? "— obrigatório para pagar no Pix" : "— opcional no cartão";
+  nota.textContent = capacidades().exigeCpf && ehPix ? "— também usado para emitir o Pix" : "";
 }
 
 document.addEventListener("DOMContentLoaded", async () => {

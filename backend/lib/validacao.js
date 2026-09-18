@@ -46,7 +46,9 @@ function normalizarWhatsApp(bruto) {
 }
 
 /* CPF com verificação dos dígitos, não só do tamanho.
-   O Mercado Pago exige CPF para gerar cobrança Pix. */
+   O ateliê precisa do CPF em todo pedido, e o Mercado Pago também exige para
+   gerar cobrança Pix. Conferir os dígitos aqui evita anotar um número errado
+   num pedido que já foi pago. */
 function cpfValido(bruto) {
   const d = soDigitos(bruto);
   if (d.length !== 11) return false;
@@ -79,8 +81,8 @@ function validarCliente(bruto, { exigirCpf }) {
   if (!whatsapp) campos.whatsapp = "Informe o WhatsApp com DDD, ex.: (11) 98888-7777.";
 
   const cpf = soDigitos(dados.cpf);
-  if (exigirCpf && !cpfValido(cpf)) campos.cpf = "CPF inválido. O Pix não é emitido sem ele.";
-  else if (!exigirCpf && cpf && !cpfValido(cpf)) campos.cpf = "CPF inválido.";
+  if (exigirCpf && !cpf) campos.cpf = "Informe o CPF — ele vai junto com o pedido.";
+  else if (cpf && !cpfValido(cpf)) campos.cpf = "CPF inválido. Confira os números.";
 
   return { campos, cliente: { nome, email, whatsapp, cpf: cpf || null } };
 }

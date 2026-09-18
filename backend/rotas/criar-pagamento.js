@@ -56,9 +56,11 @@ module.exports = rota(["POST"], async (req, res) => {
   const g = gateway();
   const capacidades = g.capacidades || {};
 
-  // O CPF só é pedido quando o gateway precisa dele para emitir o Pix. O
-  // Mercado Pago precisa; a InfinitePay coleta o que precisa na página dela.
-  const exigirCpf = Boolean(capacidades.exigeCpf) && metodo === "pix";
+  // O CPF é sempre pedido: o ateliê precisa dele no pedido, independente do
+  // gateway. `capacidades.exigeCpf` continua existindo, mas responde outra
+  // pergunta — se o CPF também vai SER ENVIADO ao gateway (o Mercado Pago
+  // precisa para emitir o Pix; a InfinitePay coleta o dela na página dela).
+  const exigirCpf = true;
 
   // Retirada em mãos: quem marca não informa endereço, e não paga frete.
   const retirada = RETIRADA.ativo && corpo.retirada === true;
@@ -99,7 +101,7 @@ module.exports = rota(["POST"], async (req, res) => {
     criadoEm: new Date().toISOString(),
     status: "pendente",
     pedido,
-    cliente: { nome: cliente.nome, email: cliente.email, whatsapp: cliente.whatsapp },
+    cliente: { nome: cliente.nome, email: cliente.email, whatsapp: cliente.whatsapp, cpf: cliente.cpf },
     entrega,
     observacoes,
     pagamento: {
