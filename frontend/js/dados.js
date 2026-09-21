@@ -1392,21 +1392,24 @@ function precisaEscolherCor(produto) {
    ========================================================================= */
 
 const DESCONTOS = {
-  /* Oferta de lançamento do site: 10% em tudo, para todo mundo, sem depender
-     de forma de pagamento nem de ser cliente novo. Soma com o Pix (10 + 7 =
-     17%), e por isso o de primeira compra foi DESLIGADO enquanto ela durar —
-     três descontos empilhados chegariam a 27%, que é margem que a peça
-     artesanal não tem.
+  /* Oferta de lançamento do site: 10% em tudo, para todo mundo. ENCERRADA —
+     hoje o único desconto no ar é o do Pix.
 
-     Para encerrar a oferta: `ativo: false` aqui e `ativo: true` no de
-     primeira compra. A vitrine para de riscar o preço sozinha. */
+     Fica desligada, e não apagada, porque a vitrine, o carrinho e o e-mail já
+     leem daqui: religar é trocar `ativo` para true, sem mexer em mais nada.
+     A vitrine volta a riscar o preço sozinha.
+
+     Atenção ao religar: o desconto de primeira compra continua desligado logo
+     abaixo. Ligar os dois junto com o Pix empilha 27%, que é margem que a peça
+     artesanal não tem. */
   lancamento: {
-    ativo: true,
+    ativo: false,
     percentual: 10,
     rotulo: "Oferta de lançamento",
   },
   primeiraCompra: {
-    // Desligado enquanto a oferta de lançamento estiver no ar — ver acima.
+    // Continua desligado mesmo com a oferta de lançamento encerrada: hoje o
+    // único desconto do site é o do Pix.
     ativo: false,
     percentual: 10,
     rotulo: "Primeira compra",
@@ -1420,8 +1423,11 @@ const DESCONTOS = {
     percentual: 7,
     rotulo: "Desconto no Pix",
   },
-  // true  = os dois somam (10% + 7% = 17%)
-  // false = vale só o maior dos dois
+  // Vale quando houver mais de um desconto ativo ao mesmo tempo. Hoje só o
+  // Pix está no ar, então não muda nada — mas os descontos entram EM CASCATA,
+  // e não somados: cada um incide sobre o que sobrou do anterior.
+  // true  = todos os ativos entram, um sobre o resto do outro
+  // false = vale só o maior deles
   acumulam: true,
 };
 

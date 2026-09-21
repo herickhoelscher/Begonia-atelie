@@ -1,5 +1,6 @@
-/* Testes das regras comerciais: frete pago sempre, pela tabela de região,
-   10% na primeira compra e 7% no Pix.
+/* Testes das regras comerciais: frete pago sempre, pela tabela de região, e
+   7% no Pix -- hoje o unico desconto no ar. A oferta de lancamento e o
+   desconto de primeira compra estao desligados em dados.js.
    Roda com: npm run teste:descontos */
 
 const path = require("path");
@@ -48,7 +49,7 @@ CATALOGO.push(
   }
 );
 
-const { calcularDescontos, fretePara } = require(path.join(RAIZ, "frontend/js/dados.js"));
+const { calcularDescontos, fretePara, DESCONTOS } = require(path.join(RAIZ, "frontend/js/dados.js"));
 
 /* --- Redis e InfinitePay simulados -------------------------------------- */
 const clientes = new Set();
@@ -109,22 +110,42 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
 
   console.log("\n== Percentuais ==");
   {
-    // Durante a oferta: lancamento 10% + Pix 7%. O de primeira compra esta
-    // desligado, entao mandar primeiraCompra: true nao muda nada.
+    // Hoje so o Pix da desconto. Os outros dois estao desligados, entao
+    // mandar primeiraCompra: true nao muda nada.
     const d = calcularDescontos({ subtotal: 200, metodo: "pix", primeiraCompra: true });
-    checar("lancamento e Pix somam", d.length === 2, d.map((x) => x.id));
-    // EM CASCATA: 10% de 200 = 20, sobram 180; 7% de 180 = 12,60. Total 32,60.
-    checar("10% e depois 7% = 32,60 em 200,00", d.reduce((s, x) => s + x.valor, 0) === 32.6, d);
-    // Somados dariam 14 no Pix (7% dos 200 cheios). Em cascata sao 12,60,
-    // porque o Pix incide sobre os 180 que sobraram do lancamento.
-    checar("e cascata, nao soma", d.find((x) => x.id === "pix").valor === 12.6, d);
-    checar("primeira compra nao entra na oferta", !d.some((x) => x.id === "primeira-compra"), d);
+    checar("so o Pix da desconto", d.map((x) => x.id).join(",") === "pix", d.map((x) => x.id));
+    checar("7% de 200,00 = 14,00", d[0].valor === 14, d);
+    checar("primeira compra continua desligada", !d.some((x) => x.id === "primeira-compra"), d);
   }
-  // No cartao sobra so o lancamento -- o do Pix nao pode aparecer.
+  // No cartao nao sobra desconto nenhum enquanto so o Pix estiver no ar.
   checar("cartão não ganha o desconto do Pix",
     !calcularDescontos({ subtotal: 200, metodo: "cartao", primeiraCompra: false }).some((x) => x.id === "pix"));
-  checar("cartão ganha a oferta de lancamento",
-    calcularDescontos({ subtotal: 200, metodo: "cartao", primeiraCompra: false }).some((x) => x.id === "lancamento"));
+  checar("cartão fica sem desconto",
+    calcularDescontos({ subtotal: 200, metodo: "cartao", primeiraCompra: false }).length === 0);
+
+  /* A regra da CASCATA continua valendo, e continua testada -- mesmo com a
+     oferta desligada hoje. Se ela for religada algum dia, os descontos tem de
+     incidir um sobre o resto do outro, e nao somados sobre o valor cheio.
+     Sem este bloco a regra ficaria sem prova nenhuma no repositorio. */
+  console.log("\n== Cascata (com a oferta religada so aqui dentro) ==");
+  {
+    const antes = DESCONTOS.lancamento.ativo;
+    DESCONTOS.lancamento.ativo = true;
+    try {
+      const d = calcularDescontos({ subtotal: 200, metodo: "pix", primeiraCompra: false });
+      checar("os dois descontos entram", d.length === 2, d.map((x) => x.id));
+      // 10% de 200 = 20, sobram 180; 7% de 180 = 12,60. Total 32,60.
+      checar("10% e depois 7% = 32,60 em 200,00", d.reduce((s, x) => s + x.valor, 0) === 32.6, d);
+      // Somados dariam 14 no Pix (7% dos 200 cheios). Em cascata sao 12,60,
+      // porque o Pix incide sobre os 180 que sobraram do lancamento.
+      checar("e cascata, nao soma", d.find((x) => x.id === "pix").valor === 12.6, d);
+      checar("cartão ganharia so o lancamento",
+        calcularDescontos({ subtotal: 200, metodo: "cartao", primeiraCompra: false })
+          .map((x) => x.id).join(",") === "lancamento");
+    } finally {
+      DESCONTOS.lancamento.ativo = antes;
+    }
+  }
 
   console.log("\n== /api/orcamento ==");
   {
@@ -132,18 +153,18 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
     await api("orcamento.js")(req({ caminho: "/api/orcamento", corpo: {
       itens: [{ slug: "cardigan-outono", quantidade: 1 }], estado: "SP", metodo: "pix", email: "ana@exemplo.com" } }), r);
     checar("responde 200", r._status === 200, r.json);
-    // 389 -10% = 350,10; -7% desses 350,10 (24,51) = 325,59; +39,90 = 365,49
-    checar("dois descontos", r.json.descontos.length === 2, r.json.descontos);
-    checar("sao lancamento e Pix", r.json.descontos.map((x) => x.id).sort().join(",") === "lancamento,pix", r.json.descontos);
-    checar("total com os dois descontos", r.json.total === 365.49, { total: r.json.total });
+    // 389 -7% (27,23) = 361,77; +39,90 de frete = 401,67
+    checar("um desconto só", r.json.descontos.length === 1, r.json.descontos);
+    checar("e é o do Pix", r.json.descontos.map((x) => x.id).join(",") === "pix", r.json.descontos);
+    checar("total com o desconto do Pix", r.json.total === 401.67, { total: r.json.total });
     checar("frete cobrado mesmo num pedido alto", r.json.frete === 39.9, { frete: r.json.frete });
   }
   {
     const r = res();
     await api("orcamento.js")(req({ caminho: "/api/orcamento", corpo: {
       itens: [{ slug: "caneca-rustica", quantidade: 1 }], estado: "SP", metodo: "cartao", email: "ana@exemplo.com" } }), r);
-    // 85 − 8,50 (lancamento) + 39,90 de frete = 116,40
-    checar("pedido pequeno soma frete", r.json.total === 116.4, { total: r.json.total, frete: r.json.frete });
+    // No cartao nao ha desconto: 85 + 39,90 de frete = 124,90
+    checar("pedido pequeno soma frete", r.json.total === 124.9, { total: r.json.total, frete: r.json.frete });
     // Sem frete grátis não há meta a alcançar: o checkout não tem o que anunciar.
     checar("não anuncia meta de frete grátis", r.json.faltaParaFreteGratis === null, r.json.faltaParaFreteGratis);
     checar("nunca marca o pedido como frete grátis", r.json.freteGratis === false, r.json.freteGratis);
@@ -153,7 +174,7 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
     await api("orcamento.js")(req({ caminho: "/api/orcamento", corpo: {
       itens: [{ slug: "cardigan-outono", quantidade: 1 }], estado: "", metodo: "pix", email: "ana@exemplo.com" } }), r);
     checar("sem UF, frete fica em aberto", r.json.frete === null && r.json.total === null, r.json);
-    checar("mas os descontos já aparecem", r.json.descontos.length === 2);
+    checar("mas o desconto já aparece", r.json.descontos.length === 1);
   }
 
   console.log("\n== Primeira compra só vale uma vez ==");
@@ -163,8 +184,8 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
     await api("criar-pagamento.js")(req({ caminho: "/api/criar-pagamento", corpo: {
       metodo: "pix", itens: [{ slug: "cardigan-outono", quantidade: 1 }], cliente: CLIENTE, entrega: ENTREGA } }), r);
     referencia = r.json.referencia;
-    checar("primeira compra ganha os dois descontos", r.json.descontos.length === 2, r.json.descontos);
-    checar("cobra 365,49", r.json.total === 365.49, { total: r.json.total });
+    checar("ganha só o desconto do Pix", r.json.descontos.length === 1, r.json.descontos);
+    checar("cobra 401,67", r.json.total === 401.67, { total: r.json.total });
   }
   {
     // O webhook marca o e-mail como cliente. Simulamos direto o registro.
@@ -174,21 +195,21 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
     const r = res();
     await api("criar-pagamento.js")(req({ caminho: "/api/criar-pagamento", corpo: {
       metodo: "pix", itens: [{ slug: "cardigan-outono", quantidade: 1 }], cliente: CLIENTE, entrega: ENTREGA } }), r);
-    // Com a oferta no ar ninguem ganha desconto de primeira compra -- nem
-    // quem nunca comprou. Sobram lancamento e Pix.
+    // O desconto de primeira compra esta desligado: ninguem ganha, nem quem
+    // nunca comprou. Sobra so o do Pix.
     checar("nenhum pedido ganha desconto de primeira compra",
       !r.json.descontos.some((d) => d.id === "primeira-compra"), r.json.descontos);
-    checar("mantem Pix e lancamento",
-      r.json.descontos.map((d) => d.id).sort().join(",") === "lancamento,pix", r.json.descontos);
-    // 389 − 38,90 (lancamento) − 27,23 (Pix) + 39,90 de frete = 362,77
-    checar("cobra 365,49", r.json.total === 365.49, { total: r.json.total });
+    checar("mantem so o Pix",
+      r.json.descontos.map((d) => d.id).join(",") === "pix", r.json.descontos);
+    // 389 − 27,23 (Pix) + 39,90 de frete = 401,67
+    checar("cobra 401,67", r.json.total === 401.67, { total: r.json.total });
   }
   {
     const r = res();
     await api("criar-pagamento.js")(req({ caminho: "/api/criar-pagamento", corpo: {
       metodo: "pix", itens: [{ slug: "cardigan-outono", quantidade: 1 }],
       cliente: { ...CLIENTE, email: "outra@exemplo.com" }, entrega: ENTREGA } }), r);
-    checar("outro e-mail ainda é primeira compra", r.json.descontos.length === 2, r.json.descontos);
+    checar("outro e-mail tambem so ganha o Pix", r.json.descontos.length === 1, r.json.descontos);
   }
 
   console.log("\n== O navegador não decide o desconto ==");
@@ -202,9 +223,9 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
       descontos: [{ id: "forjado", rotulo: "100% off", percentual: 100, valor: 389 }],
       descontoTotal: 389, total: 0, primeiraCompra: true,
     } }), r);
-    checar("desconto forjado é ignorado", r.json.total === 365.49, { total: r.json.total });
+    checar("desconto forjado é ignorado", r.json.total === 401.67, { total: r.json.total });
     // Mandar primeiraCompra: true do navegador nao acrescenta desconto --
-    // o de primeira compra esta desligado durante a oferta.
+    // o de primeira compra esta desligado.
     checar("primeiraCompra forjada é ignorada",
       !r.json.descontos.some((d) => d.id === "primeira-compra"), r.json.descontos);
   }
@@ -238,8 +259,8 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
 
     checar("entrega normal cobra frete", entrega.frete === 39.9, { frete: entrega.frete });
     checar("retirada não cobra frete", retira.frete === 0, { frete: retira.frete });
-    // 85 menos 10% de lancamento = 76,50, sem frete.
-    checar("retirada some do total", retira.total === 76.5, { total: retira.total });
+    // Sem oferta e sem frete, sobra o preco cheio: 85,00.
+    checar("retirada some do total", retira.total === 85, { total: retira.total });
     checar("pedido sai marcado como retirada", retira.retirada === true);
     // Retirada NAO e "frete gratis": e ausencia de envio. Se viesse true, o
     // e-mail da dona anunciaria frete gratis num pedido que ela entrega na mao.
@@ -248,7 +269,7 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
 
     // A UF deixa de importar: quem retira nao posta nada.
     const longe = montarPedido([{ slug: "caneca-rustica", quantidade: 1 }], "AM", { retirada: true }).pedido;
-    checar("retirada ignora a UF mais cara", longe.frete === 0 && longe.total === 76.5, { total: longe.total });
+    checar("retirada ignora a UF mais cara", longe.frete === 0 && longe.total === 85, { total: longe.total });
   }
 
   console.log("\n== /api/orcamento com retirada ==");
@@ -260,8 +281,8 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
     checar("responde 200", r._status === 200, r.json);
     checar("frete zerado na resposta", r.json.frete === 0, { frete: r.json.frete });
     checar("resposta avisa que é retirada", r.json.retirada === true);
-    // 85 - 8,50 (primeira compra) + 0 de frete = 76,50
-    checar("total sem frete", r.json.total === 76.5, { total: r.json.total });
+    // No cartao nao ha desconto, e a retirada zera o frete: 85,00.
+    checar("total sem frete", r.json.total === 85, { total: r.json.total });
   }
   {
     // O navegador nao decide: mandar retirada de mentira num pedido normal

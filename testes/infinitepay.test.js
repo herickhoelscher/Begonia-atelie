@@ -155,12 +155,12 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
     const pedidoSalvo = await require(path.join(RAIZ, "backend/lib/armazenamento.js")).lerPedido(referencia);
     checar("não confunde o handle com o slug",
       !String(pedidoSalvo.pagamento.idGateway).startsWith("begoniaatelie|"), pedidoSalvo.pagamento.idGateway);
-    // 389,00 menos 10% de lancamento (38,90) = 350,10, mais 39,90 de frete
-    // do Sudeste = 390,00.
-    checar("ignora o preço forjado", r.json.total === 390, { total: r.json.total });
+    // 389,00 sem desconto no checkout, mais 39,90 de frete do Sudeste,
+    // fecha em 428,90.
+    checar("ignora o preço forjado", r.json.total === 428.9, { total: r.json.total });
 
     const enviado = chamadas.filter((c) => c.url.endsWith("/links")).pop();
-    checar("valores vão em CENTAVOS", enviado.corpo.items[0].price === 35010, enviado.corpo.items[0]);
+    checar("valores vão em CENTAVOS", enviado.corpo.items[0].price === 38900, enviado.corpo.items[0]);
     checar("o frete vai como item na cobrança",
       enviado.corpo.items.some((i) => i.description === "Frete" && i.price === 3990), enviado.corpo.items);
     checar("handle vai sem o cifrão", enviado.corpo.handle === "begoniaatelie");
@@ -190,7 +190,7 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
     const enviado = chamadas.filter((c) => c.url.endsWith("/links")).pop();
     checar("o frete vira item de 39,90",
       enviado.corpo.items.some((i) => i.description === "Frete" && i.price === 3990), enviado.corpo.items);
-    checar("total com frete", r.json.total === 116.4, { total: r.json.total });
+    checar("total com frete", r.json.total === 124.9, { total: r.json.total });
   }
 
   {
@@ -199,12 +199,12 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
       caminho: "/api/criar-pagamento",
       corpo: { metodo: "pix", itens: [{ slug: "cardigan-outono", quantidade: 1 }], cliente: CLIENTE, entrega: ENTREGA },
     }), r);
-    // Em CASCATA: 389 -10% = 350,10; -7% desses 350,10 (24,51) = 325,59.
-    // Mais 39,90 de frete = 365,49.
-    checar("Pix incide sobre o preco ja com a oferta", r.json.total === 365.49, { total: r.json.total });
+    // So o Pix da desconto: 389 -7% (27,23) = 361,77.
+    // Mais 39,90 de frete = 401,67.
+    checar("Pix desconta 7% do preco cheio", r.json.total === 401.67, { total: r.json.total });
     const enviado = chamadas.filter((c) => c.url.endsWith("/links")).pop();
     const somaItens = enviado.corpo.items.reduce((s, i) => s + i.price * i.quantity, 0);
-    checar("o link é criado já com o desconto aplicado", somaItens === 36549, { somaItens });
+    checar("o link é criado já com o desconto aplicado", somaItens === 40167, { somaItens });
   }
 
   console.log("\n== webhook: as três conferências ==");
@@ -255,8 +255,8 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
   }
   {
     // Pagamento legítimo: o valor tem de bater com o total do pedido, que
-    // inclui o frete e ja desconta o lancamento (350,10 + 39,90 = 390,00).
-    FATURAS.get(slug).amountCentavos = 39000;
+    // inclui o frete (389,00 + 39,90 = 428,90).
+    FATURAS.get(slug).amountCentavos = 42890;
     const r = res();
     await api("webhook.js")(req({ caminho: "/api/webhook", corpo: corpoWebhook() }), r);
     checar("confirma pagamento legítimo", r.json.status === "aprovado", r.json);

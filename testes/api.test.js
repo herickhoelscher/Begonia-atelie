@@ -184,17 +184,17 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", complem
     }), r);
     refPix = r.json.referencia;
     checar("responde 200", r._status === 200, r.json);
-    // Em CASCATA: 85,00 -10% = 76,50; depois -7% desses 76,50 (5,36) = 71,14.
-    // Mais 39,90 de frete do Sudeste = 111,04.
-    checar("ignora o preço forjado e aplica os descontos", r.json.total === 111.04, { total: r.json.total });
-    // 5,36 e 7% de 76,50 -- o valor JA descontado, nao os 85,00 cheios.
-    checar("o Pix incide sobre o preco ja com a oferta",
-      r.json.descontos.some((d) => d.id === "pix" && d.valor === 5.36), r.json.descontos);
+    // So o Pix da desconto hoje: 85,00 -7% (5,95) = 79,05.
+    // Mais 39,90 de frete do Sudeste = 118,95.
+    checar("ignora o preço forjado e aplica os descontos", r.json.total === 118.95, { total: r.json.total });
+    // Sem oferta de lancamento, os 7% incidem sobre os 85,00 cheios.
+    checar("o Pix incide sobre o preco cheio",
+      r.json.descontos.some((d) => d.id === "pix" && d.valor === 5.95), r.json.descontos);
     checar("devolve copia-e-cola do Pix", typeof r.json.qrCodeTexto === "string" && r.json.qrCodeTexto.length > 10);
     checar("devolve imagem do QR", typeof r.json.qrCodeImagem === "string");
     checar("referência no formato certo", /^BA-[A-Z2-9]{8}$/.test(refPix || ""), refPix);
     const enviado = chamadas.filter((c) => c.url.includes("/v1/payments")).pop();
-    checar("valor enviado ao MP é o do servidor", enviado.corpo.transaction_amount === 111.04, enviado.corpo.transaction_amount);
+    checar("valor enviado ao MP é o do servidor", enviado.corpo.transaction_amount === 118.95, enviado.corpo.transaction_amount);
     checar("CPF vai para o MP", enviado.corpo.payer.identification.number === "11144477735");
   }
 
@@ -239,11 +239,11 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", complem
     const r = res();
     await api("criar-pagamento.js")(req({
       caminho: "/api/criar-pagamento",
-      // 389,00 + 85,00 = 474,00, menos 10% de lancamento (47,40) = 426,60.
-      // Mais 39,90 do Sudeste = 466,50. Pedido alto nao isenta de frete.
+      // 389,00 + 85,00 = 474,00. No cartao nao ha desconto.
+      // Mais 39,90 do Sudeste = 513,90. Pedido alto nao isenta de frete.
       corpo: { metodo: "cartao", itens: [{ slug: "cardigan-outono", quantidade: 1 }, { slug: "caneca-rustica", quantidade: 1 }], cliente: CLIENTE, entrega: ENTREGA },
     }), r);
-    checar("pedido alto também paga frete", r.json.frete === 39.9 && r.json.total === 466.5, { frete: r.json.frete, total: r.json.total });
+    checar("pedido alto também paga frete", r.json.frete === 39.9 && r.json.total === 513.9, { frete: r.json.frete, total: r.json.total });
     // O de lancamento vale para todos; o que o cartao NAO pode ganhar e o do Pix.
     checar("cartão não ganha o desconto do Pix", !r.json.descontos.some((d) => d.id === "pix"), r.json.descontos);
     checar("devolve URL do checkout", String(r.json.url || "").startsWith("https://"));
@@ -266,29 +266,29 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", complem
     const r = res();
     await api("criar-pagamento.js")(req({
       caminho: "/api/criar-pagamento",
-      // 85,00 menos 10% = 76,50, mais 39,90 do Sudeste = 116,40.
+      // 85,00 sem desconto no cartao, mais 39,90 do Sudeste = 124,90.
       corpo: { metodo: "cartao", itens: [{ slug: "caneca-rustica", quantidade: 1 }], cliente: CLIENTE, entrega: ENTREGA },
     }), r);
-    checar("pedido pequeno paga frete", r.json.frete === 39.9 && r.json.total === 116.4, { frete: r.json.frete, total: r.json.total });
+    checar("pedido pequeno paga frete", r.json.frete === 39.9 && r.json.total === 124.9, { frete: r.json.frete, total: r.json.total });
   }
   {
     const r = res();
     await api("criar-pagamento.js")(req({
       caminho: "/api/criar-pagamento",
-      // 389,00 menos 10% = 350,10, mais 82,90 do Norte = 433,00.
+      // 389,00 sem desconto no cartao, mais 82,90 do Norte = 471,90.
       corpo: { metodo: "cartao", itens: [{ slug: "cardigan-outono", quantidade: 1 }], cliente: CLIENTE, entrega: { ...ENTREGA, estado: "AM", cidade: "Manaus" } },
     }), r);
-    checar("Norte paga o frete mais caro da tabela", r.json.frete === 82.9 && r.json.total === 433, { frete: r.json.frete, total: r.json.total });
+    checar("Norte paga o frete mais caro da tabela", r.json.frete === 82.9 && r.json.total === 471.9, { frete: r.json.frete, total: r.json.total });
   }
   {
     const r = res();
     await api("criar-pagamento.js")(req({
       caminho: "/api/criar-pagamento",
-      // 85,00 menos 10% = 76,50, mais 82,90 do Norte = 159,40. O frete passa
+      // 85,00 sem desconto, mais 82,90 do Norte = 167,90. O frete passa
       // do valor da peca -- degrau mais caro da tabela, peca das mais baratas.
       corpo: { metodo: "cartao", itens: [{ slug: "caneca-rustica", quantidade: 1 }], cliente: CLIENTE, entrega: { ...ENTREGA, estado: "AM", cidade: "Manaus" } },
     }), r);
-    checar("Norte paga o frete cheio da região", r.json.frete === 82.9 && r.json.total === 159.4, { frete: r.json.frete, total: r.json.total });
+    checar("Norte paga o frete cheio da região", r.json.frete === 82.9 && r.json.total === 167.9, { frete: r.json.frete, total: r.json.total });
   }
 
   console.log("\n== /api/status-pagamento ==");
