@@ -1062,11 +1062,10 @@ const PRODUTOS = [
     destaque: true,
     tags: ["novo"],
     fotos: [
-      "jiboia-pendente-01-na-varanda.jpeg",
-      "jiboia-pendente-02-detalhe.jpeg",
-      "jiboia-pendente-03-inteira.jpeg",
+      "jiboia-grande-01-na-varanda.jpeg",
+      "jiboia-grande-02-na-mao.jpeg",
     ],
-    alt: "Jiboia pendente em crochê: vaso marrom suspenso por cordas de algodão cru, com raminhos verdes caindo por todos os lados.",
+    alt: "Jiboia pendente grande em crochê: vaso marrom suspenso por cordas de algodão cru, com raminhos verdes caindo por todos os lados.",
     resumo:
       "Peça feita à mão em crochê, com vaso suspenso e raminhos pendentes. Uma opção para decorar diferentes ambientes da casa sem precisar de cuidados de uma planta de verdade.",
     descricao:
@@ -1121,12 +1120,10 @@ const PRODUTOS = [
     disponibilidade: "encomenda",
     destaque: true,
     tags: ["novo"],
-    fotos: [
-      "jiboia-pendente-01-na-varanda.jpeg",
-      "jiboia-pendente-02-detalhe.jpeg",
-      "jiboia-pendente-03-inteira.jpeg",
-    ],
-    alt: "Jiboia pendente em crochê: vaso marrom suspenso por cordas de algodão cru, com raminhos verdes caindo por todos os lados.",
+    // So uma foto: as outras duas sao da jiboia grande. Com uma foto so, a
+    // ficha nao desenha a tira de miniaturas -- ver produto.js.
+    fotos: ["jiboia-menor-01-na-mao.jpeg"],
+    alt: "Jiboia pendente menor em crochê, segurada pela cordinha: vaso marrom com raminhos verdes caindo em volta.",
     resumo:
       "Peça feita à mão em crochê, com vaso suspenso e raminhos pendentes. Uma opção para decorar diferentes ambientes da casa sem precisar de cuidados de uma planta de verdade.",
     descricao:
