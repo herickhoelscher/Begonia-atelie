@@ -467,6 +467,36 @@ const ENTREGA = { cep: "01310-100", rua: "Av. Paulista", numero: "1000", bairro:
     CATALOGO.pop();
   }
 
+  /* A jiboia foi a primeira peca REAL com personalizavel: false -- antes so a
+     peca de teste usava isso, e ela e oculta. Sem este bloco, o caminho "peca
+     que nao escolhe cor" nao teria prova nenhuma. */
+  console.log("\n== Peca que nao escolhe cor ==");
+  {
+    const { precisaEscolherCor, coresDe, CARTELA } = require(path.join(RAIZ, "frontend/js/dados.js"));
+    const { validarItens } = require(path.join(RAIZ, "backend/lib/validacao.js"));
+
+    CATALOGO.push({
+      slug: "peca-sem-cor", nome: "Peca Sem Cor", preco: 80, categoria: "decoracao",
+      disponibilidade: "encomenda", destaque: false, tags: [], fotos: [],
+      personalizavel: false,
+      alt: "", resumo: "", descricao: "", materiais: [], medidas: "", cuidados: [], prazo: "",
+    });
+    const semCor = CATALOGO[CATALOGO.length - 1];
+    const comCor = CATALOGO.find((p) => p.slug === "cardigan-outono");
+
+    checar("nao pede cor", precisaEscolherCor(semCor) === false);
+    checar("a peca comum continua pedindo", precisaEscolherCor(comCor) === true);
+    // coresDe() ainda devolve a CARTELA -- por isso quem desenha a ficha tem
+    // de olhar precisaEscolherCor, e nao o tamanho da cartela. Foi esse o
+    // engano que fazia a ficha anunciar "39 cores" numa peca de cor fixa.
+    checar("coresDe sozinho nao basta", coresDe(semCor).length === CARTELA.length);
+
+    const r = validarItens([{ slug: "peca-sem-cor", quantidade: 1 }], 5);
+    checar("o pedido passa sem cor", Object.keys(r.campos).length === 0, r.campos);
+    checar("e o item vai com cor nula", r.itens[0].cor === null, r.itens[0]);
+    CATALOGO.pop();
+  }
+
   console.log("\n== Cartela do macrame: 3 cores, nao 53 ==");
   {
     const { CORES_MACRAME, CARTELA, coresDe } = require(path.join(RAIZ, "frontend/js/dados.js"));

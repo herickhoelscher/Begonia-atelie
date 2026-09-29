@@ -215,10 +215,10 @@ document.addEventListener("DOMContentLoaded", () => {
           <h2 class="font-headline text-body-lg text-on-surface mb-3">Valores e envio</h2>
           <ul class="leaf-list space-y-2 text-body-md text-on-surface-variant mb-3">
             <li>${p.medidas}</li>
-            <li>Disponível em ${coresDe(p).length} cores</li>
+            ${precisaEscolherCor(p) ? `<li>Disponível em ${coresDe(p).length} cores</li>` : ""}
             <li>${formatarPreco(p.preco)}</li>
             ${temOferta() ? `<li>${DESCONTOS.lancamento.percentual}% OFF: ${formatarPreco(precoComOferta(p.preco))}</li>` : ""}
-            ${DESCONTOS.pix.ativo ? `<li>Pix: mais ${DESCONTOS.pix.percentual}% OFF &rarr; ${formatarPreco(precoNoPix(p.preco))}</li>` : ""}
+            ${DESCONTOS.pix.ativo ? `<li>Pix: ${temOferta() ? "mais " : ""}${DESCONTOS.pix.percentual}% OFF &rarr; ${formatarPreco(precoNoPix(p.preco))}</li>` : ""}
             <li>Cartão: ${PARCELAS_ANUNCIADAS}x de ${formatarPreco(valorDaParcela(p.preco))} sem juros</li>
           </ul>
           <p class="text-body-md text-on-surface-variant mb-3">Prazo de montagem: ${p.prazo}.</p>

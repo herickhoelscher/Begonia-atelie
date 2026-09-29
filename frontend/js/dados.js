@@ -1044,6 +1044,129 @@ const PRODUTOS = [
     ],
     prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
   },
+  {
+    /* A jiboia vem em DOIS tamanhos, com precos diferentes (80 e 65). Por isso
+       sao duas entradas, e nao uma peca so: o site nao tem campo de tamanho no
+       checkout -- so de cor --, entao uma entrada unica cobraria um valor sem o
+       pedido dizer qual tamanho a pessoa quer. Mesmo impasse anotado na touca,
+       mas ali os tamanhos custam igual; aqui muda dinheiro. */
+    slug: "jiboia-pendente-grande",
+    // Sai sempre na mesma combinacao -- vaso marrom, raminhos verdes --, entao
+    // nao ha cor a escolher. Sem isto a peca cairia na CARTELA e ofereceria as
+    // 39 cores do fio de croche, que nao se aplicam aqui.
+    personalizavel: false,
+    nome: "Jiboia Pendente em Crochê — Grande",
+    preco: 80,
+    categoria: "decoracao",
+    disponibilidade: "encomenda",
+    destaque: true,
+    tags: ["novo"],
+    fotos: [
+      "jiboia-pendente-01-na-varanda.jpeg",
+      "jiboia-pendente-02-detalhe.jpeg",
+      "jiboia-pendente-03-inteira.jpeg",
+    ],
+    alt: "Jiboia pendente em crochê: vaso marrom suspenso por cordas de algodão cru, com raminhos verdes caindo por todos os lados.",
+    resumo:
+      "Peça feita à mão em crochê, com vaso suspenso e raminhos pendentes. Uma opção para decorar diferentes ambientes da casa sem precisar de cuidados de uma planta de verdade.",
+    descricao:
+      "O vaso possui enchimento e pode receber algumas borrifadas de aromatizador de ambiente para perfumar o espaço.",
+    materiais: ["Feito à mão em crochê", "Acompanha suporte para pendurar"],
+    medidas: "Circunferência do vaso: aproximadamente 50 cm. Raminhos: até aproximadamente 30 cm, podendo variar.",
+    cuidados: [
+      "Não lavar e não molhar",
+      "Para limpar, passe um pano seco ou levemente úmido com cuidado",
+    ],
+    secoes: [
+      {
+        titulo: "Tamanho grande",
+        itens: [
+          "Circunferência do vaso: aproximadamente 50 cm",
+          "Raminhos: até aproximadamente 30 cm, podendo variar",
+          "Acompanha suporte para pendurar",
+        ],
+      },
+      {
+        titulo: "Também tem em tamanho menor",
+        paragrafos: [
+          "Esta é a jiboia grande. A versão menor tem vaso de 40 cm de circunferência e raminhos menores, e fica em outra página da loja.",
+        ],
+      },
+      {
+        titulo: "Cuidados",
+        paragrafos: [
+          "Não lavar e não molhar. Para limpar, passe um pano seco ou levemente úmido com cuidado.",
+        ],
+      },
+      {
+        paragrafos: [
+          "A jiboia sai sempre nesta combinação: vaso marrom e raminhos verdes, como nas fotos. Por isso não há cor a escolher na hora da compra.",
+          "O vaso possui enchimento e pode receber algumas borrifadas de aromatizador de ambiente para perfumar o espaço.",
+          "Por ser uma peça feita à mão, pequenas variações podem acontecer, tornando cada jiboia única.",
+        ],
+      },
+    ],
+    prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
+  },
+  {
+    // A irma menor da peca acima -- ver o comentario de la sobre os dois tamanhos.
+    slug: "jiboia-pendente-pequena",
+    // Sai sempre na mesma combinacao -- vaso marrom, raminhos verdes --, entao
+    // nao ha cor a escolher. Sem isto a peca cairia na CARTELA e ofereceria as
+    // 39 cores do fio de croche, que nao se aplicam aqui.
+    personalizavel: false,
+    nome: "Jiboia Pendente em Crochê — Menor",
+    preco: 65,
+    categoria: "decoracao",
+    disponibilidade: "encomenda",
+    destaque: true,
+    tags: ["novo"],
+    fotos: [
+      "jiboia-pendente-01-na-varanda.jpeg",
+      "jiboia-pendente-02-detalhe.jpeg",
+      "jiboia-pendente-03-inteira.jpeg",
+    ],
+    alt: "Jiboia pendente em crochê: vaso marrom suspenso por cordas de algodão cru, com raminhos verdes caindo por todos os lados.",
+    resumo:
+      "Peça feita à mão em crochê, com vaso suspenso e raminhos pendentes. Uma opção para decorar diferentes ambientes da casa sem precisar de cuidados de uma planta de verdade.",
+    descricao:
+      "O vaso possui enchimento e pode receber algumas borrifadas de aromatizador de ambiente para perfumar o espaço.",
+    materiais: ["Feito à mão em crochê", "Acompanha suporte para pendurar"],
+    medidas: "Circunferência do vaso: aproximadamente 40 cm, com raminhos menores que os da versão grande.",
+    cuidados: [
+      "Não lavar e não molhar",
+      "Para limpar, passe um pano seco ou levemente úmido com cuidado",
+    ],
+    secoes: [
+      {
+        titulo: "Tamanho menor",
+        itens: [
+          "Vaso com 40 cm de circunferência e raminhos menores",
+          "Acompanha suporte para pendurar",
+        ],
+      },
+      {
+        titulo: "Também tem em tamanho grande",
+        paragrafos: [
+          "Esta é a jiboia menor. A versão grande tem vaso de aproximadamente 50 cm de circunferência e raminhos de até 30 cm, e fica em outra página da loja.",
+        ],
+      },
+      {
+        titulo: "Cuidados",
+        paragrafos: [
+          "Não lavar e não molhar. Para limpar, passe um pano seco ou levemente úmido com cuidado.",
+        ],
+      },
+      {
+        paragrafos: [
+          "A jiboia sai sempre nesta combinação: vaso marrom e raminhos verdes, como nas fotos. Por isso não há cor a escolher na hora da compra.",
+          "O vaso possui enchimento e pode receber algumas borrifadas de aromatizador de ambiente para perfumar o espaço.",
+          "Por ser uma peça feita à mão, pequenas variações podem acontecer, tornando cada jiboia única.",
+        ],
+      },
+    ],
+    prazo: "De 5 a 10 dias para montar a peça, mais o prazo dos Correios",
+  },
 
   /* ------------------------------------------------------------- TESTE
      Peça de teste, para conferir de ponta a ponta que a venda funciona:
